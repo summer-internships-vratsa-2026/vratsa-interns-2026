@@ -1,6 +1,71 @@
 {
   "HomePage": {
     "title": "Internship Platform",
-    "description": "Welcome to the internship platform."
+    "description": "Welcome to the internship platform.",
+    "login": "Log in",
+    "register": "Register"
+  },
+  "Auth": {
+    "loginTitle": "Log in",
+    "loginDescription": "Sign in to your account.",
+    "registerTitle": "Register",
+    "registerDescription": "Create an account as a student or mentor.",
+    "forgotPasswordTitle": "Forgot password",
+    "forgotPasswordDescription": "We will send you a password reset link.",
+    "resetPasswordTitle": "New password",
+    "resetPasswordDescription": "Choose a new password for your account.",
+    "verifyEmailTitle": "Email verification",
+    "verifyEmailDescription": "We are verifying your email address.",
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "name": "Name",
+    "role": "Role",
+    "login": "Log in",
+    "register": "Register",
+    "forgotPassword": "Forgot password?",
+    "sendResetLink": "Send reset link",
+    "resetPassword": "Save password",
+    "loading": "Loading...",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "backToLogin": "Back to login",
+    "checkInbox": "Check your inbox for a verification link.",
+    "resetEmailSent": "If an account exists for this email, we sent a reset link.",
+    "passwordResetSuccess": "Your password was updated successfully.",
+    "emailVerified": "Email verified. You can log in now.",
+    "alreadyVerified": "This email is already verified.",
+    "roles": {
+      "STUDENT": "Student",
+      "MENTOR": "Mentor"
+    },
+    "errors": {
+      "invalid_credentials": "Invalid email or password.",
+      "email_not_verified": "Please verify your email before logging in.",
+      "email_exists": "An account with this email already exists.",
+      "invalid_input": "Please check the entered details.",
+      "invalid_token": "Invalid or expired link.",
+      "token_expired": "This link has expired. Please try again."
+    }
+  },
+  "Dashboard": {
+    "welcome": "Welcome",
+    "logout": "Log out",
+    "student": {
+      "title": "Student dashboard",
+      "description": "Your team, tasks, and submissions will appear here."
+    },
+    "mentor": {
+      "title": "Mentor dashboard",
+      "description": "Manage tasks and review submissions here."
+    },
+    "admin": {
+      "title": "Admin dashboard",
+      "description": "Manage users, teams, and tasks here."
+    },
+    "client": {
+      "title": "Client dashboard",
+      "description": "View assigned teams and submissions here."
+    }
   }
 }

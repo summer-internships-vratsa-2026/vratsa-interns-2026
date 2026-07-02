@@ -1,6 +1,71 @@
 {
   "HomePage": {
     "title": "Стажантска платформа",
-    "description": "Добре дошли в платформата за стажантски програми."
+    "description": "Добре дошли в платформата за стажантски програми.",
+    "login": "Вход",
+    "register": "Регистрация"
+  },
+  "Auth": {
+    "loginTitle": "Вход",
+    "loginDescription": "Влезте в акаунта си.",
+    "registerTitle": "Регистрация",
+    "registerDescription": "Създайте акаунт като студент или ментор.",
+    "forgotPasswordTitle": "Забравена парола",
+    "forgotPasswordDescription": "Ще изпратим линк за нулиране на паролата.",
+    "resetPasswordTitle": "Нова парола",
+    "resetPasswordDescription": "Изберете нова парола за акаунта си.",
+    "verifyEmailTitle": "Потвърждение на имейл",
+    "verifyEmailDescription": "Потвърждаваме вашия имейл адрес.",
+    "email": "Имейл",
+    "password": "Парола",
+    "newPassword": "Нова парола",
+    "name": "Име",
+    "role": "Роля",
+    "login": "Вход",
+    "register": "Регистрация",
+    "forgotPassword": "Забравена парола?",
+    "sendResetLink": "Изпрати линк",
+    "resetPassword": "Запази паролата",
+    "loading": "Зареждане...",
+    "noAccount": "Нямате акаунт?",
+    "hasAccount": "Вече имате акаунт?",
+    "backToLogin": "Обратно към вход",
+    "checkInbox": "Проверете имейла си за линк за потвърждение.",
+    "resetEmailSent": "Ако акаунт с този имейл съществува, изпратихме линк за нулиране.",
+    "passwordResetSuccess": "Паролата е сменена успешно.",
+    "emailVerified": "Имейлът е потвърден. Можете да влезете.",
+    "alreadyVerified": "Имейлът вече е потвърден.",
+    "roles": {
+      "STUDENT": "Ученик",
+      "MENTOR": "Ментор"
+    },
+    "errors": {
+      "invalid_credentials": "Невалиден имейл или парола.",
+      "email_not_verified": "Моля, потвърдете имейла си преди вход.",
+      "email_exists": "Вече съществува акаунт с този имейл.",
+      "invalid_input": "Моля, проверете въведените данни.",
+      "invalid_token": "Невалиден или изтекъл линк.",
+      "token_expired": "Линкът е изтекъл. Моля, опитайте отново."
+    }
+  },
+  "Dashboard": {
+    "welcome": "Добре дошли",
+    "logout": "Изход",
+    "student": {
+      "title": "Табло — студент",
+      "description": "Тук ще виждате вашия отбор, задачи и submissions."
+    },
+    "mentor": {
+      "title": "Табло — ментор",
+      "description": "Тук ще управлявате задачи и преглеждате submissions."
+    },
+    "admin": {
+      "title": "Табло — администратор",
+      "description": "Тук ще управлявате потребители, отбори и задачи."
+    },
+    "client": {
+      "title": "Табло — клиент",
+      "description": "Тук ще виждате назначените отбори и submissions."
+    }
   }
 }

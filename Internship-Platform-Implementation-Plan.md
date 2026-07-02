@@ -25,49 +25,49 @@
 
 ## 3. Database Schema
 
-- [ ] Create `users` table
-- [ ] Add user roles: `ADMIN`, `MENTOR`, `STUDENT`, `CLIENT`
-- [ ] Add email verification fields
-- [ ] Add password reset token fields
-- [ ] Create `groups` table
-- [ ] Seed 3 internship groups
-- [ ] Create `mentors` table
-- [ ] Add `main_group_id` to mentors
-- [ ] Create `mentor_groups` table for additional group access if needed
-- [ ] Allow each group to have multiple mentors
-- [ ] Allow each mentor to have one main responsible group
-- [ ] Create `students` table
-- [ ] Add student project roles: `SOFTWARE_DEVELOPER`, `MARKETING_EXPERT`, `PRODUCT_OWNER`
-- [ ] Create `clients` table
-- [ ] Create `teams` table
-- [ ] Add team fields: name, group, classroom, school class, school, optional client
-- [ ] Add school enum: `PPMG`, `PTG`
-- [ ] Create `team_members` table
-- [ ] Enforce one student can belong to one team only
-- [ ] Enforce team size validation: 2–4 students
-- [ ] Create `team_mentors` table
-- [ ] Create `team_invites` table
-- [ ] Create `tasks` table
-- [ ] Create `task_groups` table for assigning one task to one or more groups
-- [ ] Add task role targeting: all roles or selected roles
-- [ ] Create `submissions` table
-- [ ] Store submission URLs as JSON
-- [ ] Create `submission_comments` table
-- [ ] Create `submission_grades` table
-- [ ] Enforce grade range: 1–10
+- [x] Create `users` table
+- [x] Add user roles: `ADMIN`, `MENTOR`, `STUDENT`, `CLIENT`
+- [x] Add email verification fields
+- [x] Add password reset token fields
+- [x] Create `groups` table
+- [x] Seed 3 internship groups
+- [x] Create `mentors` table
+- [x] Add `main_group_id` to mentors
+- [x] Create `mentor_groups` table for additional group access if needed
+- [x] Allow each group to have multiple mentors
+- [x] Allow each mentor to have one main responsible group
+- [x] Create `students` table
+- [x] Add student project roles: `SOFTWARE_DEVELOPER`, `MARKETING_EXPERT`, `PRODUCT_OWNER`
+- [x] Create `clients` table
+- [x] Create `teams` table
+- [x] Add team fields: name, group, classroom, school class, school, optional client
+- [x] Add school enum: `PPMG`, `PTG`
+- [x] Create `team_members` table
+- [x] Enforce one student can belong to one team only
+- [x] Enforce team size validation: 2–4 students
+- [x] Create `team_mentors` table
+- [x] Create `team_invites` table
+- [x] Create `tasks` table
+- [x] Create `task_groups` table for assigning one task to one or more groups
+- [x] Add task role targeting: all roles or selected roles
+- [x] Create `submissions` table
+- [x] Store submission URLs as JSON
+- [x] Create `submission_comments` table
+- [x] Create `submission_grades` table
+- [x] Enforce grade range: 1–10
 
 ## 4. Authentication
 
-- [ ] Create registration page
-- [ ] Create login page
-- [ ] Create logout action
-- [ ] Add password hashing
-- [ ] Add email verification flow
-- [ ] Add forgotten password page
-- [ ] Add reset password page
-- [ ] Add protected dashboard routes
-- [ ] Add role-based access checks
-- [ ] Redirect users based on role after login
+- [x] Create registration page
+- [x] Create login page
+- [x] Create logout action
+- [x] Add password hashing
+- [x] Add email verification flow
+- [x] Add forgotten password page
+- [x] Add reset password page
+- [x] Add protected dashboard routes
+- [x] Add role-based access checks
+- [x] Redirect users based on role after login
 
 ## 5. Internationalization
 
