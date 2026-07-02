@@ -5,6 +5,12 @@ import type { ProjectRole } from "@/db/schema/enums";
 export const MIN_TEAM_SIZE = 2;
 export const MAX_TEAM_SIZE = 4;
 
+export const ALL_PROJECT_ROLES: ProjectRole[] = [
+  "SOFTWARE_DEVELOPER",
+  "MARKETING_EXPERT",
+  "PRODUCT_OWNER",
+];
+
 export const gradeSchema = z.number().int().min(1).max(10);
 
 export function isValidTeamSize(size: number): boolean {
@@ -55,4 +61,47 @@ export function validateTeamRoles(members: Array<{ projectRole: ProjectRole }>):
   }
 
   return { valid: errors.length === 0, errors };
+}
+
+export function validateNewMemberRole(
+  currentMembers: Array<{ projectRole: ProjectRole }>,
+  newRole: ProjectRole,
+): { valid: boolean; errorKey?: string } {
+  const projectedSize = currentMembers.length + 1;
+
+  if (projectedSize > MAX_TEAM_SIZE) {
+    return { valid: false, errorKey: "team_full" };
+  }
+
+  const allowedRoles = getAllowedRolesForTeamSize(projectedSize);
+
+  if (!allowedRoles.includes(newRole)) {
+    return { valid: false, errorKey: "role_not_allowed" };
+  }
+
+  if (projectedSize === 3) {
+    const projectedRoles = [...currentMembers.map((member) => member.projectRole), newRole];
+
+    if (new Set(projectedRoles).size !== projectedRoles.length) {
+      return { valid: false, errorKey: "duplicate_role" };
+    }
+  }
+
+  return { valid: true };
+}
+
+/** Join flow: team size is unknown, so any project role may be chosen until the team is full. */
+export function validateJoinMemberRole(
+  currentMembers: Array<{ projectRole: ProjectRole }>,
+  newRole: ProjectRole,
+): { valid: boolean; errorKey?: string } {
+  if (currentMembers.length + 1 > MAX_TEAM_SIZE) {
+    return { valid: false, errorKey: "team_full" };
+  }
+
+  if (!ALL_PROJECT_ROLES.includes(newRole)) {
+    return { valid: false, errorKey: "role_not_allowed" };
+  }
+
+  return { valid: true };
 }

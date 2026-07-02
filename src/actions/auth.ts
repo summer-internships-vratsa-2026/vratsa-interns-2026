@@ -1,7 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
-
 import { signIn, signOut } from "@/auth";
 import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/auth/emails";
 import {
@@ -21,7 +19,7 @@ import {
   setPasswordResetToken,
 } from "@/lib/auth/users";
 import { getDashboardPath } from "@/lib/auth/routes";
-import { hashPassword } from "@/lib/password";
+import { hashPassword, verifyPassword } from "@/lib/password";
 import {
   forgotPasswordSchema,
   loginSchema,
@@ -85,32 +83,41 @@ export async function loginAction(
   _prevState: AuthActionState,
   formData: FormData,
 ): Promise<AuthActionState> {
+  const emailValue = formData.get("email");
+  const email = typeof emailValue === "string" ? emailValue : "";
+
   const parsed = loginSchema.safeParse({
-    email: formData.get("email"),
+    email: emailValue,
     password: formData.get("password"),
   });
 
   if (!parsed.success) {
-    return { error: "invalid_credentials" };
+    return { error: "invalid_credentials", email };
   }
 
   const user = await getUserByEmail(parsed.data.email);
-  const result = await signIn("credentials", {
-    email: parsed.data.email,
-    password: parsed.data.password,
-    redirect: false,
-  });
 
-  if (result?.error) {
-    if (user && !user.emailVerifiedAt) {
-      return { error: "email_not_verified" };
-    }
-
-    return { error: "invalid_credentials" };
+  if (!user) {
+    return { error: "invalid_credentials", email: parsed.data.email };
   }
 
-  const role = user?.role ?? "STUDENT";
-  redirect(callbackUrl ?? getDashboardPath(role, locale));
+  if (!user.emailVerifiedAt) {
+    return { error: "email_not_verified", email: parsed.data.email };
+  }
+
+  const passwordValid = await verifyPassword(parsed.data.password, user.passwordHash);
+
+  if (!passwordValid) {
+    return { error: "invalid_credentials", email: parsed.data.email };
+  }
+
+  await signIn("credentials", {
+    email: parsed.data.email,
+    password: parsed.data.password,
+    redirectTo: callbackUrl ?? getDashboardPath(user.role, locale),
+  });
+
+  return {};
 }
 
 export async function verifyEmailAction(

@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { LogoutButton } from "@/components/auth/logout-button";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { requireAuth } from "@/lib/auth/session";
 
 type DashboardLayoutProps = {
@@ -23,7 +24,10 @@ export default async function DashboardLayout({ children, params }: DashboardLay
             <p className="text-sm text-zinc-500">{t("welcome")}</p>
             <p className="font-medium">{session.user.name}</p>
           </div>
-          <LogoutButton locale={locale} label={t("logout")} />
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <LogoutButton locale={locale} label={t("logout")} />
+          </div>
         </div>
       </header>
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-6 py-8">{children}</main>

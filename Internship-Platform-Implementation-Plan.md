@@ -71,38 +71,38 @@
 
 ## 5. Internationalization
 
-- [ ] Configure Bulgarian as default language
-- [ ] Configure English as secondary language
-- [ ] Create `/bg` and `/en` route structure
-- [ ] Create `messages/bg.json`
-- [ ] Create `messages/en.json`
-- [ ] Add language switcher
-- [ ] Translate auth pages
-- [ ] Translate dashboard layout
-- [ ] Translate forms
-- [ ] Translate validation messages
-- [ ] Translate buttons, menus, empty states, and errors
+- [x] Configure Bulgarian as default language
+- [x] Configure English as secondary language
+- [x] Create `/bg` and `/en` route structure
+- [x] Create `messages/bg.json`
+- [x] Create `messages/en.json`
+- [x] Add language switcher
+- [x] Translate auth pages
+- [x] Translate dashboard layout
+- [x] Translate forms
+- [x] Translate validation messages
+- [x] Translate buttons, menus, empty states, and errors
 
 ## 6. Student Team Flow
 
-- [ ] After registration, ask student to create or join a team
-- [ ] Build create team page
-- [ ] Allow first student to create team name
-- [ ] Allow student to enter classroom
-- [ ] Allow student to enter school class
-- [ ] Allow student to select school: PPMG or PTG
-- [ ] Allow student to select group
-- [ ] Allow student to select their team role
-- [ ] Create team invitation link generation
-- [ ] Allow inviting students by email
-- [ ] Create join team by unique link page
-- [ ] Validate invite token
-- [ ] Allow invited student to register or log in
-- [ ] Allow invited student to choose their role
-- [ ] Prevent duplicate student roles if you want only one of each role per team
-- [ ] Prevent team from exceeding 4 students
-- [ ] Give all team members equal team editing permissions
-- [ ] Allow team members to update team info
+- [x] After registration, ask student to create or join a team
+- [x] Build create team page
+- [x] Allow first student to create team name
+- [x] Allow student to enter classroom
+- [x] Allow student to enter school class
+- [x] Allow student to select school: PPMG or PTG
+- [x] Allow student to select group
+- [x] Allow student to select their team role
+- [x] Create team invitation link generation
+- [x] Allow inviting students by email
+- [x] Create join team by unique link page
+- [x] Validate invite token
+- [x] Allow invited student to register or log in
+- [x] Allow invited student to choose their role
+- [x] Prevent duplicate student roles if you want only one of each role per team
+- [x] Prevent team from exceeding 4 students
+- [x] Give all team members equal team editing permissions
+- [x] Allow team members to update team info
 - [ ] Allow team members to view team tasks
 - [ ] Allow team members to submit task replies
 

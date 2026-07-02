@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "language": "Language"
+  },
   "HomePage": {
     "title": "Internship Platform",
     "description": "Welcome to the internship platform.",
@@ -66,6 +69,76 @@
     "client": {
       "title": "Client dashboard",
       "description": "View assigned teams and submissions here."
+    }
+  },
+  "Team": {
+    "setupTitle": "Join a team",
+    "setupDescription": "To participate in the internship, create a new team or join via an invitation.",
+    "setupJoinHint": "If you have an invitation, open the link from your email or teammate.",
+    "createTeamTitle": "Create a team",
+    "createTeamDescription": "Fill in your team details and choose your project role.",
+    "teamPageTitle": "Your team",
+    "teamPageDescription": "View and edit team details, invite teammates.",
+    "teamName": "Team name",
+    "classroom": "Classroom",
+    "schoolClass": "School class",
+    "school": "School",
+    "group": "Group",
+    "selectGroup": "Select a group",
+    "schoolClassOptions": {
+      "10": "Grade 10",
+      "11": "Grade 11"
+    },
+    "schoolOptions": {
+      "PPMG": "PPMG",
+      "PTG": "PTG"
+    },
+    "yourRole": "Your role",
+    "createTeam": "Create team",
+    "saveTeam": "Save changes",
+    "editTeam": "Edit team",
+    "editTeamName": "Team name",
+    "teamDetails": "Team details",
+    "teamDetailsReadOnlyNote": "Classroom, class, school, and group can only be changed by a mentor or administrator.",
+    "saveTeamName": "Save name",
+    "members": "Members",
+    "currentGroup": "Group",
+    "inviteTeammates": "Invite teammates",
+    "membersCount": "{count} / {max} members",
+    "teamSizeWarning": "Your team has fewer than 2 members. Add teammates before the internship starts.",
+    "teamFullMessage": "The team is full (maximum 4 students).",
+    "generateInviteLink": "Generate invite link",
+    "inviteEmail": "Teammate email",
+    "sendInvite": "Send invitation",
+    "inviteSent": "Invitation sent.",
+    "joinTeamTitle": "Join a team",
+    "joinTeamDescription": "Join team {teamName}.",
+    "joinTeamDescriptionGeneric": "Join a team using an invitation.",
+    "joinTeamLoginRequired": "Log in or register to join {teamName}.",
+    "joinTeamStudentOnly": "Only students can join teams.",
+    "loginToJoin": "Log in",
+    "registerToJoin": "Register as a student",
+    "backHome": "Back to home",
+    "joinTeam": "Join team",
+    "loading": "Loading...",
+    "tasksPlaceholderTitle": "Tasks",
+    "tasksPlaceholderDescription": "Team tasks will appear here in a later step.",
+    "roles": {
+      "SOFTWARE_DEVELOPER": "Software Developer",
+      "MARKETING_EXPERT": "Marketing Expert",
+      "PRODUCT_OWNER": "Product Owner"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "already_in_team": "You are already on a team.",
+      "team_full": "This team is full.",
+      "role_not_allowed": "This role is not allowed for the team's current size.",
+      "duplicate_role": "For a 3-member team, each role can only be used once.",
+      "invalid_token": "Invalid or expired invitation link.",
+      "token_expired": "This invitation link has expired.",
+      "email_mismatch": "This invitation was sent to a different email address.",
+      "team_not_found": "Team not found.",
+      "forbidden": "You do not have permission for this action."
     }
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { loginAction } from "@/actions/auth";
@@ -20,17 +20,28 @@ const initialState: AuthActionState = {};
 
 export function LoginForm({ locale, callbackUrl }: LoginFormProps) {
   const t = useTranslations("Auth");
+  const [email, setEmail] = useState("");
   const [state, formAction, isPending] = useActionState(
     loginAction.bind(null, locale, callbackUrl),
     initialState,
   );
+
+  const emailValue = state.email ?? email;
 
   return (
     <AuthCard title={t("loginTitle")} description={t("loginDescription")}>
       <form action={formAction} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">{t("email")}</Label>
-          <Input id="email" name="email" type="email" autoComplete="email" required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            value={emailValue}
+            onChange={(event) => setEmail(event.target.value)}
+            required
+          />
         </div>
 
         <div className="space-y-2">

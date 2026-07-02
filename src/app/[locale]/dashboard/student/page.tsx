@@ -1,5 +1,7 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { redirect } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 
+import { getStudentByUserId, getTeamMembershipForStudent } from "@/lib/teams/queries";
 import { requireRole } from "@/lib/auth/session";
 
 type StudentDashboardPageProps = {
@@ -9,13 +11,13 @@ type StudentDashboardPageProps = {
 export default async function StudentDashboardPage({ params }: StudentDashboardPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  await requireRole(locale, "STUDENT");
-  const t = await getTranslations("Dashboard.student");
+  const session = await requireRole(locale, "STUDENT");
+  const student = await getStudentByUserId(session.user.id);
+  const membership = student ? await getTeamMembershipForStudent(student.id) : null;
 
-  return (
-    <section className="space-y-2">
-      <h1 className="text-2xl font-semibold">{t("title")}</h1>
-      <p className="text-zinc-600 dark:text-zinc-400">{t("description")}</p>
-    </section>
-  );
+  if (!membership) {
+    redirect(`/${locale}/dashboard/student/team/setup`);
+  }
+
+  redirect(`/${locale}/dashboard/student/team`);
 }

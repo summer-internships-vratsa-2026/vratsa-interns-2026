@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "language": "Език"
+  },
   "HomePage": {
     "title": "Стажантска платформа",
     "description": "Добре дошли в платформата за стажантски програми.",
@@ -9,7 +12,7 @@
     "loginTitle": "Вход",
     "loginDescription": "Влезте в акаунта си.",
     "registerTitle": "Регистрация",
-    "registerDescription": "Създайте акаунт като студент или ментор.",
+    "registerDescription": "Създайте акаунт като ученик или ментор.",
     "forgotPasswordTitle": "Забравена парола",
     "forgotPasswordDescription": "Ще изпратим линк за нулиране на паролата.",
     "resetPasswordTitle": "Нова парола",
@@ -52,7 +55,7 @@
     "welcome": "Добре дошли",
     "logout": "Изход",
     "student": {
-      "title": "Табло — студент",
+      "title": "Табло — ученик",
       "description": "Тук ще виждате вашия отбор, задачи и submissions."
     },
     "mentor": {
@@ -66,6 +69,76 @@
     "client": {
       "title": "Табло — клиент",
       "description": "Тук ще виждате назначените отбори и submissions."
+    }
+  },
+  "Team": {
+    "setupTitle": "Присъединете се към отбор",
+    "setupDescription": "За да участвате в стажа, създайте нов отбор или се присъединете чрез покана.",
+    "setupJoinHint": "Ако имате покана, отворете линка от имейла си или от съотборник.",
+    "createTeamTitle": "Създайте отбор",
+    "createTeamDescription": "Попълнете информацията за отбора и изберете вашата роля.",
+    "teamPageTitle": "Вашият отбор",
+    "teamPageDescription": "Преглеждайте и редактирайте информацията за отбора, поканете съотборници.",
+    "teamName": "Име на отбора",
+    "classroom": "Кабинет",
+    "schoolClass": "Клас",
+    "school": "Училище",
+    "group": "Група",
+    "selectGroup": "Изберете група",
+    "schoolClassOptions": {
+      "10": "10 клас",
+      "11": "11 клас"
+    },
+    "schoolOptions": {
+      "PPMG": "ППМГ",
+      "PTG": "ПТГ"
+    },
+    "yourRole": "Вашата роля",
+    "createTeam": "Създай отбор",
+    "saveTeam": "Запази промените",
+    "editTeam": "Редакция на отбора",
+    "editTeamName": "Име на отбора",
+    "teamDetails": "Данни за отбора",
+    "teamDetailsReadOnlyNote": "Кабинет, клас, училище и група могат да бъдат променяни само от ментор или администратор.",
+    "saveTeamName": "Запази името",
+    "members": "Членове",
+    "currentGroup": "Група",
+    "inviteTeammates": "Покани съотборници",
+    "membersCount": "{count} / {max} членове",
+    "teamSizeWarning": "Отборът има по-малко от 2 члена. Добавете съотборници преди старта на стажа.",
+    "teamFullMessage": "Отборът е пълен (максимум 4 ученика).",
+    "generateInviteLink": "Генерирай линк за покана",
+    "inviteEmail": "Имейл на съотборник",
+    "sendInvite": "Изпрати покана",
+    "inviteSent": "Поканата е изпратена.",
+    "joinTeamTitle": "Присъединяване към отбор",
+    "joinTeamDescription": "Присъединете се към отбор {teamName}.",
+    "joinTeamDescriptionGeneric": "Присъединете се към отбор чрез покана.",
+    "joinTeamLoginRequired": "Влезте или се регистрирайте, за да се присъедините към {teamName}.",
+    "joinTeamStudentOnly": "Само ученици могат да се присъединяват към отбори.",
+    "loginToJoin": "Вход",
+    "registerToJoin": "Регистрация като ученик",
+    "backHome": "Към началото",
+    "joinTeam": "Присъедини се",
+    "loading": "Зареждане...",
+    "tasksPlaceholderTitle": "Задачи",
+    "tasksPlaceholderDescription": "Задачите на отбора ще се появят тук в следваща стъпка.",
+    "roles": {
+      "SOFTWARE_DEVELOPER": "Software Developer",
+      "MARKETING_EXPERT": "Marketing Expert",
+      "PRODUCT_OWNER": "Product Owner"
+    },
+    "errors": {
+      "invalid_input": "Моля, проверете въведените данни.",
+      "already_in_team": "Вече сте част от отбор.",
+      "team_full": "Отборът е пълен.",
+      "role_not_allowed": "Тази роля не е позволена за текущия размер на отбора.",
+      "duplicate_role": "За отбор от 3 души всяка роля може да се използва само веднъж.",
+      "invalid_token": "Невалиден или изтекъл линк за покана.",
+      "token_expired": "Линкът за покана е изтекъл.",
+      "email_mismatch": "Тази покана е изпратена до друг имейл адрес.",
+      "team_not_found": "Отборът не е намерен.",
+      "forbidden": "Нямате права за това действие."
     }
   }
 }

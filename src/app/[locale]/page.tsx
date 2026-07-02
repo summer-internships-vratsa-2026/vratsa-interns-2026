@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 
@@ -25,20 +26,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <Button render={<Link href="/register" />} nativeButton={false} variant="outline">
             {t("register")}
           </Button>
-          <Link
-            href="/"
-            locale="bg"
-            className="rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
-          >
-            BG
-          </Link>
-          <Link
-            href="/"
-            locale="en"
-            className="rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
-          >
-            EN
-          </Link>
+          <LanguageSwitcher />
         </div>
       </main>
     </div>
