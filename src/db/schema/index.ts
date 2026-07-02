@@ -1,3 +1,10 @@
-// Database tables are defined in Step 3 of the implementation plan.
-
-export {};
+export * from "./enums";
+export * from "./users";
+export * from "./groups";
+export * from "./mentors";
+export * from "./students";
+export * from "./clients";
+export * from "./teams";
+export * from "./tasks";
+export * from "./submissions";
+export * from "./relations";

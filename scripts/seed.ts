@@ -1,16 +1,19 @@
-import "dotenv/config";
+import "../load-env";
 
-import { sql } from "drizzle-orm";
-
+import { groups } from "../src/db/schema";
 import { db } from "../src/db";
+
+const INTERNSHIP_GROUPS = ["Group 1", "Group 2", "Group 3"] as const;
 
 async function seed() {
   console.log("Seeding database...");
 
-  await db.execute(sql`select 1`);
+  await db
+    .insert(groups)
+    .values(INTERNSHIP_GROUPS.map((name) => ({ name })))
+    .onConflictDoNothing({ target: groups.name });
 
-  // Full seed data is added in Step 16 of the implementation plan.
-  console.log("Database connection verified. No seed data yet.");
+  console.log(`Ensured ${INTERNSHIP_GROUPS.length} internship groups exist.`);
 }
 
 seed()
