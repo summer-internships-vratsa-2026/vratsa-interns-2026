@@ -47,6 +47,9 @@ export function UpdateTeamForm({ locale, team, groups }: UpdateTeamFormProps) {
       <GroupField groups={groups} defaultValue={team.groupId} />
 
       {state.error ? <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p> : null}
+      {state.success ? (
+        <p className="text-sm text-green-700 dark:text-green-400">{t(`success.${state.success}`)}</p>
+      ) : null}
 
       <Button type="submit" disabled={isPending}>
         {isPending ? t("loading") : t("saveTeam")}

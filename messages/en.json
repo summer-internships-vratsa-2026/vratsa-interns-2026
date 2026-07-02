@@ -64,7 +64,9 @@
     },
     "admin": {
       "title": "Admin dashboard",
-      "description": "Manage users, teams, and tasks here."
+      "description": "Manage users, teams, and tasks here.",
+      "teamsLinkTitle": "Teams",
+      "teamsLinkDescription": "View and manage all internship teams."
     },
     "client": {
       "title": "Client dashboard",
@@ -139,6 +141,94 @@
       "email_mismatch": "This invitation was sent to a different email address.",
       "team_not_found": "Team not found.",
       "forbidden": "You do not have permission for this action."
+    },
+    "success": {
+      "team_updated": "Team details saved."
+    }
+  },
+  "AdminTeams": {
+    "title": "Teams",
+    "description": "Browse and manage all internship teams.",
+    "backToDashboard": "Back to admin dashboard",
+    "backToTeams": "Back to teams",
+    "detailDescription": "Group: {group}",
+    "emptyTeams": "No teams match the selected filters.",
+    "loading": "Loading...",
+    "roleValidationWarning": "This team has role composition issues:",
+    "teamSizeWarning": "This team has {count} members (minimum recommended: {min}).",
+    "filters": {
+      "group": "Group",
+      "school": "School",
+      "schoolClass": "School class",
+      "mentor": "Mentor",
+      "client": "Client",
+      "all": "All",
+      "apply": "Apply filters",
+      "clear": "Clear"
+    },
+    "columns": {
+      "name": "Team",
+      "group": "Group",
+      "classroom": "Classroom",
+      "schoolClass": "Class",
+      "school": "School",
+      "members": "Members",
+      "client": "Client"
+    },
+    "schoolOptions": {
+      "PPMG": "PPMG",
+      "PTG": "PTG"
+    },
+    "sections": {
+      "details": "Team details",
+      "members": "Members",
+      "mentors": "Mentors",
+      "client": "Client"
+    },
+    "members": {
+      "empty": "No members yet.",
+      "add": "Add member",
+      "addButton": "Add to team",
+      "selectStudent": "Student",
+      "selectStudentPlaceholder": "Select a student",
+      "remove": "Remove",
+      "saveRole": "Save role",
+      "noAvailableStudents": "No students without a team are available.",
+      "teamFull": "This team is full (maximum 4 students)."
+    },
+    "mentors": {
+      "empty": "No mentors assigned.",
+      "add": "Assign mentor",
+      "select": "Select a mentor",
+      "assign": "Assign mentor",
+      "remove": "Remove",
+      "allAssigned": "All mentors are already assigned to this team."
+    },
+    "client": {
+      "label": "Assigned client",
+      "none": "No client",
+      "save": "Save client",
+      "noneAssigned": "No client assigned to this team.",
+      "current": "Current: {name} ({organization})"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "forbidden": "You do not have permission for this action.",
+      "team_not_found": "Team not found.",
+      "team_full": "This team is full.",
+      "role_not_allowed": "This role is not allowed.",
+      "student_already_in_team": "This student is already on a team.",
+      "member_not_found": "Team member not found.",
+      "mentor_already_assigned": "This mentor is already assigned to the team."
+    },
+    "success": {
+      "team_updated": "Team details saved.",
+      "client_updated": "Client assignment updated.",
+      "mentor_assigned": "Mentor assigned.",
+      "mentor_removed": "Mentor removed.",
+      "member_added": "Member added.",
+      "member_removed": "Member removed.",
+      "member_role_updated": "Member role updated."
     }
   }
 }

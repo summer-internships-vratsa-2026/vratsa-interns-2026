@@ -108,20 +108,20 @@
 
 ## 7. Admin Team Management
 
-- [ ] Create admin teams list page
-- [ ] Add filters by group, school, class, mentor, client
-- [ ] Create admin team detail page
-- [ ] Allow admin to edit team name
-- [ ] Allow admin to edit group
-- [ ] Allow admin to edit classroom
-- [ ] Allow admin to edit school class
-- [ ] Allow admin to edit school
-- [ ] Allow admin to assign/remove client
-- [ ] Allow admin to assign/remove mentors
-- [ ] Allow admin to add/remove team members
-- [ ] Allow admin to change student roles
-- [ ] Prevent invalid team size after edits
-- [ ] Prevent student from being in multiple teams
+- [x] Create admin teams list page
+- [x] Add filters by group, school, class, mentor, client
+- [x] Create admin team detail page
+- [x] Allow admin to edit team name
+- [x] Allow admin to edit group
+- [x] Allow admin to edit classroom
+- [x] Allow admin to edit school class
+- [x] Allow admin to edit school
+- [x] Allow admin to assign/remove client
+- [x] Allow admin to assign/remove mentors
+- [x] Allow admin to add/remove team members
+- [x] Allow admin to change student roles
+- [x] Prevent invalid team size after edits
+- [x] Prevent student from being in multiple teams
 
 ## 8. Mentor Group Logic
 
@@ -232,7 +232,7 @@
 
 ## 16. Seed Data
 
-- [ ] Seed admin user
+- [x] Seed admin user
 - [ ] Seed 3 groups
 - [ ] Seed sample mentors
 - [ ] Assign mentor main groups

@@ -136,7 +136,7 @@ export async function updateTeamNameAction(
 }
 
 export async function updateTeamDetailsAction(
-  _locale: string,
+  locale: string,
   teamId: string,
   _prevState: TeamActionState,
   formData: FormData,
@@ -172,6 +172,12 @@ export async function updateTeamDetailsAction(
       updatedAt: new Date(),
     })
     .where(eq(teams.id, teamId));
+
+  if (session.user.role === "ADMIN") {
+    const { revalidatePath } = await import("next/cache");
+    revalidatePath(`/${locale}/dashboard/admin/teams`);
+    revalidatePath(`/${locale}/dashboard/admin/teams/${teamId}`);
+  }
 
   return { success: "team_updated" };
 }

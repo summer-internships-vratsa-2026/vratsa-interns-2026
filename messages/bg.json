@@ -64,7 +64,9 @@
     },
     "admin": {
       "title": "Табло — администратор",
-      "description": "Тук ще управлявате потребители, отбори и задачи."
+      "description": "Тук ще управлявате потребители, отбори и задачи.",
+      "teamsLinkTitle": "Отбори",
+      "teamsLinkDescription": "Преглед и управление на всички отбори в стажа."
     },
     "client": {
       "title": "Табло — клиент",
@@ -139,6 +141,94 @@
       "email_mismatch": "Тази покана е изпратена до друг имейл адрес.",
       "team_not_found": "Отборът не е намерен.",
       "forbidden": "Нямате права за това действие."
+    },
+    "success": {
+      "team_updated": "Данните за отбора са запазени."
+    }
+  },
+  "AdminTeams": {
+    "title": "Отбори",
+    "description": "Преглед и управление на всички отбори в стажа.",
+    "backToDashboard": "Към администраторското табло",
+    "backToTeams": "Към отборите",
+    "detailDescription": "Група: {group}",
+    "emptyTeams": "Няма отбори, отговарящи на избраните филтри.",
+    "loading": "Зареждане...",
+    "roleValidationWarning": "Отборът има проблеми с разпределението на ролите:",
+    "teamSizeWarning": "Отборът има {count} члена (препоръчителен минимум: {min}).",
+    "filters": {
+      "group": "Група",
+      "school": "Училище",
+      "schoolClass": "Клас",
+      "mentor": "Ментор",
+      "client": "Клиент",
+      "all": "Всички",
+      "apply": "Приложи филтрите",
+      "clear": "Изчисти"
+    },
+    "columns": {
+      "name": "Отбор",
+      "group": "Група",
+      "classroom": "Кабинет",
+      "schoolClass": "Клас",
+      "school": "Училище",
+      "members": "Членове",
+      "client": "Клиент"
+    },
+    "schoolOptions": {
+      "PPMG": "ППМГ",
+      "PTG": "ПТГ"
+    },
+    "sections": {
+      "details": "Данни за отбора",
+      "members": "Членове",
+      "mentors": "Ментори",
+      "client": "Клиент"
+    },
+    "members": {
+      "empty": "Все още няма членове.",
+      "add": "Добави член",
+      "addButton": "Добави в отбора",
+      "selectStudent": "Ученик",
+      "selectStudentPlaceholder": "Изберете ученик",
+      "remove": "Премахни",
+      "saveRole": "Запази ролята",
+      "noAvailableStudents": "Няма свободни ученици без отбор.",
+      "teamFull": "Отборът е пълен (максимум 4 ученика)."
+    },
+    "mentors": {
+      "empty": "Няма назначени ментори.",
+      "add": "Назначи ментор",
+      "select": "Изберете ментор",
+      "assign": "Назначи ментор",
+      "remove": "Премахни",
+      "allAssigned": "Всички ментори вече са назначени към този отбор."
+    },
+    "client": {
+      "label": "Назначен клиент",
+      "none": "Без клиент",
+      "save": "Запази клиента",
+      "noneAssigned": "Към този отбор не е назначен клиент.",
+      "current": "Текущ: {name} ({organization})"
+    },
+    "errors": {
+      "invalid_input": "Моля, проверете въведените данни.",
+      "forbidden": "Нямате права за това действие.",
+      "team_not_found": "Отборът не е намерен.",
+      "team_full": "Отборът е пълен.",
+      "role_not_allowed": "Тази роля не е позволена.",
+      "student_already_in_team": "Този ученик вече е в отбор.",
+      "member_not_found": "Членът на отбора не е намерен.",
+      "mentor_already_assigned": "Този ментор вече е назначен към отбора."
+    },
+    "success": {
+      "team_updated": "Данните за отбора са запазени.",
+      "client_updated": "Клиентът е актуализиран.",
+      "mentor_assigned": "Менторът е назначен.",
+      "mentor_removed": "Менторът е премахнат.",
+      "member_added": "Членът е добавен.",
+      "member_removed": "Членът е премахнат.",
+      "member_role_updated": "Ролята е актуализирана."
     }
   }
 }
