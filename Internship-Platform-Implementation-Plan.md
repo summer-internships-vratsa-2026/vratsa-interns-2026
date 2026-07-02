@@ -2,12 +2,12 @@
 
 ## 1. Project Setup
 
-- [ ] Create Next.js App Router project with TypeScript
-- [ ] Add Tailwind CSS
-- [ ] Add shadcn/ui
-- [ ] Add ESLint and Prettier
-- [ ] Create `.env.example`
-- [ ] Connect project to GitHub
+- [x] Create Next.js App Router project with TypeScript
+- [x] Add Tailwind CSS
+- [x] Add shadcn/ui
+- [x] Add ESLint and Prettier
+- [x] Create `.env.example`
+- [x] Connect project to GitHub
 - [ ] Create Vercel project
 - [ ] Create Neon Postgres database
 - [ ] Add database environment variables to Vercel and local `.env`
