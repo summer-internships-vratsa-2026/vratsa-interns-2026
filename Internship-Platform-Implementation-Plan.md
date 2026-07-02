@@ -14,14 +14,14 @@
 
 ## 2. Core Stack
 
-- [ ] Install database ORM: Drizzle or Prisma
-- [ ] Configure database client
-- [ ] Add migration setup
-- [ ] Add seed script
-- [ ] Add validation library, for example Zod
-- [ ] Add password hashing
-- [ ] Add email sending provider for verification/reset emails
-- [ ] Add i18n library, preferably `next-intl`
+- [x] Install database ORM: Drizzle or Prisma
+- [x] Configure database client
+- [x] Add migration setup
+- [x] Add seed script
+- [x] Add validation library, for example Zod
+- [x] Add password hashing
+- [x] Add email sending provider for verification/reset emails
+- [x] Add i18n library, preferably `next-intl`
 
 ## 3. Database Schema
 
