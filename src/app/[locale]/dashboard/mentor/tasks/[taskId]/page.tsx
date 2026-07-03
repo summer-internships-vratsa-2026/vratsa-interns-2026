@@ -1,0 +1,116 @@
+import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
+import { ApplyTaskForm } from "@/components/task/apply-task-form";
+import { TaskDescriptionContent } from "@/components/task/task-description-content";
+import { MentorNav } from "@/components/mentor/mentor-nav";
+import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
+import { Link } from "@/i18n/navigation";
+import { requireMentorProfile } from "@/lib/auth/session";
+import { getGroupName } from "@/lib/teams/queries";
+import {
+  getRootSourceTaskId,
+  getTaskAssignment,
+  isTaskAssignedToGroup,
+} from "@/lib/tasks/queries";
+import { canApplyTaskToGroup } from "@/lib/permissions";
+
+type MentorTaskDetailPageProps = {
+  params: Promise<{ locale: string; taskId: string }>;
+  searchParams: Promise<{ groupId?: string }>;
+};
+
+export default async function MentorTaskDetailPage({
+  params,
+  searchParams,
+}: MentorTaskDetailPageProps) {
+  const { locale, taskId } = await params;
+  const { groupId } = await searchParams;
+  setRequestLocale(locale);
+  const { mentor } = await requireMentorProfile(locale);
+
+  if (!groupId) {
+    notFound();
+  }
+
+  const assignment = await getTaskAssignment(taskId, groupId);
+
+  if (!assignment) {
+    notFound();
+  }
+
+  const t = await getTranslations("Tasks");
+  const mainGroupName = mentor.mainGroupId ? await getGroupName(mentor.mainGroupId) : null;
+  const rootId = getRootSourceTaskId(assignment.task);
+  const alreadyApplied =
+    mentor.mainGroupId !== null
+      ? await isTaskAssignedToGroup(rootId, mentor.mainGroupId)
+      : false;
+
+  const canApply =
+    mentor.mainGroupId !== null &&
+    groupId !== mentor.mainGroupId &&
+    canApplyTaskToGroup(mentor, mentor.mainGroupId) &&
+    !alreadyApplied;
+
+  return (
+    <section className="space-y-6">
+      <div className="space-y-2">
+        <Link href="/dashboard/mentor/tasks" className="text-sm text-zinc-500 underline">
+          {t("backToTasks")}
+        </Link>
+        <h1 className="text-2xl font-semibold">{assignment.task.title}</h1>
+      </div>
+
+      <MentorNav current="tasks" />
+
+      <div className="space-y-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <dl className="grid gap-3 text-sm sm:grid-cols-2">
+          <div>
+            <dt className="font-medium text-zinc-500">{t("group")}</dt>
+            <dd>{assignment.groupName}</dd>
+          </div>
+          <div>
+            <dt className="font-medium text-zinc-500">{t("deadline")}</dt>
+            <dd>
+              {new Intl.DateTimeFormat(locale, {
+                dateStyle: "medium",
+                timeStyle: "short",
+              }).format(assignment.deadline)}
+            </dd>
+          </div>
+          <div>
+            <dt className="font-medium text-zinc-500">{t("responseTypes")}</dt>
+            <dd>{formatTaskResponseTypes(assignment.task.responseTypes, t)}</dd>
+          </div>
+          <div className="sm:col-span-2">
+            <dt className="font-medium text-zinc-500">{t("targetRoles")}</dt>
+            <dd>
+              {formatTaskTarget(assignment.task, t)}
+            </dd>
+          </div>
+        </dl>
+        <div>
+          <h2 className="mb-2 font-medium">{t("description")}</h2>
+          <TaskDescriptionContent content={assignment.task.description} />
+        </div>
+        {assignment.task.sourceTaskId ? (
+          <p className="text-sm text-zinc-500">{t("reusedTaskNote")}</p>
+        ) : null}
+      </div>
+
+      {canApply && mainGroupName ? (
+        <ApplyTaskForm
+          locale={locale}
+          sourceTaskId={taskId}
+          sourceGroupId={groupId}
+          mainGroupName={mainGroupName}
+        />
+      ) : null}
+
+      {alreadyApplied ? (
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("alreadyAppliedNote")}</p>
+      ) : null}
+    </section>
+  );
+}

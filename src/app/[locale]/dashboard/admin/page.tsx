@@ -35,6 +35,13 @@ export default async function AdminDashboardPage({ params }: AdminDashboardPageP
           <h2 className="font-medium">{t("mentorsLinkTitle")}</h2>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("mentorsLinkDescription")}</p>
         </Link>
+        <Link
+          href="/dashboard/admin/tasks"
+          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
+        >
+          <h2 className="font-medium">{t("tasksLinkTitle")}</h2>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("tasksLinkDescription")}</p>
+        </Link>
       </div>
     </section>
   );

@@ -4,12 +4,14 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { TeamDetailsDisplay } from "@/components/team/team-details-display";
 import { TeamInviteSection } from "@/components/team/team-invite-section";
 import { UpdateTeamNameForm } from "@/components/team/update-team-name-form";
+import { StudentTasksList } from "@/components/task/student-tasks-list";
 import {
   getGroupName,
   getStudentByUserId,
   getTeamMembersWithNames,
   getTeamMembershipForStudent,
 } from "@/lib/teams/queries";
+import { getEligibleTasksForStudent } from "@/lib/tasks/queries";
 import { MAX_TEAM_SIZE } from "@/lib/validations/team";
 import { requireRole } from "@/lib/auth/session";
 
@@ -33,12 +35,14 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
     redirect(`/${locale}/dashboard/student/team/setup`);
   }
 
-  const [members, groupName] = await Promise.all([
+  const [members, groupName, teamTasks] = await Promise.all([
     getTeamMembersWithNames(membership.team.id),
     getGroupName(membership.team.groupId),
+    getEligibleTasksForStudent(membership.team.groupId, membership.member.projectRole),
   ]);
 
   const t = await getTranslations("Team");
+  const tTasks = await getTranslations("Tasks");
 
   return (
     <section className="space-y-8">
@@ -86,11 +90,9 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
         maxMembers={MAX_TEAM_SIZE}
       />
 
-      <div className="rounded-lg border border-dashed border-zinc-300 p-4 dark:border-zinc-700">
-        <h2 className="text-lg font-medium">{t("tasksPlaceholderTitle")}</h2>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          {t("tasksPlaceholderDescription")}
-        </p>
+      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <h2 className="mb-4 text-lg font-medium">{tTasks("studentTasksTitle")}</h2>
+        <StudentTasksList locale={locale} tasks={teamTasks} />
       </div>
     </section>
   );

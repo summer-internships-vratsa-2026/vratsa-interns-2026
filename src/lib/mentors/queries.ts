@@ -66,25 +66,6 @@ export async function getGroupsOverview() {
   }));
 }
 
-export async function getAllTasksWithGroups() {
-  return db
-    .select({
-      taskId: tasks.id,
-      title: tasks.title,
-      description: tasks.description,
-      groupId: taskGroups.groupId,
-      groupName: groups.name,
-      deadline: taskGroups.deadline,
-      targetAllRoles: tasks.targetAllRoles,
-      targetRoles: tasks.targetRoles,
-      createdAt: tasks.createdAt,
-    })
-    .from(tasks)
-    .innerJoin(taskGroups, eq(tasks.id, taskGroups.taskId))
-    .innerJoin(groups, eq(taskGroups.groupId, groups.id))
-    .orderBy(desc(taskGroups.deadline));
-}
-
 export async function getAllSubmissionsWithContext() {
   return db
     .select({

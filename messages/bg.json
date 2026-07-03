@@ -68,7 +68,9 @@
       "teamsLinkTitle": "Отбори",
       "teamsLinkDescription": "Преглед и управление на всички отбори в стажа.",
       "mentorsLinkTitle": "Ментори",
-      "mentorsLinkDescription": "Назначаване на основна група за всеки ментор."
+      "mentorsLinkDescription": "Назначаване на основна група за всеки ментор.",
+      "tasksLinkTitle": "Задачи",
+      "tasksLinkDescription": "Създаване и управление на задачи за групите в стажа."
     },
     "client": {
       "title": "Табло — клиент",
@@ -332,5 +334,85 @@
     "submitted": "Подадено",
     "notSubmitted": "Чернова",
     "submissionsReviewNote": "Подробен преглед, коментари и оценяване ще бъдат налични в следваща стъпка."
+  },
+  "Tasks": {
+    "mentorPageTitle": "Задачи",
+    "adminPageTitle": "Задачи",
+    "createTaskTitle": "Нова задача",
+    "title": "Заглавие",
+    "description": "Описание",
+    "descriptionPlaceholder": "Опишете задачата. Можете да използвате удебелен текст и изображения.",
+    "deadline": "Краен срок",
+    "newDeadline": "Краен срок за вашата група",
+    "group": "Група",
+    "targetRoles": "Роли",
+    "allRoles": "Всички роли",
+    "selectedRoles": "Избрани роли",
+    "onePerTeam": "Един от екипа",
+    "onePerTeamHint": "Един член на отбора (който и да е) може да подаде отговор от името на отбора.",
+    "responseTypes": "Тип отговор",
+    "responseTypesHint": "Изберете поне един начин, по който учениците могат да подадат отговор.",
+    "responseTypesLabel": "Отговор: {types}",
+    "responseTypeOptions": {
+      "URL": "URL",
+      "TEXT": "Текст",
+      "FILE_UPLOAD": "Качване на файл"
+    },
+    "selectedRolesLabel": "Роли: {roles}",
+    "assignGroups": "Назначи към групи",
+    "allGroups": "Всички групи",
+    "selectGroupsHint": "Или изберете една или повече групи:",
+    "createTask": "Създай задача",
+    "applyToMyGroup": "Приложи към моята група",
+    "applyToGroupTitle": "Приложи към {group}",
+    "applyToGroupDescription": "Създайте копие на задачата за основната ви група с нов краен срок.",
+    "loading": "Зареждане...",
+    "actions": "Действия",
+    "mainGroupTask": "Вашата основна група",
+    "viewOnly": "Само преглед",
+    "emptyTasks": "Все още няма задачи.",
+    "backToTasks": "Към задачите",
+    "backToDashboard": "Към администраторското табло",
+    "createdBy": "Създал",
+    "groupAssignments": "Назначения по групи",
+    "viewingGroup": "Преглед на назначение за {group}",
+    "reusedTaskNote": "Тази задача е приложена от друга група.",
+    "alreadyAppliedNote": "Тази задача вече е назначена към основната ви група.",
+    "studentTasksTitle": "Задачи на отбора",
+    "studentEmptyTasks": "Все още няма задачи за вашия отбор.",
+    "submissionComingSoon": "Submissions ще бъдат налични в следваща стъпка.",
+    "roles": {
+      "SOFTWARE_DEVELOPER": "Software Developer",
+      "MARKETING_EXPERT": "Marketing Expert",
+      "PRODUCT_OWNER": "Product Owner"
+    },
+    "errors": {
+      "invalid_input": "Моля, проверете въведените данни.",
+      "description_required": "Моля, въведете описание на задачата.",
+      "forbidden": "Нямате права за това действие.",
+      "no_main_group": "Нужна е основна група, преди да създавате или прилагате задачи.",
+      "groups_required": "Изберете поне една група.",
+      "response_types_required": "Изберете поне един тип отговор.",
+      "task_not_found": "Задачата не е намерена.",
+      "already_in_main_group": "Тази задача вече е в основната ви група.",
+      "already_applied": "Тази задача вече е приложена към основната ви група."
+    },
+    "editor": {
+      "placeholder": "Опишете задачата…",
+      "bold": "Удебелен",
+      "italic": "Курсив",
+      "underline": "Подчертан",
+      "bulletList": "Маркиран списък",
+      "orderedList": "Номериран списък",
+      "insertImage": "Добави изображение",
+      "uploadingImage": "Качване на изображение…",
+      "errors": {
+        "forbidden": "Нямате права да качвате изображения.",
+        "invalid_file": "Моля, изберете валиден файл с изображение.",
+        "file_too_large": "Изображението трябва да е до 5 MB.",
+        "invalid_file_type": "Позволени са само JPEG, PNG, GIF и WebP изображения.",
+        "upload_failed": "Качването на изображението не успя. Опитайте отново."
+      }
+    }
   }
 }

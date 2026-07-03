@@ -103,7 +103,7 @@
 - [x] Prevent team from exceeding 4 students
 - [x] Give all team members equal team editing permissions
 - [x] Allow team members to update team info
-- [ ] Allow team members to view team tasks
+- [x] Allow team members to view team tasks
 - [ ] Allow team members to submit task replies
 
 ## 7. Admin Team Management
@@ -140,22 +140,22 @@
 
 ## 9. Tasks
 
-- [ ] Create mentor task list page
-- [ ] Create task detail page
-- [ ] Create task creation form
-- [ ] Add fields: title, description, assigned roles, deadline
-- [ ] Let mentor create task only for their main group
-- [ ] Let admin create task for one group
-- [ ] Let admin create task for multiple groups
-- [ ] Let admin create task for all groups
-- [ ] Store group-specific deadlines
-- [ ] Show tasks only to eligible teams based on group
-- [ ] Show tasks only to eligible student roles when relevant
-- [ ] Allow mentors to browse tasks from all groups
-- [ ] Add “Apply to my group” button
-- [ ] Ask mentor for new deadline when applying task
-- [ ] Create reused task linked to original task
-- [ ] Prevent duplicate application of the same task to the same group unless intended
+- [x] Create mentor task list page
+- [x] Create task detail page
+- [x] Create task creation form
+- [x] Add fields: title, description, assigned roles, deadline
+- [x] Let mentor create task only for their main group
+- [x] Let admin create task for one group
+- [x] Let admin create task for multiple groups
+- [x] Let admin create task for all groups
+- [x] Store group-specific deadlines
+- [x] Show tasks only to eligible teams based on group
+- [x] Show tasks only to eligible student roles when relevant
+- [x] Allow mentors to browse tasks from all groups
+- [x] Add “Apply to my group” button
+- [x] Ask mentor for new deadline when applying task
+- [x] Create reused task linked to original task
+- [x] Prevent duplicate application of the same task to the same group unless intended
 
 ## 10. Student Submissions
 

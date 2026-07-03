@@ -8,6 +8,12 @@ export const projectRoleSchema = z.enum([
   "PRODUCT_OWNER",
 ]);
 
+export const TASK_RESPONSE_TYPES = ["URL", "TEXT", "FILE_UPLOAD"] as const;
+
+export type TaskResponseType = (typeof TASK_RESPONSE_TYPES)[number];
+
+export const taskResponseTypeSchema = z.enum(TASK_RESPONSE_TYPES);
+
 export const submissionUrlsSchema = z.array(z.string().url()).default([]);
 
 export const taskTargetRolesSchema = z.object({
@@ -17,9 +23,13 @@ export const taskTargetRolesSchema = z.object({
 
 export function isRoleEligibleForTask(
   role: ProjectRole,
-  task: { targetAllRoles: boolean; targetRoles: ProjectRole[] | null },
+  task: {
+    targetAllRoles: boolean;
+    onePerTeam?: boolean;
+    targetRoles: ProjectRole[] | null;
+  },
 ): boolean {
-  if (task.targetAllRoles) {
+  if (task.onePerTeam || task.targetAllRoles) {
     return true;
   }
 

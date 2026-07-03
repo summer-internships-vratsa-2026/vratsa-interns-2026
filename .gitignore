@@ -44,3 +44,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# uploaded task description images
+/public/uploads/task-images/*
+!/public/uploads/task-images/.gitkeep

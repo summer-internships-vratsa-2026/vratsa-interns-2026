@@ -68,7 +68,9 @@
       "teamsLinkTitle": "Teams",
       "teamsLinkDescription": "View and manage all internship teams.",
       "mentorsLinkTitle": "Mentors",
-      "mentorsLinkDescription": "Assign each mentor's main responsible group."
+      "mentorsLinkDescription": "Assign each mentor's main responsible group.",
+      "tasksLinkTitle": "Tasks",
+      "tasksLinkDescription": "Create and manage tasks for internship groups."
     },
     "client": {
       "title": "Client dashboard",
@@ -332,5 +334,85 @@
     "submitted": "Submitted",
     "notSubmitted": "Draft",
     "submissionsReviewNote": "Detailed review, comments, and grading will be available in the next step."
+  },
+  "Tasks": {
+    "mentorPageTitle": "Tasks",
+    "adminPageTitle": "Tasks",
+    "createTaskTitle": "Create task",
+    "title": "Title",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe the task. You can use bold text and images.",
+    "deadline": "Deadline",
+    "newDeadline": "Deadline for your group",
+    "group": "Group",
+    "targetRoles": "Assigned roles",
+    "allRoles": "All roles",
+    "selectedRoles": "Selected roles",
+    "onePerTeam": "One from the team",
+    "onePerTeamHint": "Any one team member can submit a response on behalf of the team.",
+    "responseTypes": "Response type",
+    "responseTypesHint": "Select at least one way students can submit their response.",
+    "responseTypesLabel": "Response: {types}",
+    "responseTypeOptions": {
+      "URL": "URL",
+      "TEXT": "Text",
+      "FILE_UPLOAD": "File upload"
+    },
+    "selectedRolesLabel": "Roles: {roles}",
+    "assignGroups": "Assign to groups",
+    "allGroups": "All groups",
+    "selectGroupsHint": "Or select one or more groups:",
+    "createTask": "Create task",
+    "applyToMyGroup": "Apply to my group",
+    "applyToGroupTitle": "Apply to {group}",
+    "applyToGroupDescription": "Create a copy of this task for your main group with a new deadline.",
+    "loading": "Loading...",
+    "actions": "Actions",
+    "mainGroupTask": "Your main group",
+    "viewOnly": "View only",
+    "emptyTasks": "No tasks yet.",
+    "backToTasks": "Back to tasks",
+    "backToDashboard": "Back to admin dashboard",
+    "createdBy": "Created by",
+    "groupAssignments": "Group assignments",
+    "viewingGroup": "Viewing assignment for {group}",
+    "reusedTaskNote": "This task was applied from another group.",
+    "alreadyAppliedNote": "This task is already assigned to your main group.",
+    "studentTasksTitle": "Team tasks",
+    "studentEmptyTasks": "No tasks assigned to your team yet.",
+    "submissionComingSoon": "Submissions will be available in the next step.",
+    "roles": {
+      "SOFTWARE_DEVELOPER": "Software Developer",
+      "MARKETING_EXPERT": "Marketing Expert",
+      "PRODUCT_OWNER": "Product Owner"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "description_required": "Please enter a task description.",
+      "forbidden": "You do not have permission for this action.",
+      "no_main_group": "You need a main group assigned before creating or applying tasks.",
+      "groups_required": "Select at least one group.",
+      "response_types_required": "Select at least one response type.",
+      "task_not_found": "Task not found.",
+      "already_in_main_group": "This task is already in your main group.",
+      "already_applied": "This task has already been applied to your main group."
+    },
+    "editor": {
+      "placeholder": "Describe the task…",
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "bulletList": "Bullet list",
+      "orderedList": "Numbered list",
+      "insertImage": "Insert image",
+      "uploadingImage": "Uploading image…",
+      "errors": {
+        "forbidden": "You do not have permission to upload images.",
+        "invalid_file": "Please select a valid image file.",
+        "file_too_large": "Image must be 5 MB or smaller.",
+        "invalid_file_type": "Only JPEG, PNG, GIF, and WebP images are allowed.",
+        "upload_failed": "Image upload failed. Please try again."
+      }
+    }
   }
 }

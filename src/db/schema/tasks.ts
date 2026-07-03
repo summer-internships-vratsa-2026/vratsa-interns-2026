@@ -25,7 +25,12 @@ export const tasks = pgTable(
       .references(() => users.id, { onDelete: "restrict" }),
     sourceTaskId: uuid("source_task_id"),
     targetAllRoles: boolean("target_all_roles").notNull().default(true),
+    onePerTeam: boolean("one_per_team").notNull().default(false),
     targetRoles: jsonb("target_roles").$type<Array<(typeof projectRoleEnum.enumValues)[number]>>(),
+    responseTypes: jsonb("response_types")
+      .$type<Array<"URL" | "TEXT" | "FILE_UPLOAD">>()
+      .notNull()
+      .default(["URL"]),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },
