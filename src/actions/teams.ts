@@ -179,6 +179,12 @@ export async function updateTeamDetailsAction(
     revalidatePath(`/${locale}/dashboard/admin/teams/${teamId}`);
   }
 
+  if (session.user.role === "MENTOR") {
+    const { revalidatePath } = await import("next/cache");
+    revalidatePath(`/${locale}/dashboard/mentor/teams`);
+    revalidatePath(`/${locale}/dashboard/mentor/teams/${teamId}`);
+  }
+
   return { success: "team_updated" };
 }
 

@@ -66,7 +66,9 @@
       "title": "Admin dashboard",
       "description": "Manage users, teams, and tasks here.",
       "teamsLinkTitle": "Teams",
-      "teamsLinkDescription": "View and manage all internship teams."
+      "teamsLinkDescription": "View and manage all internship teams.",
+      "mentorsLinkTitle": "Mentors",
+      "mentorsLinkDescription": "Assign each mentor's main responsible group."
     },
     "client": {
       "title": "Client dashboard",
@@ -230,5 +232,105 @@
       "member_removed": "Member removed.",
       "member_role_updated": "Member role updated."
     }
+  },
+  "AdminMentors": {
+    "title": "Mentors",
+    "description": "Assign each mentor's main responsible group. Multiple mentors can share the same group.",
+    "backToDashboard": "Back to admin dashboard",
+    "emptyMentors": "No mentors registered yet.",
+    "noMainGroup": "No main group",
+    "save": "Save",
+    "loading": "Loading...",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "mainGroup": "Main group"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "forbidden": "You do not have permission for this action.",
+      "mentor_not_found": "Mentor not found."
+    },
+    "success": {
+      "main_group_updated": "Main group updated."
+    }
+  },
+  "MentorDashboard": {
+    "title": "Mentor dashboard",
+    "noMainGroupWarning": "You do not have a main group assigned yet. Ask an administrator to assign one before creating or applying tasks.",
+    "mainGroupTitle": "Your main group",
+    "mainGroupDescription": "You are responsible for {group} ({teams} teams). You can create and apply tasks only for this group.",
+    "permissionsTitle": "Your permissions",
+    "permissions": {
+      "viewAll": "View all groups, teams, tasks, and submissions",
+      "createTasks": "Create and apply tasks only for your main group",
+      "commentAll": "Comment on submissions from all groups",
+      "gradeAll": "Grade submissions from all groups"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "groups": "Groups",
+      "teams": "Teams",
+      "tasks": "Tasks",
+      "submissions": "Submissions"
+    },
+    "cards": {
+      "groupsTitle": "All groups",
+      "groupsDescription": "{count} internship groups",
+      "teamsTitle": "All teams",
+      "teamsDescription": "Browse and edit team details across all groups",
+      "tasksTitle": "All tasks",
+      "tasksDescription": "Browse tasks from all groups",
+      "submissionsTitle": "All submissions",
+      "submissionsDescription": "Review student submissions from all groups"
+    },
+    "groupsPageTitle": "All groups",
+    "groupsColumns": {
+      "name": "Group",
+      "teams": "Teams",
+      "mainMentors": "Main mentors"
+    },
+    "teamsPageTitle": "All teams",
+    "emptyTeams": "No teams match the selected filters.",
+    "backToTeams": "Back to teams",
+    "teamDetailDescription": "Group: {group}",
+    "emptyMembers": "No members yet.",
+    "sections": {
+      "details": "Team details"
+    },
+    "teamsColumns": {
+      "name": "Team",
+      "group": "Group",
+      "classroom": "Classroom",
+      "schoolClass": "Class",
+      "school": "School",
+      "members": "Members"
+    },
+    "schoolOptions": {
+      "PPMG": "PPMG",
+      "PTG": "PTG"
+    },
+    "tasksPageTitle": "All tasks",
+    "emptyTasks": "No tasks yet.",
+    "tasksColumns": {
+      "title": "Task",
+      "group": "Group",
+      "deadline": "Deadline",
+      "actions": "Your access"
+    },
+    "tasksMainGroup": "Main group — can create/apply",
+    "tasksViewOnly": "View only",
+    "submissionsPageTitle": "All submissions",
+    "emptySubmissions": "No submissions yet.",
+    "submissionsColumns": {
+      "task": "Task",
+      "team": "Team",
+      "group": "Group",
+      "status": "Status",
+      "updated": "Updated"
+    },
+    "submitted": "Submitted",
+    "notSubmitted": "Draft",
+    "submissionsReviewNote": "Detailed review, comments, and grading will be available in the next step."
   }
 }

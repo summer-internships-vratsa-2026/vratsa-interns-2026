@@ -7,9 +7,11 @@ import type { AdminTeamFilters } from "@/lib/teams/admin-queries";
 
 type AdminTeamFiltersProps = {
   groups: Group[];
-  mentors: Array<{ id: string; name: string }>;
-  clients: Array<{ id: string; name: string; organizationName: string | null }>;
+  mentors?: Array<{ id: string; name: string }>;
+  clients?: Array<{ id: string; name: string; organizationName: string | null }>;
   current: AdminTeamFilters;
+  showMentorFilter?: boolean;
+  showClientFilter?: boolean;
 };
 
 const selectClassName =
@@ -17,9 +19,11 @@ const selectClassName =
 
 export async function AdminTeamFilters({
   groups,
-  mentors,
-  clients,
+  mentors = [],
+  clients = [],
   current,
+  showMentorFilter = true,
+  showClientFilter = true,
 }: AdminTeamFiltersProps) {
   const t = await getTranslations("AdminTeams");
 
@@ -82,43 +86,47 @@ export async function AdminTeamFilters({
         </select>
       </div>
 
-      <div className="space-y-1">
-        <label htmlFor="mentorId" className="text-sm font-medium">
-          {t("filters.mentor")}
-        </label>
-        <select
-          id="mentorId"
-          name="mentorId"
-          className={selectClassName}
-          defaultValue={current.mentorId ?? ""}
-        >
-          <option value="">{t("filters.all")}</option>
-          {mentors.map((mentor) => (
-            <option key={mentor.id} value={mentor.id}>
-              {mentor.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      {showMentorFilter ? (
+        <div className="space-y-1">
+          <label htmlFor="mentorId" className="text-sm font-medium">
+            {t("filters.mentor")}
+          </label>
+          <select
+            id="mentorId"
+            name="mentorId"
+            className={selectClassName}
+            defaultValue={current.mentorId ?? ""}
+          >
+            <option value="">{t("filters.all")}</option>
+            {mentors.map((mentor) => (
+              <option key={mentor.id} value={mentor.id}>
+                {mentor.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : null}
 
-      <div className="space-y-1">
-        <label htmlFor="clientId" className="text-sm font-medium">
-          {t("filters.client")}
-        </label>
-        <select
-          id="clientId"
-          name="clientId"
-          className={selectClassName}
-          defaultValue={current.clientId ?? ""}
-        >
-          <option value="">{t("filters.all")}</option>
-          {clients.map((client) => (
-            <option key={client.id} value={client.id}>
-              {client.organizationName ?? client.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      {showClientFilter ? (
+        <div className="space-y-1">
+          <label htmlFor="clientId" className="text-sm font-medium">
+            {t("filters.client")}
+          </label>
+          <select
+            id="clientId"
+            name="clientId"
+            className={selectClassName}
+            defaultValue={current.clientId ?? ""}
+          >
+            <option value="">{t("filters.all")}</option>
+            {clients.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.organizationName ?? client.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : null}
 
       <div className="flex items-end gap-2 sm:col-span-2 lg:col-span-1">
         <button

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import type { UserRole } from "@/db/schema/enums";
 import { getDashboardPath } from "@/lib/auth/routes";
+import { getMentorByUserId } from "@/lib/mentors/queries";
 
 export async function requireAuth(locale: string) {
   const session = await auth();
@@ -22,4 +23,15 @@ export async function requireRole(locale: string, role: UserRole) {
   }
 
   return session;
+}
+
+export async function requireMentorProfile(locale: string) {
+  const session = await requireRole(locale, "MENTOR");
+  const mentor = await getMentorByUserId(session.user.id);
+
+  if (!mentor) {
+    redirect(getDashboardPath("MENTOR", locale));
+  }
+
+  return { session, mentor };
 }

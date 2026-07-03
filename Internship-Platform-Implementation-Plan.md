@@ -125,18 +125,18 @@
 
 ## 8. Mentor Group Logic
 
-- [ ] Add main responsible group for each mentor
-- [ ] Allow admin to assign mentor’s main group
-- [ ] Allow admin to assign several mentors to the same group
-- [ ] Allow mentor to view all groups
-- [ ] Allow mentor to view all teams
-- [ ] Allow mentor to view all tasks
-- [ ] Allow mentor to view all submissions
-- [ ] Restrict mentor task creation to their main group
-- [ ] Restrict mentor task reuse/apply action to their main group
-- [ ] Allow mentor to comment on submissions from all groups
-- [ ] Decide whether mentor can grade all groups or only their main group
-- [ ] Implement selected grading permission rule
+- [x] Add main responsible group for each mentor
+- [x] Allow admin to assign mentor’s main group
+- [x] Allow admin to assign several mentors to the same group
+- [x] Allow mentor to view all groups
+- [x] Allow mentor to view all teams
+- [x] Allow mentor to view all tasks
+- [x] Allow mentor to view all submissions
+- [x] Restrict mentor task creation to their main group
+- [x] Restrict mentor task reuse/apply action to their main group
+- [x] Allow mentor to comment on submissions from all groups
+- [x] Decide whether mentor can grade all groups or only their main group
+- [x] Implement selected grading permission rule
 
 ## 9. Tasks
 

@@ -66,7 +66,9 @@
       "title": "Табло — администратор",
       "description": "Тук ще управлявате потребители, отбори и задачи.",
       "teamsLinkTitle": "Отбори",
-      "teamsLinkDescription": "Преглед и управление на всички отбори в стажа."
+      "teamsLinkDescription": "Преглед и управление на всички отбори в стажа.",
+      "mentorsLinkTitle": "Ментори",
+      "mentorsLinkDescription": "Назначаване на основна група за всеки ментор."
     },
     "client": {
       "title": "Табло — клиент",
@@ -230,5 +232,105 @@
       "member_removed": "Членът е премахнат.",
       "member_role_updated": "Ролята е актуализирана."
     }
+  },
+  "AdminMentors": {
+    "title": "Ментори",
+    "description": "Назначете основна група за всеки ментор. Няколко ментора могат да имат една и съща група.",
+    "backToDashboard": "Към администраторското табло",
+    "emptyMentors": "Все още няма регистрирани ментори.",
+    "noMainGroup": "Без основна група",
+    "save": "Запази",
+    "loading": "Зареждане...",
+    "columns": {
+      "name": "Име",
+      "email": "Имейл",
+      "mainGroup": "Основна група"
+    },
+    "errors": {
+      "invalid_input": "Моля, проверете въведените данни.",
+      "forbidden": "Нямате права за това действие.",
+      "mentor_not_found": "Менторът не е намерен."
+    },
+    "success": {
+      "main_group_updated": "Основната група е актуализирана."
+    }
+  },
+  "MentorDashboard": {
+    "title": "Табло — ментор",
+    "noMainGroupWarning": "Все още нямате назначена основна група. Помолете администратор да ви назначи, преди да създавате или прилагате задачи.",
+    "mainGroupTitle": "Вашата основна група",
+    "mainGroupDescription": "Отговаряте за {group} ({teams} отбора). Можете да създавате и прилагате задачи само за тази група.",
+    "permissionsTitle": "Вашите права",
+    "permissions": {
+      "viewAll": "Преглед на всички групи, отбори, задачи и submissions",
+      "createTasks": "Създаване и прилагане на задачи само за основната група",
+      "commentAll": "Коментиране на submissions от всички групи",
+      "gradeAll": "Оценяване на submissions от всички групи"
+    },
+    "nav": {
+      "dashboard": "Табло",
+      "groups": "Групи",
+      "teams": "Отбори",
+      "tasks": "Задачи",
+      "submissions": "Submissions"
+    },
+    "cards": {
+      "groupsTitle": "Всички групи",
+      "groupsDescription": "{count} групи в стажа",
+      "teamsTitle": "Всички отбори",
+      "teamsDescription": "Преглед и редакция на отбори от всички групи",
+      "tasksTitle": "Всички задачи",
+      "tasksDescription": "Преглед на задачи от всички групи",
+      "submissionsTitle": "Всички submissions",
+      "submissionsDescription": "Преглед на submissions от всички групи"
+    },
+    "groupsPageTitle": "Всички групи",
+    "groupsColumns": {
+      "name": "Група",
+      "teams": "Отбори",
+      "mainMentors": "Основни ментори"
+    },
+    "teamsPageTitle": "Всички отбори",
+    "emptyTeams": "Няма отбори, отговарящи на избраните филтри.",
+    "backToTeams": "Към отборите",
+    "teamDetailDescription": "Група: {group}",
+    "emptyMembers": "Все още няма членове.",
+    "sections": {
+      "details": "Данни за отбора"
+    },
+    "teamsColumns": {
+      "name": "Отбор",
+      "group": "Група",
+      "classroom": "Кабинет",
+      "schoolClass": "Клас",
+      "school": "Училище",
+      "members": "Членове"
+    },
+    "schoolOptions": {
+      "PPMG": "ППМГ",
+      "PTG": "ПТГ"
+    },
+    "tasksPageTitle": "Всички задачи",
+    "emptyTasks": "Все още няма задачи.",
+    "tasksColumns": {
+      "title": "Задача",
+      "group": "Група",
+      "deadline": "Крайен срок",
+      "actions": "Вашият достъп"
+    },
+    "tasksMainGroup": "Основна група — може да създава/прилага",
+    "tasksViewOnly": "Само преглед",
+    "submissionsPageTitle": "Всички submissions",
+    "emptySubmissions": "Все още няма submissions.",
+    "submissionsColumns": {
+      "task": "Задача",
+      "team": "Отбор",
+      "group": "Група",
+      "status": "Статус",
+      "updated": "Обновено"
+    },
+    "submitted": "Подадено",
+    "notSubmitted": "Чернова",
+    "submissionsReviewNote": "Подробен преглед, коментари и оценяване ще бъдат налични в следваща стъпка."
   }
 }
