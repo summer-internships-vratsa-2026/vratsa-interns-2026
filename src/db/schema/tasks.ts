@@ -12,6 +12,7 @@ import {
 
 import { projectRoleEnum } from "./enums";
 import { groups } from "./groups";
+import { topics } from "./topics";
 import { users } from "./users";
 
 export const tasks = pgTable(
@@ -31,6 +32,7 @@ export const tasks = pgTable(
       .$type<Array<"URL" | "TEXT" | "FILE_UPLOAD">>()
       .notNull()
       .default(["URL"]),
+    topicId: uuid("topic_id").references(() => topics.id, { onDelete: "set null" }),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },

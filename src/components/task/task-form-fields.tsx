@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { ALL_PROJECT_ROLES } from "@/lib/validations/team";
@@ -10,6 +10,16 @@ import type { TaskTargetMode } from "@/lib/validations/task-form";
 
 const selectClassName =
   "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
+
+export function TaskFieldError({ message }: { message?: string }) {
+  const t = useTranslations("Tasks");
+
+  if (!message) {
+    return null;
+  }
+
+  return <p className="text-sm text-red-600">{t(`errors.${message}`)}</p>;
+}
 
 function resolveInitialTargetMode(
   defaultTargetAllRoles: boolean,
@@ -30,20 +40,49 @@ type TaskRoleFieldsProps = {
   defaultTargetAllRoles?: boolean;
   defaultOnePerTeam?: boolean;
   defaultTargetRoles?: ProjectRole[];
+  defaultTargetMode?: TaskTargetMode;
+  fieldError?: string;
 };
 
 export function TaskRoleFields({
   defaultTargetAllRoles = true,
   defaultOnePerTeam = false,
   defaultTargetRoles = [],
+  defaultTargetMode,
+  fieldError,
 }: TaskRoleFieldsProps) {
   const t = useTranslations("Tasks");
   const [targetMode, setTargetMode] = useState<TaskTargetMode>(() =>
-    resolveInitialTargetMode(defaultTargetAllRoles, defaultOnePerTeam),
+    defaultTargetMode ??
+      resolveInitialTargetMode(defaultTargetAllRoles, defaultOnePerTeam),
   );
-  const [selectedRoles, setSelectedRoles] = useState<ProjectRole[]>(
-    defaultTargetAllRoles || defaultOnePerTeam ? [...ALL_PROJECT_ROLES] : defaultTargetRoles,
-  );
+  const [selectedRoles, setSelectedRoles] = useState<ProjectRole[]>(() => {
+    if (defaultTargetRoles.length > 0) {
+      return defaultTargetRoles;
+    }
+
+    return defaultTargetAllRoles || defaultOnePerTeam ? [...ALL_PROJECT_ROLES] : [];
+  });
+
+  useEffect(() => {
+    if (defaultTargetMode) {
+      setTargetMode(defaultTargetMode);
+    }
+
+    if (defaultTargetRoles.length > 0) {
+      setSelectedRoles(defaultTargetRoles);
+      return;
+    }
+
+    if (defaultTargetMode === "selected_roles") {
+      setSelectedRoles([]);
+      return;
+    }
+
+    if (defaultTargetMode === "all_roles" || defaultTargetMode === "one_per_team") {
+      setSelectedRoles([...ALL_PROJECT_ROLES]);
+    }
+  }, [defaultTargetMode, defaultTargetRoles]);
 
   const rolesLocked = targetMode !== "selected_roles";
 
@@ -113,7 +152,6 @@ export function TaskRoleFields({
           >
             <input
               type="checkbox"
-              name="targetRoles"
               value={role}
               checked={rolesLocked || selectedRoles.includes(role)}
               disabled={rolesLocked}
@@ -124,19 +162,29 @@ export function TaskRoleFields({
           </label>
         ))}
       </div>
+      {(rolesLocked ? ALL_PROJECT_ROLES : selectedRoles).map((role) => (
+        <input key={role} type="hidden" name="targetRoles" value={role} />
+      ))}
+      <TaskFieldError message={fieldError} />
     </fieldset>
   );
 }
 
 type TaskResponseTypeFieldsProps = {
   defaultResponseTypes?: TaskResponseType[];
+  fieldError?: string;
 };
 
 export function TaskResponseTypeFields({
   defaultResponseTypes = ["URL"],
+  fieldError,
 }: TaskResponseTypeFieldsProps) {
   const t = useTranslations("Tasks");
   const [selectedTypes, setSelectedTypes] = useState<TaskResponseType[]>(defaultResponseTypes);
+
+  useEffect(() => {
+    setSelectedTypes(defaultResponseTypes);
+  }, [defaultResponseTypes]);
 
   function toggleResponseType(type: TaskResponseType) {
     setSelectedTypes((current) => {
@@ -161,7 +209,6 @@ export function TaskResponseTypeFields({
           <label key={type} className="flex cursor-pointer items-center gap-2 text-sm">
             <input
               type="checkbox"
-              name="responseTypes"
               value={type}
               checked={selectedTypes.includes(type)}
               onChange={() => toggleResponseType(type)}
@@ -171,16 +218,63 @@ export function TaskResponseTypeFields({
           </label>
         ))}
       </div>
+      {selectedTypes.map((type) => (
+        <input key={type} type="hidden" name="responseTypes" value={type} />
+      ))}
+      <TaskFieldError message={fieldError} />
     </fieldset>
   );
 }
 
 type AdminGroupFieldsProps = {
   groups: Array<{ id: string; name: string }>;
+  fieldError?: string;
+  defaultAssignAllGroups?: boolean;
+  defaultGroupIds?: string[];
 };
 
-export function AdminGroupFields({ groups }: AdminGroupFieldsProps) {
+export function AdminGroupFields({
+  groups,
+  fieldError,
+  defaultAssignAllGroups = false,
+  defaultGroupIds = [],
+}: AdminGroupFieldsProps) {
   const t = useTranslations("Tasks");
+  const allGroupIds = useMemo(() => groups.map((group) => group.id), [groups]);
+  const [assignAll, setAssignAll] = useState(
+    defaultAssignAllGroups ||
+      (groups.length > 0 &&
+        defaultGroupIds.length === groups.length &&
+        groups.every((group) => defaultGroupIds.includes(group.id))),
+  );
+  const [selectedGroupIds, setSelectedGroupIds] = useState<string[]>(() =>
+    defaultAssignAllGroups ? allGroupIds : defaultGroupIds,
+  );
+
+  useEffect(() => {
+    const nextAssignAll =
+      defaultAssignAllGroups ||
+      (groups.length > 0 &&
+        defaultGroupIds.length === groups.length &&
+        groups.every((group) => defaultGroupIds.includes(group.id)));
+
+    setAssignAll(nextAssignAll);
+    setSelectedGroupIds(nextAssignAll ? allGroupIds : defaultGroupIds);
+  }, [allGroupIds, defaultAssignAllGroups, defaultGroupIds, groups]);
+
+  function handleAssignAllChange(checked: boolean) {
+    setAssignAll(checked);
+    setSelectedGroupIds(checked ? allGroupIds : []);
+  }
+
+  function handleGroupChange(groupId: string, checked: boolean) {
+    const next = checked
+      ? [...selectedGroupIds, groupId]
+      : selectedGroupIds.filter((id) => id !== groupId);
+
+    setSelectedGroupIds(next);
+    setAssignAll(groups.length > 0 && next.length === groups.length);
+  }
 
   return (
     <fieldset className="space-y-3">
@@ -188,12 +282,16 @@ export function AdminGroupFields({ groups }: AdminGroupFieldsProps) {
       <label className="flex cursor-pointer items-center gap-2 text-sm">
         <input
           type="checkbox"
-          name="assignAllGroups"
-          value="true"
+          checked={assignAll}
+          onChange={(event) => handleAssignAllChange(event.target.checked)}
           className="size-4 accent-zinc-900 dark:accent-zinc-100"
         />
         {t("allGroups")}
       </label>
+      {assignAll ? <input type="hidden" name="assignAllGroups" value="true" /> : null}
+      {selectedGroupIds.map((groupId) => (
+        <input key={groupId} type="hidden" name="groupIds" value={groupId} />
+      ))}
       <div className="space-y-2">
         <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("selectGroupsHint")}</p>
         <div className="flex flex-col gap-2">
@@ -201,8 +299,9 @@ export function AdminGroupFields({ groups }: AdminGroupFieldsProps) {
             <label key={group.id} className="flex cursor-pointer items-center gap-2 text-sm">
               <input
                 type="checkbox"
-                name="groupIds"
                 value={group.id}
+                checked={selectedGroupIds.includes(group.id)}
+                onChange={(event) => handleGroupChange(group.id, event.target.checked)}
                 className="size-4 accent-zinc-900 dark:accent-zinc-100"
               />
               {group.name}
@@ -210,7 +309,46 @@ export function AdminGroupFields({ groups }: AdminGroupFieldsProps) {
           ))}
         </div>
       </div>
+      <TaskFieldError message={fieldError} />
     </fieldset>
+  );
+}
+
+type TaskTopicFieldProps = {
+  topics: Array<{ id: string; title: string }>;
+  defaultTopicId?: string | null;
+  fieldError?: string;
+};
+
+export function TaskTopicField({ topics, defaultTopicId = null, fieldError }: TaskTopicFieldProps) {
+  const t = useTranslations("Tasks");
+  const [topicId, setTopicId] = useState(defaultTopicId ?? "");
+
+  useEffect(() => {
+    setTopicId(defaultTopicId ?? "");
+  }, [defaultTopicId]);
+
+  return (
+    <div className="space-y-2">
+      <label htmlFor="topicId" className="text-sm font-medium">
+        {t("topic")}
+      </label>
+      <select
+        id="topicId"
+        name="topicId"
+        value={topicId}
+        onChange={(event) => setTopicId(event.target.value)}
+        className={selectClassName}
+      >
+        <option value="">{t("noTopic")}</option>
+        {topics.map((topic) => (
+          <option key={topic.id} value={topic.id}>
+            {topic.title}
+          </option>
+        ))}
+      </select>
+      <TaskFieldError message={fieldError} />
+    </div>
   );
 }
 

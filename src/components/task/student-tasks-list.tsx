@@ -17,6 +17,8 @@ type StudentTaskRow = TaskTargetInfo & {
   description: string;
   deadline: Date;
   responseTypes: TaskResponseType[];
+  topicTitle?: string | null;
+  topicDescription?: string | null;
 };
 
 type StudentTasksListProps = {
@@ -43,6 +45,11 @@ export async function StudentTasksList({ locale, tasks }: StudentTasksListProps)
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div className="space-y-1">
               <h3 className="font-medium">{task.title}</h3>
+              {task.topicTitle ? (
+                <p className="text-sm text-zinc-500">
+                  {t("topicLabel", { topic: task.topicTitle })}
+                </p>
+              ) : null}
               <TaskDescriptionContent
                 content={task.description}
                 className="text-zinc-600 dark:text-zinc-400"

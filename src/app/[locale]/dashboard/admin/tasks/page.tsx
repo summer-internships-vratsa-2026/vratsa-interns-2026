@@ -68,6 +68,11 @@ export default async function AdminTasksPage({ params }: AdminTasksPageProps) {
                     <p className="mt-1 text-zinc-500">
                       {formatTaskResponseTypes(task.responseTypes, t)}
                     </p>
+                    {task.topicTitle ? (
+                      <p className="mt-1 text-zinc-500">
+                        {t("topicLabel", { topic: task.topicTitle })}
+                      </p>
+                    ) : null}
                   </td>
                   <td className="px-4 py-3">{task.groupName}</td>
                   <td className="px-4 py-3">

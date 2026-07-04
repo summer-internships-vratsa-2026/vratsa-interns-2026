@@ -14,7 +14,7 @@ import {
   getTaskAssignment,
   isTaskAssignedToGroup,
 } from "@/lib/tasks/queries";
-import { applyTaskSchema, createTaskSchema, parseTaskTargetInput, type TaskActionState } from "@/lib/validations/task-form";
+import { applyTaskSchema, createTaskSchema, mapCreateTaskFieldErrors, parseTaskTargetInput, validationFailure, type TaskActionState } from "@/lib/validations/task-form";
 
 async function requireAdmin() {
   const session = await auth();
@@ -61,10 +61,15 @@ export async function createMentorTaskAction(
     targetMode: formData.get("targetMode"),
     targetRoles: formData.getAll("targetRoles"),
     responseTypes: formData.getAll("responseTypes"),
+    topicId: formData.get("topicId"),
   });
 
-  if (!parsed.success || !parsed.data.deadline) {
-    return { error: "invalid_input" };
+  if (!parsed.success) {
+    return validationFailure(mapCreateTaskFieldErrors(parsed.error), formData);
+  }
+
+  if (!parsed.data.deadline) {
+    return validationFailure({ deadline: "invalid_deadline" }, formData);
   }
 
   const deadline = parsed.data.deadline;
@@ -89,6 +94,7 @@ export async function createMentorTaskAction(
         onePerTeam: target.onePerTeam,
         targetRoles: target.targetRoles,
         responseTypes: parsed.data.responseTypes,
+        topicId: parsed.data.topicId,
       })
       .returning();
 
@@ -121,12 +127,17 @@ export async function createAdminTaskAction(
     targetMode: formData.get("targetMode"),
     targetRoles: formData.getAll("targetRoles"),
     responseTypes: formData.getAll("responseTypes"),
+    topicId: formData.get("topicId"),
     assignAllGroups: formData.get("assignAllGroups"),
     groupIds: formData.getAll("groupIds"),
   });
 
-  if (!parsed.success || !parsed.data.deadline) {
-    return { error: "invalid_input" };
+  if (!parsed.success) {
+    return validationFailure(mapCreateTaskFieldErrors(parsed.error), formData);
+  }
+
+  if (!parsed.data.deadline) {
+    return validationFailure({ deadline: "invalid_deadline" }, formData);
   }
 
   const deadline = parsed.data.deadline;
@@ -142,7 +153,7 @@ export async function createAdminTaskAction(
   }
 
   if (groupIds.length === 0) {
-    return { error: "groups_required" };
+    return validationFailure({ groupIds: "groups_required" }, formData);
   }
 
   await db.transaction(async (tx) => {
@@ -156,6 +167,7 @@ export async function createAdminTaskAction(
         onePerTeam: target.onePerTeam,
         targetRoles: target.targetRoles,
         responseTypes: parsed.data.responseTypes,
+        topicId: parsed.data.topicId,
       })
       .returning();
 
@@ -190,7 +202,7 @@ export async function applyTaskToGroupAction(
   });
 
   if (!parsed.success) {
-    return { error: "invalid_input" };
+    return { fieldErrors: { deadline: "invalid_deadline" } };
   }
 
   const mainGroupId = context.mentor.mainGroupId!;
@@ -232,6 +244,7 @@ export async function applyTaskToGroupAction(
         onePerTeam: sourceAssignment.task.onePerTeam,
         targetRoles: sourceAssignment.task.targetRoles,
         responseTypes: sourceAssignment.task.responseTypes,
+        topicId: sourceAssignment.task.topicId,
       })
       .returning();
 

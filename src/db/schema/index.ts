@@ -5,6 +5,8 @@ export * from "./mentors";
 export * from "./students";
 export * from "./clients";
 export * from "./teams";
+export * from "./topics";
 export * from "./tasks";
+export * from "./team-feedback";
 export * from "./submissions";
 export * from "./relations";

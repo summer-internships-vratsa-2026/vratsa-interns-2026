@@ -2,11 +2,13 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { MentorNav } from "@/components/mentor/mentor-nav";
+import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { UpdateTeamForm } from "@/components/team/update-team-form";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { getAdminTeamDetail } from "@/lib/teams/admin-queries";
 import { getInternshipGroups, getTeamMembersWithNames } from "@/lib/teams/queries";
+import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
 
 type MentorTeamDetailPageProps = {
   params: Promise<{ locale: string; teamId: string }>;
@@ -17,10 +19,11 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
   setRequestLocale(locale);
   await requireMentorProfile(locale);
 
-  const [teamDetail, groups, members] = await Promise.all([
+  const [teamDetail, groups, members, feedbackItems] = await Promise.all([
     getAdminTeamDetail(teamId),
     getInternshipGroups(),
     getTeamMembersWithNames(teamId),
+    getTeamFeedbackForTeam(teamId),
   ]);
 
   if (!teamDetail) {
@@ -68,6 +71,17 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
             ))}
           </ul>
         )}
+      </div>
+
+      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <TeamFeedbackPanel
+          locale={locale}
+          teamId={teamId}
+          feedbackItems={feedbackItems}
+          canCreate
+          canComment
+          canMarkDone={false}
+        />
       </div>
     </section>
   );

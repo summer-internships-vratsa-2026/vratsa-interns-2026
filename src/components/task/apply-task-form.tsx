@@ -7,6 +7,7 @@ import { applyTaskToGroupAction } from "@/actions/tasks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TaskFieldError } from "@/components/task/task-form-fields";
 import { defaultDeadlineLocal, type TaskActionState } from "@/lib/validations/task-form";
 
 type ApplyTaskFormProps = {
@@ -49,7 +50,8 @@ export function ApplyTaskForm({
         />
       </div>
 
-      {state.error ? <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p> : null}
+      {state.error ? <TaskFieldError message={state.error} /> : null}
+      {state.fieldErrors?.deadline ? <TaskFieldError message={state.fieldErrors.deadline} /> : null}
 
       <Button type="submit" disabled={isPending}>
         {isPending ? t("loading") : t("applyToMyGroup")}

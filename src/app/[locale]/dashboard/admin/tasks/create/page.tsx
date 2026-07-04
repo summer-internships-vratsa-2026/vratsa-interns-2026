@@ -4,6 +4,7 @@ import { CreateTaskForm } from "@/components/task/create-task-form";
 import { Link } from "@/i18n/navigation";
 import { requireRole } from "@/lib/auth/session";
 import { getAllGroups } from "@/lib/teams/admin-queries";
+import { getAllTopics } from "@/lib/topics/queries";
 
 type AdminCreateTaskPageProps = {
   params: Promise<{ locale: string }>;
@@ -14,7 +15,7 @@ export default async function AdminCreateTaskPage({ params }: AdminCreateTaskPag
   setRequestLocale(locale);
   await requireRole(locale, "ADMIN");
 
-  const groups = await getAllGroups();
+  const [groups, topics] = await Promise.all([getAllGroups(), getAllTopics()]);
   const t = await getTranslations("Tasks");
 
   return (
@@ -27,7 +28,7 @@ export default async function AdminCreateTaskPage({ params }: AdminCreateTaskPag
       </div>
 
       <div className="max-w-2xl rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
-        <CreateTaskForm locale={locale} variant="admin" groups={groups} />
+        <CreateTaskForm locale={locale} variant="admin" groups={groups} topics={topics} />
       </div>
     </section>
   );

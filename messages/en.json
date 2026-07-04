@@ -70,11 +70,15 @@
       "mentorsLinkTitle": "Mentors",
       "mentorsLinkDescription": "Assign each mentor's main responsible group.",
       "tasksLinkTitle": "Tasks",
-      "tasksLinkDescription": "Create and manage tasks for internship groups."
+      "tasksLinkDescription": "Create and manage tasks for internship groups.",
+      "topicsLinkTitle": "Topics",
+      "topicsLinkDescription": "Define topics that can be assigned to tasks."
     },
     "client": {
       "title": "Client dashboard",
-      "description": "View assigned teams and submissions here."
+      "description": "View assigned teams and submissions here.",
+      "teamsLinkTitle": "Assigned teams",
+      "teamsLinkDescription": "Open a team and leave individual feedback."
     }
   },
   "Team": {
@@ -257,6 +261,36 @@
       "main_group_updated": "Main group updated."
     }
   },
+  "AdminTopics": {
+    "title": "Topics",
+    "description": "Define topics with a title and short description. Tasks can optionally be assigned to a topic.",
+    "backToDashboard": "Back to admin dashboard",
+    "createTitle": "Create topic",
+    "createTopic": "Create topic",
+    "save": "Save",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "emptyTopics": "No topics defined yet.",
+    "fields": {
+      "title": "Title",
+      "description": "Short description"
+    },
+    "columns": {
+      "title": "Title",
+      "description": "Short description",
+      "actions": "Actions"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "forbidden": "You do not have permission for this action.",
+      "topic_not_found": "Topic not found."
+    },
+    "success": {
+      "topic_created": "Topic created.",
+      "topic_updated": "Topic updated.",
+      "topic_deleted": "Topic deleted."
+    }
+  },
   "MentorDashboard": {
     "title": "Mentor dashboard",
     "noMainGroupWarning": "You do not have a main group assigned yet. Ask an administrator to assign one before creating or applying tasks.",
@@ -335,6 +369,59 @@
     "notSubmitted": "Draft",
     "submissionsReviewNote": "Detailed review, comments, and grading will be available in the next step."
   },
+  "ClientTeams": {
+    "title": "Assigned teams",
+    "description": "Open a team to leave individual feedback and follow progress.",
+    "backToDashboard": "Back to client dashboard",
+    "backToTeams": "Back to teams",
+    "empty": "No teams are assigned yet.",
+    "groupLabel": "Group: {group}"
+  },
+  "TeamFeedback": {
+    "title": "Individual feedback",
+    "description": "Create targeted feedback for this team and track resolution.",
+    "create": "Create feedback",
+    "addComment": "Add comment",
+    "markDone": "Mark as done",
+    "markOpen": "Mark as open",
+    "loading": "Loading...",
+    "empty": "No feedback yet.",
+    "commentsTitle": "Comments",
+    "emptyComments": "No comments yet.",
+    "commentPlaceholder": "Write your comment...",
+    "feedbackPlaceholder": "Write team-specific feedback...",
+    "fields": {
+      "category": "Category",
+      "title": "Title",
+      "content": "Feedback"
+    },
+    "category": {
+      "POSITIVE": "Positive feedback / cheer up",
+      "SUGGESTION": "Suggestion for improvement",
+      "INDIVIDUAL_TASK": "Individual task (must do)"
+    },
+    "status": {
+      "OPEN": "Open",
+      "DONE": "Done"
+    },
+    "meta": {
+      "createdBy": "Created by {author} on {date}",
+      "doneAt": "Marked done on {date}",
+      "commentBy": "{author} commented on {date}"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "feedback_content_required": "Please enter feedback content.",
+      "forbidden": "You do not have permission for this action.",
+      "feedback_not_found": "Feedback item not found."
+    },
+    "success": {
+      "feedback_created": "Feedback created.",
+      "comment_added": "Comment added.",
+      "feedback_marked_done": "Marked as done.",
+      "feedback_marked_open": "Marked as open."
+    }
+  },
   "Tasks": {
     "mentorPageTitle": "Tasks",
     "adminPageTitle": "Tasks",
@@ -345,6 +432,9 @@
     "deadline": "Deadline",
     "newDeadline": "Deadline for your group",
     "group": "Group",
+    "topic": "Topic",
+    "noTopic": "No topic",
+    "topicLabel": "Topic: {topic}",
     "targetRoles": "Assigned roles",
     "allRoles": "All roles",
     "selectedRoles": "Selected roles",
@@ -387,11 +477,21 @@
       "PRODUCT_OWNER": "Product Owner"
     },
     "errors": {
+      "validationSummary": "Please fix the following fields:",
       "invalid_input": "Please check the entered details.",
+      "title_required": "Please enter a task title.",
+      "title_too_short": "The title must be at least 2 characters.",
+      "title_too_long": "The title must be at most 255 characters.",
       "description_required": "Please enter a task description.",
+      "deadline_required": "Please select a deadline.",
+      "invalid_deadline": "Please enter a valid deadline.",
+      "roles_required": "Select at least one role.",
+      "invalid_target_mode": "Please select how roles are assigned.",
+      "topic_invalid": "Please select a valid topic.",
       "forbidden": "You do not have permission for this action.",
       "no_main_group": "You need a main group assigned before creating or applying tasks.",
-      "groups_required": "Select at least one group.",
+      "groups_required": "Select at least one group, or check \"All groups\".",
+      "groups_invalid": "One or more selected groups are invalid.",
       "response_types_required": "Select at least one response type.",
       "task_not_found": "Task not found.",
       "already_in_main_group": "This task is already in your main group.",

@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AdminTeamClientForm } from "@/components/admin/admin-team-client-form";
 import { AdminTeamMembersPanel } from "@/components/admin/admin-team-members-panel";
 import { AdminTeamMentorsPanel } from "@/components/admin/admin-team-mentors-panel";
+import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { UpdateTeamForm } from "@/components/team/update-team-form";
 import { Link } from "@/i18n/navigation";
 import {
@@ -13,6 +14,7 @@ import {
   getStudentsWithoutTeam,
 } from "@/lib/teams/admin-queries";
 import { getInternshipGroups } from "@/lib/teams/queries";
+import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
 import { MAX_TEAM_SIZE, MIN_TEAM_SIZE, validateTeamRoles } from "@/lib/validations/team";
 import { requireRole } from "@/lib/auth/session";
 
@@ -25,12 +27,13 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
   setRequestLocale(locale);
   await requireRole(locale, "ADMIN");
 
-  const [teamDetail, groups, mentors, clients, availableStudents] = await Promise.all([
+  const [teamDetail, groups, mentors, clients, availableStudents, feedbackItems] = await Promise.all([
     getAdminTeamDetail(teamId),
     getInternshipGroups(),
     getAllMentorsWithNames(),
     getAllClientsWithNames(),
     getStudentsWithoutTeam(),
+    getTeamFeedbackForTeam(teamId),
   ]);
 
   if (!teamDetail) {
@@ -113,6 +116,17 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
           teamId={teamId}
           currentClientId={teamDetail.team.clientId}
           clients={clients}
+        />
+      </div>
+
+      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <TeamFeedbackPanel
+          locale={locale}
+          teamId={teamId}
+          feedbackItems={feedbackItems}
+          canCreate
+          canComment
+          canMarkDone={false}
         />
       </div>
     </section>

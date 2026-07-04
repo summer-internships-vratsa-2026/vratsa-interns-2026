@@ -5,6 +5,7 @@ import { MentorNav } from "@/components/mentor/mentor-nav";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { hasMainGroupAssigned } from "@/lib/permissions";
+import { getAllTopics } from "@/lib/topics/queries";
 
 type MentorCreateTaskPageProps = {
   params: Promise<{ locale: string }>;
@@ -28,6 +29,8 @@ export default async function MentorCreateTaskPage({ params }: MentorCreateTaskP
     );
   }
 
+  const topics = await getAllTopics();
+
   return (
     <section className="space-y-6">
       <div className="space-y-2">
@@ -40,7 +43,7 @@ export default async function MentorCreateTaskPage({ params }: MentorCreateTaskP
       <MentorNav current="tasks" />
 
       <div className="max-w-2xl rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
-        <CreateTaskForm locale={locale} variant="mentor" />
+        <CreateTaskForm locale={locale} variant="mentor" topics={topics} />
       </div>
     </section>
   );

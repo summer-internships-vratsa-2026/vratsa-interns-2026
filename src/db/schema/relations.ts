@@ -5,14 +5,19 @@ import { groups } from "./groups";
 import { mentorGroups, mentors } from "./mentors";
 import { students } from "./students";
 import { submissionComments, submissionGrades, submissions } from "./submissions";
+import { teamFeedback, teamFeedbackComments } from "./team-feedback";
 import { taskGroups, tasks } from "./tasks";
+import { topics } from "./topics";
 import { teamInvites, teamMembers, teamMentors, teams } from "./teams";
 import { users } from "./users";
 
-export const usersRelations = relations(users, ({ one }) => ({
+export const usersRelations = relations(users, ({ one, many }) => ({
   mentor: one(mentors, { fields: [users.id], references: [mentors.userId] }),
   student: one(students, { fields: [users.id], references: [students.userId] }),
   client: one(clients, { fields: [users.id], references: [clients.userId] }),
+  authoredTeamFeedback: many(teamFeedback, { relationName: "teamFeedbackAuthor" }),
+  completedTeamFeedback: many(teamFeedback, { relationName: "teamFeedbackDoneBy" }),
+  teamFeedbackComments: many(teamFeedbackComments),
 }));
 
 export const groupsRelations = relations(groups, ({ many }) => ({
@@ -51,6 +56,7 @@ export const teamsRelations = relations(teams, ({ one, many }) => ({
   mentors: many(teamMentors),
   invites: many(teamInvites),
   submissions: many(submissions),
+  feedbackItems: many(teamFeedback),
 }));
 
 export const teamMembersRelations = relations(teamMembers, ({ one }) => ({
@@ -68,8 +74,13 @@ export const teamInvitesRelations = relations(teamInvites, ({ one }) => ({
   invitedBy: one(users, { fields: [teamInvites.invitedByUserId], references: [users.id] }),
 }));
 
+export const topicsRelations = relations(topics, ({ many }) => ({
+  tasks: many(tasks),
+}));
+
 export const tasksRelations = relations(tasks, ({ one, many }) => ({
   createdBy: one(users, { fields: [tasks.createdByUserId], references: [users.id] }),
+  topic: one(topics, { fields: [tasks.topicId], references: [topics.id] }),
   sourceTask: one(tasks, {
     fields: [tasks.sourceTaskId],
     references: [tasks.id],
@@ -109,4 +120,27 @@ export const submissionGradesRelations = relations(submissionGrades, ({ one }) =
     references: [submissions.id],
   }),
   gradedBy: one(users, { fields: [submissionGrades.gradedByUserId], references: [users.id] }),
+}));
+
+export const teamFeedbackRelations = relations(teamFeedback, ({ one, many }) => ({
+  team: one(teams, { fields: [teamFeedback.teamId], references: [teams.id] }),
+  author: one(users, {
+    fields: [teamFeedback.authorUserId],
+    references: [users.id],
+    relationName: "teamFeedbackAuthor",
+  }),
+  doneBy: one(users, {
+    fields: [teamFeedback.doneByUserId],
+    references: [users.id],
+    relationName: "teamFeedbackDoneBy",
+  }),
+  comments: many(teamFeedbackComments),
+}));
+
+export const teamFeedbackCommentsRelations = relations(teamFeedbackComments, ({ one }) => ({
+  feedback: one(teamFeedback, {
+    fields: [teamFeedbackComments.feedbackId],
+    references: [teamFeedback.id],
+  }),
+  author: one(users, { fields: [teamFeedbackComments.authorUserId], references: [users.id] }),
 }));

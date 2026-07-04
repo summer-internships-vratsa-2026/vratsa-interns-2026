@@ -57,6 +57,18 @@ export default async function AdminTaskDetailPage({
             <dt className="font-medium text-zinc-500">{t("responseTypes")}</dt>
             <dd>{formatTaskResponseTypes(taskDetail.task.responseTypes, t)}</dd>
           </div>
+          {taskDetail.topic ? (
+            <div>
+              <dt className="font-medium text-zinc-500">{t("topic")}</dt>
+              <dd>
+                <span className="font-medium">{taskDetail.topic.title}</span>
+                <span className="text-zinc-600 dark:text-zinc-400">
+                  {" — "}
+                  {taskDetail.topic.description}
+                </span>
+              </dd>
+            </div>
+          ) : null}
         </dl>
         <div>
           <h2 className="mb-2 font-medium">{t("description")}</h2>

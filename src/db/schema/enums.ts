@@ -10,6 +10,16 @@ export const projectRoleEnum = pgEnum("project_role", [
   "PRODUCT_OWNER",
 ]);
 
+export const feedbackCategoryEnum = pgEnum("feedback_category", [
+  "POSITIVE",
+  "SUGGESTION",
+  "INDIVIDUAL_TASK",
+]);
+
+export const feedbackStatusEnum = pgEnum("feedback_status", ["OPEN", "DONE"]);
+
 export type UserRole = (typeof userRoleEnum.enumValues)[number];
 export type School = (typeof schoolEnum.enumValues)[number];
 export type ProjectRole = (typeof projectRoleEnum.enumValues)[number];
+export type FeedbackCategory = (typeof feedbackCategoryEnum.enumValues)[number];
+export type FeedbackStatus = (typeof feedbackStatusEnum.enumValues)[number];

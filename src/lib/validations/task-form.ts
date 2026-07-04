@@ -3,12 +3,22 @@ import { z } from "zod";
 import { isRichTextEmpty, sanitizeTaskDescription } from "@/lib/rich-text";
 import { projectRoleSchema, taskResponseTypeSchema, type TaskResponseType } from "@/lib/validations/task";
 
-const richTextDescriptionSchema = z
-  .string()
-  .transform(sanitizeTaskDescription)
-  .refine((value) => !isRichTextEmpty(value), { message: "description_required" });
+const richTextDescriptionSchema = z.preprocess(
+  (value) => (value == null ? "" : value),
+  z
+    .string()
+    .transform(sanitizeTaskDescription)
+    .refine((value) => !isRichTextEmpty(value), { message: "description_required" }),
+);
 
-export const taskTargetModeSchema = z.enum(["all_roles", "selected_roles", "one_per_team"]);
+const topicIdField = z.preprocess(
+  (value) => (value == null || value === "" ? null : value),
+  z.union([z.null(), z.uuid({ message: "topic_invalid" })]),
+);
+
+export const taskTargetModeSchema = z.enum(["all_roles", "selected_roles", "one_per_team"], {
+  message: "invalid_target_mode",
+});
 
 export type TaskTargetMode = z.infer<typeof taskTargetModeSchema>;
 
@@ -68,26 +78,40 @@ export function parseTaskTargetInput(input: {
 
 export const createTaskSchema = z
   .object({
-    title: z.string().trim().min(2).max(255),
+    title: z.preprocess(
+      (value) => (value == null ? "" : value),
+      z
+        .string()
+        .trim()
+        .min(1, { message: "title_required" })
+        .min(2, { message: "title_too_short" })
+        .max(255, { message: "title_too_long" }),
+    ),
     description: richTextDescriptionSchema,
-    deadline: z.string().min(1).transform(parseDeadline),
+    deadline: z.preprocess(
+      (value) => (value == null ? "" : value),
+      z.string().min(1, { message: "deadline_required" }).transform(parseDeadline),
+    ),
     targetMode: taskTargetModeSchema,
     targetRoles: targetRolesField,
     responseTypes: responseTypesField,
-    assignAllGroups: z
-      .union([z.literal("true"), z.literal("false"), z.boolean()])
-      .optional()
-      .transform((value) => value === true || value === "true"),
-    groupIds: z
-      .union([z.uuid(), z.array(z.uuid())])
-      .optional()
-      .transform((value) => {
-        if (!value) {
+    topicId: topicIdField,
+    assignAllGroups: z.preprocess(
+      (value) => value === true || value === "true",
+      z.boolean(),
+    ),
+    groupIds: z.preprocess(
+      (value) => {
+        if (value == null) {
           return [] as string[];
         }
 
-        return Array.isArray(value) ? value : [value];
-      }),
+        const values = Array.isArray(value) ? value : [value];
+
+        return values.filter((item): item is string => typeof item === "string" && item.length > 0);
+      },
+      z.array(z.uuid({ message: "groups_invalid" })),
+    ),
   })
   .superRefine((data, ctx) => {
     if (!data.deadline) {
@@ -100,6 +124,10 @@ export const createTaskSchema = z
 
     if (data.responseTypes.length === 0) {
       ctx.addIssue({ code: "custom", message: "response_types_required", path: ["responseTypes"] });
+    }
+
+    if (!data.assignAllGroups && data.groupIds.length === 0) {
+      ctx.addIssue({ code: "custom", message: "groups_required", path: ["groupIds"] });
     }
   });
 
@@ -115,8 +143,131 @@ export const applyTaskSchema = z.object({
 
 export type TaskActionState = {
   error?: string;
+  fieldErrors?: Partial<Record<CreateTaskField, string>>;
+  values?: CreateTaskFormValues;
   success?: string;
 };
+
+export type CreateTaskFormValues = {
+  title: string;
+  description: string;
+  deadline: string;
+  targetMode: TaskTargetMode;
+  targetRoles: Array<z.infer<typeof projectRoleSchema>>;
+  responseTypes: TaskResponseType[];
+  topicId: string;
+  assignAllGroups: boolean;
+  groupIds: string[];
+};
+
+export function getDefaultCreateTaskFormValues(): CreateTaskFormValues {
+  return {
+    title: "",
+    description: "",
+    deadline: defaultDeadlineLocal(),
+    targetMode: "all_roles",
+    targetRoles: [],
+    responseTypes: ["URL"],
+    topicId: "",
+    assignAllGroups: false,
+    groupIds: [],
+  };
+}
+
+export function extractCreateTaskFormValues(formData: FormData): CreateTaskFormValues {
+  const targetMode = formData.get("targetMode");
+
+  return {
+    title: String(formData.get("title") ?? ""),
+    description: String(formData.get("description") ?? ""),
+    deadline: String(formData.get("deadline") ?? ""),
+    targetMode:
+      targetMode === "selected_roles" || targetMode === "one_per_team"
+        ? targetMode
+        : "all_roles",
+    targetRoles: formData.getAll("targetRoles") as Array<z.infer<typeof projectRoleSchema>>,
+    responseTypes: formData.getAll("responseTypes") as TaskResponseType[],
+    topicId: String(formData.get("topicId") ?? ""),
+    assignAllGroups: formData.get("assignAllGroups") === "true",
+    groupIds: formData.getAll("groupIds") as string[],
+  };
+}
+
+function validationFailure(
+  fieldErrors: Partial<Record<CreateTaskField, string>>,
+  formData: FormData,
+): TaskActionState {
+  return {
+    fieldErrors,
+    values: extractCreateTaskFormValues(formData),
+  };
+}
+
+export { validationFailure };
+
+export type CreateTaskField =
+  | "title"
+  | "description"
+  | "deadline"
+  | "targetMode"
+  | "targetRoles"
+  | "responseTypes"
+  | "topicId"
+  | "groupIds";
+
+export function mapCreateTaskFieldErrors(error: z.ZodError): Partial<Record<CreateTaskField, string>> {
+  const fieldErrors: Partial<Record<CreateTaskField, string>> = {};
+  const fallbackByField: Partial<Record<CreateTaskField, string>> = {
+    title: "title_required",
+    description: "description_required",
+    deadline: "invalid_deadline",
+    targetMode: "invalid_target_mode",
+    targetRoles: "roles_required",
+    responseTypes: "response_types_required",
+    topicId: "topic_invalid",
+    groupIds: "groups_required",
+  };
+  const fieldAliases: Record<string, CreateTaskField> = {
+    assignAllGroups: "groupIds",
+  };
+  const messageAliases: Record<string, string> = {
+    groups_invalid: "groups_invalid",
+  };
+
+  const validFields = new Set<CreateTaskField>([
+    "title",
+    "description",
+    "deadline",
+    "targetMode",
+    "targetRoles",
+    "responseTypes",
+    "topicId",
+    "groupIds",
+  ]);
+
+  for (const issue of error.issues) {
+    const rawField = issue.path[0];
+
+    if (typeof rawField !== "string") {
+      continue;
+    }
+
+    const field = fieldAliases[rawField] ?? (validFields.has(rawField as CreateTaskField) ? rawField as CreateTaskField : null);
+
+    if (!field || field in fieldErrors) {
+      continue;
+    }
+
+    const message = issue.message;
+    const isKnownKey = message && !message.includes(" ");
+
+    fieldErrors[field] = isKnownKey
+      ? (messageAliases[message] ?? message)
+      : (fallbackByField[field] ?? "description_required");
+  }
+
+  return fieldErrors;
+}
 
 export function toDatetimeLocalValue(date: Date): string {
   const offset = date.getTimezoneOffset();

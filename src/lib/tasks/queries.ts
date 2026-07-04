@@ -1,7 +1,7 @@
 import { and, desc, eq, or } from "drizzle-orm";
 
 import { db } from "@/db";
-import { groups, taskGroups, tasks, users } from "@/db/schema";
+import { groups, taskGroups, tasks, topics, users } from "@/db/schema";
 import type { ProjectRole } from "@/db/schema/enums";
 import { isRoleEligibleForTask } from "@/lib/validations/task";
 
@@ -24,6 +24,9 @@ export async function getAllTasksWithGroups() {
       onePerTeam: tasks.onePerTeam,
       targetRoles: tasks.targetRoles,
       responseTypes: tasks.responseTypes,
+      topicId: tasks.topicId,
+      topicTitle: topics.title,
+      topicDescription: topics.description,
       createdAt: tasks.createdAt,
       createdByName: users.name,
     })
@@ -31,6 +34,7 @@ export async function getAllTasksWithGroups() {
     .innerJoin(taskGroups, eq(tasks.id, taskGroups.taskId))
     .innerJoin(groups, eq(taskGroups.groupId, groups.id))
     .innerJoin(users, eq(tasks.createdByUserId, users.id))
+    .leftJoin(topics, eq(tasks.topicId, topics.id))
     .orderBy(desc(taskGroups.deadline));
 }
 
@@ -64,10 +68,19 @@ export async function getTaskWithGroups(taskId: string) {
     .where(eq(users.id, task.createdByUserId))
     .limit(1);
 
+  const [topic] = task.topicId
+    ? await db
+        .select({ id: topics.id, title: topics.title, description: topics.description })
+        .from(topics)
+        .where(eq(topics.id, task.topicId))
+        .limit(1)
+    : [null];
+
   return {
     task,
     assignments,
     createdByName: creator?.name ?? "—",
+    topic: topic ?? null,
   };
 }
 
@@ -79,10 +92,13 @@ export async function getTaskAssignment(taskId: string, groupId: string) {
       groupName: groups.name,
       deadline: taskGroups.deadline,
       task: tasks,
+      topicTitle: topics.title,
+      topicDescription: topics.description,
     })
     .from(taskGroups)
     .innerJoin(tasks, eq(taskGroups.taskId, tasks.id))
     .innerJoin(groups, eq(taskGroups.groupId, groups.id))
+    .leftJoin(topics, eq(tasks.topicId, topics.id))
     .where(and(eq(taskGroups.taskId, taskId), eq(taskGroups.groupId, groupId)))
     .limit(1);
 
@@ -121,9 +137,13 @@ export async function getEligibleTasksForStudent(
       onePerTeam: tasks.onePerTeam,
       targetRoles: tasks.targetRoles,
       responseTypes: tasks.responseTypes,
+      topicId: tasks.topicId,
+      topicTitle: topics.title,
+      topicDescription: topics.description,
     })
     .from(taskGroups)
     .innerJoin(tasks, eq(taskGroups.taskId, tasks.id))
+    .leftJoin(topics, eq(tasks.topicId, topics.id))
     .where(eq(taskGroups.groupId, groupId))
     .orderBy(desc(taskGroups.deadline));
 

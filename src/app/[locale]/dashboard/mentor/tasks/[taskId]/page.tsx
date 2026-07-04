@@ -83,6 +83,20 @@ export default async function MentorTaskDetailPage({
             <dt className="font-medium text-zinc-500">{t("responseTypes")}</dt>
             <dd>{formatTaskResponseTypes(assignment.task.responseTypes, t)}</dd>
           </div>
+          {assignment.task.topicId ? (
+            <div>
+              <dt className="font-medium text-zinc-500">{t("topic")}</dt>
+              <dd>
+                {assignment.topicTitle}
+                {assignment.topicDescription ? (
+                  <span className="text-zinc-600 dark:text-zinc-400">
+                    {" — "}
+                    {assignment.topicDescription}
+                  </span>
+                ) : null}
+              </dd>
+            </div>
+          ) : null}
           <div className="sm:col-span-2">
             <dt className="font-medium text-zinc-500">{t("targetRoles")}</dt>
             <dd>
