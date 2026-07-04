@@ -110,6 +110,22 @@
     "editTeamName": "Име на отбора",
     "teamDetails": "Данни за отбора",
     "teamDetailsReadOnlyNote": "Кабинет, клас, училище и група могат да бъдат променяни само от ментор или администратор.",
+    "teamLinksTitle": "Линкове към проекта",
+    "githubRepoUrl": "GitHub хранилище",
+    "projectUrl": "URL на проекта",
+    "socialUrls": "Социални мрежи",
+    "socialUrlsHint": "Добавете линкове към профилите на отбора в социалните мрежи (по избор).",
+    "saveTeamLinks": "Запази линковете",
+    "noTeamLinks": "Все още няма добавени линкове.",
+    "socialPlatforms": {
+      "FACEBOOK": "Facebook",
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "LINKEDIN": "LinkedIn",
+      "PINTEREST": "Pinterest",
+      "X": "X (Twitter)",
+      "OTHER": "Друго"
+    },
     "saveTeamName": "Запази името",
     "members": "Членове",
     "currentGroup": "Група",
@@ -148,10 +164,12 @@
       "token_expired": "Линкът за покана е изтекъл.",
       "email_mismatch": "Тази покана е изпратена до друг имейл адрес.",
       "team_not_found": "Отборът не е намерен.",
-      "forbidden": "Нямате права за това действие."
+      "forbidden": "Нямате права за това действие.",
+      "invalid_url": "Моля, въведете валиден URL (включително https://)."
     },
     "success": {
-      "team_updated": "Данните за отбора са запазени."
+      "team_updated": "Данните за отбора са запазени.",
+      "team_links_updated": "Линковете на отбора са запазени."
     }
   },
   "AdminTeams": {
@@ -189,6 +207,7 @@
     },
     "sections": {
       "details": "Данни за отбора",
+      "links": "Линкове към проекта",
       "members": "Членове",
       "mentors": "Ментори",
       "client": "Клиент"
@@ -332,7 +351,8 @@
     "teamDetailDescription": "Група: {group}",
     "emptyMembers": "Все още няма членове.",
     "sections": {
-      "details": "Данни за отбора"
+      "details": "Данни за отбора",
+      "links": "Линкове към проекта"
     },
     "teamsColumns": {
       "name": "Отбор",
@@ -375,7 +395,10 @@
     "backToDashboard": "Към таблото на клиента",
     "backToTeams": "Към отборите",
     "empty": "Все още няма назначени отбори.",
-    "groupLabel": "Група: {group}"
+    "groupLabel": "Група: {group}",
+    "sections": {
+      "links": "Линкове към проекта"
+    }
   },
   "TeamFeedback": {
     "title": "Индивидуална обратна връзка",

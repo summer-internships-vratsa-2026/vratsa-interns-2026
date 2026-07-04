@@ -4,6 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { TeamDetailsDisplay } from "@/components/team/team-details-display";
 import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { TeamInviteSection } from "@/components/team/team-invite-section";
+import { TeamLinksDisplay } from "@/components/team/team-links-display";
+import { TeamLinksForm } from "@/components/team/team-links-form";
 import { UpdateTeamNameForm } from "@/components/team/update-team-name-form";
 import { StudentTasksList } from "@/components/task/student-tasks-list";
 import {
@@ -79,6 +81,14 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
       <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
         <h2 className="mb-4 text-lg font-medium">{t("teamDetails")}</h2>
         <TeamDetailsDisplay team={membership.team} groupName={groupName} />
+      </div>
+
+      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <h2 className="mb-4 text-lg font-medium">{t("teamLinksTitle")}</h2>
+        <div className="mb-4">
+          <TeamLinksDisplay team={membership.team} />
+        </div>
+        <TeamLinksForm locale={locale} team={membership.team} />
       </div>
 
       <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">

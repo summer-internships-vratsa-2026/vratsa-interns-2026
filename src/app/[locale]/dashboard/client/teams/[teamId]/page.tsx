@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
+import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { Link } from "@/i18n/navigation";
 import { requireRole } from "@/lib/auth/session";
 import { getAdminTeamDetail } from "@/lib/teams/admin-queries";
@@ -39,6 +40,11 @@ export default async function ClientTeamDetailPage({ params }: ClientTeamDetailP
         <p className="text-zinc-600 dark:text-zinc-400">
           {t("groupLabel", { group: teamDetail.groupName })}
         </p>
+      </div>
+
+      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <h2 className="mb-4 text-lg font-medium">{t("sections.links")}</h2>
+        <TeamLinksDisplay team={teamDetail.team} />
       </div>
 
       <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">

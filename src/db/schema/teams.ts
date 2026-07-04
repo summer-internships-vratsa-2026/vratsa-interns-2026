@@ -1,4 +1,4 @@
-import { pgTable, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
+import { jsonb, pgTable, timestamp, uniqueIndex, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { clients } from "./clients";
 import { groups } from "./groups";
@@ -6,6 +6,10 @@ import { mentors } from "./mentors";
 import { projectRoleEnum, schoolEnum } from "./enums";
 import { students } from "./students";
 import { users } from "./users";
+
+export type TeamSocialUrls = Partial<
+  Record<"FACEBOOK" | "INSTAGRAM" | "TIKTOK" | "LINKEDIN" | "PINTEREST" | "X" | "OTHER", string>
+>;
 
 export const teams = pgTable("teams", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -17,6 +21,9 @@ export const teams = pgTable("teams", {
   schoolClass: varchar("school_class", { length: 100 }).notNull(),
   school: schoolEnum("school").notNull(),
   clientId: uuid("client_id").references(() => clients.id, { onDelete: "set null" }),
+  githubRepoUrl: varchar("github_repo_url", { length: 2048 }),
+  projectUrl: varchar("project_url", { length: 2048 }),
+  socialUrls: jsonb("social_urls").$type<TeamSocialUrls>(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

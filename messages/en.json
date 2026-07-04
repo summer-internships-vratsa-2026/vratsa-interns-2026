@@ -110,6 +110,22 @@
     "editTeamName": "Team name",
     "teamDetails": "Team details",
     "teamDetailsReadOnlyNote": "Classroom, class, school, and group can only be changed by a mentor or administrator.",
+    "teamLinksTitle": "Project links",
+    "githubRepoUrl": "GitHub repository",
+    "projectUrl": "Project URL",
+    "socialUrls": "Social networks",
+    "socialUrlsHint": "Add links to your team's social profiles (optional).",
+    "saveTeamLinks": "Save links",
+    "noTeamLinks": "No links added yet.",
+    "socialPlatforms": {
+      "FACEBOOK": "Facebook",
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "LINKEDIN": "LinkedIn",
+      "PINTEREST": "Pinterest",
+      "X": "X (Twitter)",
+      "OTHER": "Other"
+    },
     "saveTeamName": "Save name",
     "members": "Members",
     "currentGroup": "Group",
@@ -148,10 +164,12 @@
       "token_expired": "This invitation link has expired.",
       "email_mismatch": "This invitation was sent to a different email address.",
       "team_not_found": "Team not found.",
-      "forbidden": "You do not have permission for this action."
+      "forbidden": "You do not have permission for this action.",
+      "invalid_url": "Please enter a valid URL (including https://)."
     },
     "success": {
-      "team_updated": "Team details saved."
+      "team_updated": "Team details saved.",
+      "team_links_updated": "Team links saved."
     }
   },
   "AdminTeams": {
@@ -189,6 +207,7 @@
     },
     "sections": {
       "details": "Team details",
+      "links": "Project links",
       "members": "Members",
       "mentors": "Mentors",
       "client": "Client"
@@ -332,7 +351,8 @@
     "teamDetailDescription": "Group: {group}",
     "emptyMembers": "No members yet.",
     "sections": {
-      "details": "Team details"
+      "details": "Team details",
+      "links": "Project links"
     },
     "teamsColumns": {
       "name": "Team",
@@ -375,7 +395,10 @@
     "backToDashboard": "Back to client dashboard",
     "backToTeams": "Back to teams",
     "empty": "No teams are assigned yet.",
-    "groupLabel": "Group: {group}"
+    "groupLabel": "Group: {group}",
+    "sections": {
+      "links": "Project links"
+    }
   },
   "TeamFeedback": {
     "title": "Individual feedback",

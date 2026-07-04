@@ -16,6 +16,7 @@ import {
   getTeamMembershipForStudent,
 } from "@/lib/teams/queries";
 import { MAX_TEAM_SIZE, validateJoinMemberRole } from "@/lib/validations/team";
+import { extractTeamLinksFormData, updateTeamLinksSchema } from "@/lib/validations/team-links";
 import {
   createTeamSchema,
   inviteEmailSchema,
@@ -186,6 +187,79 @@ export async function updateTeamDetailsAction(
   }
 
   return { success: "team_updated" };
+}
+
+async function revalidateTeamLinkPaths(locale: string, teamId: string, role: string) {
+  const { revalidatePath } = await import("next/cache");
+
+  revalidatePath(`/${locale}/dashboard/student/team`);
+  revalidatePath(`/${locale}/dashboard/admin/teams/${teamId}`);
+  revalidatePath(`/${locale}/dashboard/mentor/teams/${teamId}`);
+  revalidatePath(`/${locale}/dashboard/client/teams/${teamId}`);
+
+  if (role === "ADMIN") {
+    revalidatePath(`/${locale}/dashboard/admin/teams`);
+  }
+
+  if (role === "MENTOR") {
+    revalidatePath(`/${locale}/dashboard/mentor/teams`);
+  }
+}
+
+export async function updateTeamLinksAction(
+  locale: string,
+  teamId: string,
+  _prevState: TeamActionState,
+  formData: FormData,
+): Promise<TeamActionState> {
+  const session = await auth();
+
+  if (!session?.user) {
+    return { error: "forbidden" };
+  }
+
+  const team = await getTeamById(teamId);
+
+  if (!team) {
+    return { error: "team_not_found" };
+  }
+
+  const { role } = session.user;
+
+  if (role === "STUDENT") {
+    try {
+      await requireStudentTeamMember(teamId);
+    } catch {
+      return { error: "forbidden" };
+    }
+  } else if (role !== "ADMIN" && role !== "MENTOR") {
+    return { error: "forbidden" };
+  }
+
+  const parsed = updateTeamLinksSchema.safeParse(extractTeamLinksFormData(formData));
+
+  if (!parsed.success) {
+    const hasUrlError = parsed.error.issues.some((issue) => issue.message === "invalid_url");
+    return { error: hasUrlError ? "invalid_url" : "invalid_input" };
+  }
+
+  await db
+    .update(teams)
+    .set({
+      githubRepoUrl: parsed.data.githubRepoUrl,
+      projectUrl: parsed.data.projectUrl,
+      socialUrls: parsed.data.socialUrls,
+      updatedAt: new Date(),
+    })
+    .where(eq(teams.id, teamId));
+
+  await revalidateTeamLinkPaths(locale, teamId, role);
+
+  if (role === "STUDENT") {
+    redirect(`/${locale}/dashboard/student/team?linksUpdated=1`);
+  }
+
+  return { success: "team_links_updated" };
 }
 
 export async function generateInviteLinkAction(

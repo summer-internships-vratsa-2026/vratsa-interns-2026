@@ -5,6 +5,8 @@ import { AdminTeamClientForm } from "@/components/admin/admin-team-client-form";
 import { AdminTeamMembersPanel } from "@/components/admin/admin-team-members-panel";
 import { AdminTeamMentorsPanel } from "@/components/admin/admin-team-mentors-panel";
 import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
+import { TeamLinksDisplay } from "@/components/team/team-links-display";
+import { TeamLinksForm } from "@/components/team/team-links-form";
 import { UpdateTeamForm } from "@/components/team/update-team-form";
 import { Link } from "@/i18n/navigation";
 import {
@@ -76,6 +78,14 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
       <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
         <h2 className="mb-4 text-lg font-medium">{t("sections.details")}</h2>
         <UpdateTeamForm locale={locale} team={teamDetail.team} groups={groups} />
+      </div>
+
+      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <h2 className="mb-4 text-lg font-medium">{t("sections.links")}</h2>
+        <div className="mb-4">
+          <TeamLinksDisplay team={teamDetail.team} />
+        </div>
+        <TeamLinksForm locale={locale} team={teamDetail.team} />
       </div>
 
       <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
