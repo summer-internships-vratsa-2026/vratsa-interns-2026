@@ -21,27 +21,24 @@ export default async function AdminTasksPage({ params }: AdminTasksPageProps) {
     <section className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="space-y-2">
-          <Link href="/dashboard/admin" className="text-sm text-zinc-500 underline">
-            {t("backToDashboard")}
-          </Link>
           <h1 className="text-2xl font-semibold">{t("adminPageTitle")}</h1>
         </div>
         <Link
           href="/dashboard/admin/tasks/create"
-          className="inline-flex h-9 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900"
+          className="inline-flex h-9 items-center justify-center rounded-md bg-brand-accent px-4 text-sm font-medium text-white hover:bg-brand-accent-hover"
         >
           {t("createTask")}
         </Link>
       </div>
 
       {tasks.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("emptyTasks")}
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <div className="overflow-x-auto rounded-lg border border-border">
           <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50">
+            <thead className="border-b border-border bg-brand-dark/30 /50">
               <tr>
                 <th className="px-4 py-3 font-medium">{t("title")}</th>
                 <th className="px-4 py-3 font-medium">{t("group")}</th>
@@ -53,7 +50,7 @@ export default async function AdminTasksPage({ params }: AdminTasksPageProps) {
               {tasks.map((task) => (
                 <tr
                   key={`${task.taskId}-${task.groupId}`}
-                  className="border-b border-zinc-100 last:border-0 dark:border-zinc-800"
+                  className="border-b border-white/10 last:border-0"
                 >
                   <td className="px-4 py-3">
                     <Link
@@ -62,14 +59,14 @@ export default async function AdminTasksPage({ params }: AdminTasksPageProps) {
                     >
                       {task.title}
                     </Link>
-                    <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+                    <p className="mt-1 text-muted-foreground">
                       {formatTaskTarget(task, t)}
                     </p>
-                    <p className="mt-1 text-zinc-500">
+                    <p className="mt-1 text-muted-foreground">
                       {formatTaskResponseTypes(task.responseTypes, t)}
                     </p>
                     {task.topicTitle ? (
-                      <p className="mt-1 text-zinc-500">
+                      <p className="mt-1 text-muted-foreground">
                         {t("topicLabel", { topic: task.topicTitle })}
                       </p>
                     ) : null}

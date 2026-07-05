@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ApplyTaskForm } from "@/components/task/apply-task-form";
 import { TaskDescriptionContent } from "@/components/task/task-description-content";
-import { MentorNav } from "@/components/mentor/mentor-nav";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
@@ -56,22 +55,19 @@ export default async function MentorTaskDetailPage({
   return (
     <section className="space-y-6">
       <div className="space-y-2">
-        <Link href="/dashboard/mentor/tasks" className="text-sm text-zinc-500 underline">
+        <Link href="/dashboard/mentor/tasks" className="text-sm text-muted-foreground underline">
           {t("backToTasks")}
         </Link>
         <h1 className="text-2xl font-semibold">{assignment.task.title}</h1>
-      </div>
-
-      <MentorNav current="tasks" />
-
-      <div className="space-y-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      </div>
+      <div className="space-y-4 rounded-lg border border-border p-4">
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
           <div>
-            <dt className="font-medium text-zinc-500">{t("group")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("group")}</dt>
             <dd>{assignment.groupName}</dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{t("deadline")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("deadline")}</dt>
             <dd>
               {new Intl.DateTimeFormat(locale, {
                 dateStyle: "medium",
@@ -80,16 +76,16 @@ export default async function MentorTaskDetailPage({
             </dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{t("responseTypes")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("responseTypes")}</dt>
             <dd>{formatTaskResponseTypes(assignment.task.responseTypes, t)}</dd>
           </div>
           {assignment.task.topicId ? (
             <div>
-              <dt className="font-medium text-zinc-500">{t("topic")}</dt>
+              <dt className="font-medium text-muted-foreground">{t("topic")}</dt>
               <dd>
                 {assignment.topicTitle}
                 {assignment.topicDescription ? (
-                  <span className="text-zinc-600 dark:text-zinc-400">
+                  <span className="text-muted-foreground">
                     {" — "}
                     {assignment.topicDescription}
                   </span>
@@ -98,7 +94,7 @@ export default async function MentorTaskDetailPage({
             </div>
           ) : null}
           <div className="sm:col-span-2">
-            <dt className="font-medium text-zinc-500">{t("targetRoles")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("targetRoles")}</dt>
             <dd>
               {formatTaskTarget(assignment.task, t)}
             </dd>
@@ -109,7 +105,7 @@ export default async function MentorTaskDetailPage({
           <TaskDescriptionContent content={assignment.task.description} />
         </div>
         {assignment.task.sourceTaskId ? (
-          <p className="text-sm text-zinc-500">{t("reusedTaskNote")}</p>
+          <p className="text-sm text-muted-foreground">{t("reusedTaskNote")}</p>
         ) : null}
       </div>
 
@@ -123,7 +119,7 @@ export default async function MentorTaskDetailPage({
       ) : null}
 
       {alreadyApplied ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("alreadyAppliedNote")}</p>
+        <p className="text-sm text-muted-foreground">{t("alreadyAppliedNote")}</p>
       ) : null}
     </section>
   );

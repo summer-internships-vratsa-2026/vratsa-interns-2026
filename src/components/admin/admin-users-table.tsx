@@ -12,16 +12,16 @@ export async function AdminUsersTable({ users }: AdminUsersTableProps) {
 
   if (users.length === 0) {
     return (
-      <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+      <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
         {t("emptyUsers")}
       </p>
     );
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+    <div className="overflow-x-auto rounded-lg border border-border">
       <table className="min-w-full text-left text-sm">
-        <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50">
+        <thead className="border-b border-border bg-brand-dark/30 /50">
           <tr>
             <th className="px-4 py-3 font-medium">{t("columns.name")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.email")}</th>
@@ -34,13 +34,13 @@ export async function AdminUsersTable({ users }: AdminUsersTableProps) {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="border-b border-zinc-100 last:border-0 dark:border-zinc-800">
+            <tr key={user.id} className="border-b border-white/10 last:border-0">
               <td className="px-4 py-3 font-medium">{user.name}</td>
               <td className="px-4 py-3">{user.email}</td>
               <td className="px-4 py-3">{t(`roles.${user.role}`)}</td>
               <td className="px-4 py-3">
                 {user.affiliation ?? (
-                  <span className="text-zinc-500">{t("noAffiliation")}</span>
+                  <span className="text-muted-foreground">{t("noAffiliation")}</span>
                 )}
               </td>
               <td className="px-4 py-3">

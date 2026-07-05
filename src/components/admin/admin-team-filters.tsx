@@ -28,7 +28,7 @@ export async function AdminTeamFilters({
   const t = await getTranslations("AdminTeams");
 
   return (
-    <form method="get" className="grid gap-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 sm:grid-cols-2 lg:grid-cols-3">
+    <form method="get" className="grid gap-4 rounded-lg border border-border p-4 sm:grid-cols-2 lg:grid-cols-3">
       <div className="space-y-1">
         <label htmlFor="groupId" className="text-sm font-medium">
           {t("filters.group")}
@@ -131,13 +131,13 @@ export async function AdminTeamFilters({
       <div className="flex items-end gap-2 sm:col-span-2 lg:col-span-1">
         <button
           type="submit"
-          className="inline-flex h-9 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="inline-flex h-9 items-center justify-center rounded-md bg-brand-accent px-4 text-sm font-medium text-white hover:bg-brand-accent-hover"
         >
           {t("filters.apply")}
         </button>
         <a
           href="."
-          className="inline-flex h-9 items-center justify-center rounded-md border border-zinc-200 px-4 text-sm font-medium hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
+          className="inline-flex h-9 items-center justify-center rounded-md border border-border px-4 text-sm font-medium hover:bg-brand-dark/30 "
         >
           {t("filters.clear")}
         </a>

@@ -1,0 +1,39 @@
+import type { UserRole } from "@/db/schema/enums";
+
+export type DashboardNavItem = {
+  key: string;
+  href: string;
+  labelKey: string;
+};
+
+export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
+  ADMIN: [
+    { key: "dashboard", href: "/dashboard/admin", labelKey: "dashboard" },
+    { key: "teams", href: "/dashboard/admin/teams", labelKey: "teams" },
+    { key: "tasks", href: "/dashboard/admin/tasks", labelKey: "tasks" },
+    { key: "topics", href: "/dashboard/admin/topics", labelKey: "topics" },
+    { key: "users", href: "/dashboard/admin/users", labelKey: "users" },
+    { key: "submissions", href: "/dashboard/admin/submissions", labelKey: "submissions" },
+  ],
+  MENTOR: [
+    { key: "dashboard", href: "/dashboard/mentor", labelKey: "dashboard" },
+    { key: "groups", href: "/dashboard/mentor/groups", labelKey: "groups" },
+    { key: "teams", href: "/dashboard/mentor/teams", labelKey: "teams" },
+    { key: "tasks", href: "/dashboard/mentor/tasks", labelKey: "tasks" },
+    { key: "submissions", href: "/dashboard/mentor/submissions", labelKey: "submissions" },
+  ],
+  STUDENT: [{ key: "team", href: "/dashboard/student/team", labelKey: "team" }],
+  CLIENT: [
+    { key: "dashboard", href: "/dashboard/client", labelKey: "dashboard" },
+    { key: "teams", href: "/dashboard/client/teams", labelKey: "teams" },
+    { key: "submissions", href: "/dashboard/client/submissions", labelKey: "submissions" },
+  ],
+};
+
+export function isNavItemActive(pathname: string, item: DashboardNavItem): boolean {
+  if (item.key === "dashboard") {
+    return pathname === item.href;
+  }
+
+  return pathname === item.href || pathname.startsWith(`${item.href}/`);
+}

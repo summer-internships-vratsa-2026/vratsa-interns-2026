@@ -64,7 +64,7 @@ export function SubmissionForm({
   return (
     <div className="space-y-6">
       {isPastDeadline ? (
-        <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
+        <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900   ">
           {t("pastDeadlineWarning")}
         </div>
       ) : null}
@@ -75,7 +75,7 @@ export function SubmissionForm({
         {hasUrl ? (
           <fieldset className="space-y-3">
             <legend className="text-sm font-medium">{t("urls")}</legend>
-            <p className="text-sm text-zinc-500">{t("urlsHint")}</p>
+            <p className="text-sm text-muted-foreground">{t("urlsHint")}</p>
             <div className="space-y-2">
               {urls.map((url, index) => (
                 <div key={index} className="flex gap-2">
@@ -112,7 +112,7 @@ export function SubmissionForm({
         ) : null}
 
         {hasFileUpload ? (
-          <div className="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
+          <div className="rounded-lg border border-border bg-brand-dark/30 px-4 py-3 text-sm text-muted-foreground  ">
             {t("fileUploadComingSoon")}
           </div>
         ) : null}

@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { ClientNav } from "@/components/client/client-nav";
 import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { Link } from "@/i18n/navigation";
@@ -37,35 +36,32 @@ export default async function ClientTeamDetailPage({ params }: ClientTeamDetailP
     <section className="space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{teamDetail.team.name}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
+        <p className="text-muted-foreground">
           {t("groupLabel", { group: teamDetail.groupName })}
         </p>
-      </div>
-
-      <ClientNav current="teams" />
-
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      </div>
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.members")}</h2>
         {teamDetail.members.length === 0 ? (
-          <p className="text-sm text-zinc-500">{t("emptyMembers")}</p>
+          <p className="text-sm text-muted-foreground">{t("emptyMembers")}</p>
         ) : (
           <ul className="space-y-2 text-sm">
             {teamDetail.members.map((member) => (
               <li key={member.id} className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-medium">{member.name}</span>
-                <span className="text-zinc-500">{tTasks(`roles.${member.projectRole}`)}</span>
+                <span className="text-muted-foreground">{tTasks(`roles.${member.projectRole}`)}</span>
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.links")}</h2>
         <TeamLinksDisplay team={teamDetail.team} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-lg font-medium">{t("sections.submissions")}</h2>
           <Link
@@ -75,10 +71,10 @@ export default async function ClientTeamDetailPage({ params }: ClientTeamDetailP
             {t("viewSubmissions")}
           </Link>
         </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("submissionsHint")}</p>
+        <p className="text-sm text-muted-foreground">{t("submissionsHint")}</p>
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <TeamFeedbackPanel
           locale={locale}
           teamId={teamId}

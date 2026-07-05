@@ -62,11 +62,11 @@ export function TeamFeedbackPanel({
     <section className="space-y-4">
       <div className="space-y-1">
         <h2 className="text-lg font-medium">{t("title")}</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("description")}</p>
+        <p className="text-sm text-muted-foreground">{t("description")}</p>
       </div>
 
       {canCreate ? (
-        <form action={createAction} className="space-y-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <form action={createAction} className="space-y-3 rounded-lg border border-border p-4">
           <input type="hidden" name="teamId" value={teamId} />
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1">
@@ -113,7 +113,7 @@ export function TeamFeedbackPanel({
       ) : null}
 
       {feedbackItems.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-4 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground ">
           {t("empty")}
         </p>
       ) : (
@@ -159,13 +159,13 @@ function FeedbackCard({
   const isDone = item.status === "DONE";
 
   return (
-    <li className="space-y-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <li className="space-y-3 rounded-lg border border-border p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="space-y-1">
-          <p className="text-xs uppercase tracking-wide text-zinc-500">{t(`category.${item.category}`)}</p>
+          <p className="text-xs uppercase tracking-wide text-muted-foreground">{t(`category.${item.category}`)}</p>
           <h3 className="font-medium">{item.title}</h3>
           <TaskDescriptionContent content={item.content} />
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-muted-foreground">
             {t("meta.createdBy", {
               author: item.authorName ?? "—",
               date: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(
@@ -209,13 +209,13 @@ function FeedbackCard({
       <div className="space-y-2">
         <p className="text-sm font-medium">{t("commentsTitle")}</p>
         {item.comments.length === 0 ? (
-          <p className="text-sm text-zinc-500">{t("emptyComments")}</p>
+          <p className="text-sm text-muted-foreground">{t("emptyComments")}</p>
         ) : (
           <ul className="space-y-2">
             {item.comments.map((comment) => (
-              <li key={comment.id} className="rounded-md bg-zinc-50 p-2 text-sm dark:bg-zinc-900/50">
+              <li key={comment.id} className="rounded-md bg-brand-dark/30 p-2 text-sm /50">
                 <p>{comment.content}</p>
-                <p className="mt-1 text-xs text-zinc-500">
+                <p className="mt-1 text-xs text-muted-foreground">
                   {t("meta.commentBy", {
                     author: comment.authorName ?? "—",
                     date: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(

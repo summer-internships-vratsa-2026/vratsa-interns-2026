@@ -37,32 +37,32 @@ export default async function AdminTaskDetailPage({
   return (
     <section className="space-y-6">
       <div className="space-y-2">
-        <Link href="/dashboard/admin/tasks" className="text-sm text-zinc-500 underline">
+        <Link href="/dashboard/admin/tasks" className="text-sm text-muted-foreground underline">
           {t("backToTasks")}
         </Link>
         <h1 className="text-2xl font-semibold">{taskDetail.task.title}</h1>
       </div>
 
-      <div className="space-y-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="space-y-4 rounded-lg border border-border p-4">
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
           <div>
-            <dt className="font-medium text-zinc-500">{t("createdBy")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("createdBy")}</dt>
             <dd>{taskDetail.createdByName}</dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{t("targetRoles")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("targetRoles")}</dt>
             <dd>{formatTaskTarget(taskDetail.task, t)}</dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{t("responseTypes")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("responseTypes")}</dt>
             <dd>{formatTaskResponseTypes(taskDetail.task.responseTypes, t)}</dd>
           </div>
           {taskDetail.topic ? (
             <div>
-              <dt className="font-medium text-zinc-500">{t("topic")}</dt>
+              <dt className="font-medium text-muted-foreground">{t("topic")}</dt>
               <dd>
                 <span className="font-medium">{taskDetail.topic.title}</span>
-                <span className="text-zinc-600 dark:text-zinc-400">
+                <span className="text-muted-foreground">
                   {" — "}
                   {taskDetail.topic.description}
                 </span>
@@ -76,7 +76,7 @@ export default async function AdminTaskDetailPage({
         </div>
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("groupAssignments")}</h2>
         <ul className="space-y-2 text-sm">
           {taskDetail.assignments.map((assignment) => (
@@ -102,7 +102,7 @@ export default async function AdminTaskDetailPage({
       </div>
 
       {selectedAssignment ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           {t("viewingGroup", { group: selectedAssignment.groupName })}
         </p>
       ) : null}

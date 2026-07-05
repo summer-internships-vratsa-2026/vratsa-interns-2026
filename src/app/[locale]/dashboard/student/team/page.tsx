@@ -55,10 +55,10 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
     <section className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("teamPageTitle")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("teamPageDescription")}</p>
+        <p className="text-muted-foreground">{t("teamPageDescription")}</p>
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-3 text-lg font-medium">{t("members")}</h2>
         <ul className="space-y-2">
           {members.map((member) => (
@@ -69,23 +69,23 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
               <span>
                 {member.name} ({member.email})
               </span>
-              <span className="text-zinc-500">{t(`roles.${member.projectRole}`)}</span>
+              <span className="text-muted-foreground">{t(`roles.${member.projectRole}`)}</span>
             </li>
           ))}
         </ul>
         {groupName ? (
-          <p className="mt-3 text-sm text-zinc-600">
+          <p className="mt-3 text-sm text-muted-foreground">
             {t("currentGroup")}: {groupName}
           </p>
         ) : null}
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("teamDetails")}</h2>
         <TeamDetailsDisplay team={membership.team} groupName={groupName} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("teamLinksTitle")}</h2>
         <div className="mb-4">
           <TeamLinksDisplay team={membership.team} />
@@ -93,7 +93,7 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
         <TeamLinksForm locale={locale} team={membership.team} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("editTeamName")}</h2>
         <UpdateTeamNameForm locale={locale} team={membership.team} />
       </div>
@@ -105,12 +105,12 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
         maxMembers={MAX_TEAM_SIZE}
       />
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{tTasks("studentTasksTitle")}</h2>
         <StudentTasksList locale={locale} tasks={teamTasks} submissions={teamSubmissions} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <TeamFeedbackPanel
           locale={locale}
           teamId={membership.team.id}

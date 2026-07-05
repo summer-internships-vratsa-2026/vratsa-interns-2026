@@ -1,6 +1,8 @@
 {
   "Common": {
-    "language": "Език"
+    "language": "Език",
+    "localeBg": "БГ",
+    "localeEn": "EN"
   },
   "HomePage": {
     "title": "Стажантска платформа",
@@ -55,6 +57,18 @@
   "Dashboard": {
     "welcome": "Добре дошли",
     "logout": "Изход",
+    "nav": {
+      "dashboard": "Табло",
+      "teams": "Отбори",
+      "tasks": "Задачи",
+      "topics": "Теми",
+      "users": "Потребители",
+      "submissions": "Решения",
+      "mentors": "Ментори",
+      "clients": "Клиенти",
+      "groups": "Групи",
+      "team": "Моят отбор"
+    },
     "student": {
       "title": "Табло — ученик",
       "description": "Тук ще виждате вашия отбор, задачи и submissions."

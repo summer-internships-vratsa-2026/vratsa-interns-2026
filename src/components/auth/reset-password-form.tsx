@@ -37,7 +37,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   if (state.success === "password_reset") {
     return (
       <AuthCard title={t("resetPasswordTitle")} description={t("resetPasswordDescription")}>
-        <p className="text-sm text-zinc-600">{t("passwordResetSuccess")}</p>
+        <p className="text-sm text-muted-foreground">{t("passwordResetSuccess")}</p>
         <p className="mt-4 text-sm">
           <Link href="/login" className="underline">
             {t("backToLogin")}

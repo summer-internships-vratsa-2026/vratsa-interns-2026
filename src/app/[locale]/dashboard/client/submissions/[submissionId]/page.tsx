@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { ClientNav } from "@/components/client/client-nav";
 import { SubmissionDetailView } from "@/components/submission/submission-detail-view";
 import { requireClientProfile } from "@/lib/auth/session";
 import { canAccessSubmission } from "@/lib/permissions/submission";
@@ -34,7 +33,6 @@ export default async function ClientSubmissionDetailPage({
 
   return (
     <section className="space-y-6">
-      <ClientNav current="submissions" />
       <SubmissionDetailView
         locale={locale}
         submissionId={submissionId}

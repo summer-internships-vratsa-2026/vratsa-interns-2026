@@ -27,7 +27,7 @@ export function AdminCreateUserForm({ locale }: { locale: string }) {
   return (
     <form
       action={formAction}
-      className="max-w-xl space-y-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800"
+      className="max-w-xl space-y-4 rounded-lg border border-border p-4"
     >
       <h2 className="font-medium">{t("createTitle")}</h2>
       <div className="space-y-2">
@@ -62,7 +62,7 @@ export function AdminCreateUserForm({ locale }: { locale: string }) {
       <div className="space-y-2">
         <Label htmlFor="new-user-organization">{t("fields.organization")}</Label>
         <Input id="new-user-organization" name="organizationName" />
-        <p className="text-xs text-zinc-500">{t("fields.organizationHint")}</p>
+        <p className="text-xs text-muted-foreground">{t("fields.organizationHint")}</p>
       </div>
       {state.error ? <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p> : null}
       {state.success ? (

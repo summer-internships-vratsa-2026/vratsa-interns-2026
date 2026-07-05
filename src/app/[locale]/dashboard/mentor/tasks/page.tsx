@@ -1,6 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { MentorNav } from "@/components/mentor/mentor-nav";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { getAllTasksWithGroups, getRootSourceTaskId, isTaskAssignedToGroup } from "@/lib/tasks/queries";
@@ -50,23 +49,20 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
         {canCreate ? (
           <Link
             href="/dashboard/mentor/tasks/create"
-            className="inline-flex h-9 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900"
+            className="inline-flex h-9 items-center justify-center rounded-md bg-brand-accent px-4 text-sm font-medium text-white hover:bg-brand-accent-hover"
           >
             {t("createTask")}
           </Link>
         ) : null}
-      </div>
-
-      <MentorNav current="tasks" />
-
+      </div>
       {tasks.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("emptyTasks")}
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <div className="overflow-x-auto rounded-lg border border-border">
           <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50">
+            <thead className="border-b border-border bg-brand-dark/30 /50">
               <tr>
                 <th className="px-4 py-3 font-medium">{t("title")}</th>
                 <th className="px-4 py-3 font-medium">{t("group")}</th>
@@ -85,7 +81,7 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
                 return (
                   <tr
                     key={rowKey}
-                    className="border-b border-zinc-100 last:border-0 dark:border-zinc-800"
+                    className="border-b border-white/10 last:border-0"
                   >
                     <td className="px-4 py-3">
                       <Link
@@ -95,7 +91,7 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
                         {task.title}
                       </Link>
                       {task.topicTitle ? (
-                        <p className="mt-1 text-zinc-500">
+                        <p className="mt-1 text-muted-foreground">
                           {t("topicLabel", { topic: task.topicTitle })}
                         </p>
                       ) : null}
@@ -124,7 +120,7 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
                           {t("applyToMyGroup")}
                         </Link>
                       ) : (
-                        <span className="text-zinc-500">{t("viewOnly")}</span>
+                        <span className="text-muted-foreground">{t("viewOnly")}</span>
                       )}
                     </td>
                   </tr>

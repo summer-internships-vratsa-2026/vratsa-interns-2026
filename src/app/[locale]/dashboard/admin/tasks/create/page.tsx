@@ -21,13 +21,13 @@ export default async function AdminCreateTaskPage({ params }: AdminCreateTaskPag
   return (
     <section className="space-y-6">
       <div className="space-y-2">
-        <Link href="/dashboard/admin/tasks" className="text-sm text-zinc-500 underline">
+        <Link href="/dashboard/admin/tasks" className="text-sm text-muted-foreground underline">
           {t("backToTasks")}
         </Link>
         <h1 className="text-2xl font-semibold">{t("createTaskTitle")}</h1>
       </div>
 
-      <div className="max-w-2xl rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="max-w-2xl rounded-lg border border-border p-4">
         <CreateTaskForm locale={locale} variant="admin" groups={groups} topics={topics} />
       </div>
     </section>

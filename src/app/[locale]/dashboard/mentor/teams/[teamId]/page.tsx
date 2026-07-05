@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { MentorNav } from "@/components/mentor/mentor-nav";
 import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { TeamLinksForm } from "@/components/team/team-links-form";
@@ -38,23 +37,20 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
   return (
     <section className="space-y-8">
       <div className="space-y-2">
-        <Link href="/dashboard/mentor/teams" className="text-sm text-zinc-500 underline">
+        <Link href="/dashboard/mentor/teams" className="text-sm text-muted-foreground underline">
           {t("backToTeams")}
         </Link>
         <h1 className="text-2xl font-semibold">{teamDetail.team.name}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
+        <p className="text-muted-foreground">
           {t("teamDetailDescription", { group: teamDetail.groupName })}
         </p>
-      </div>
-
-      <MentorNav current="teams" />
-
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      </div>
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.details")}</h2>
         <UpdateTeamForm locale={locale} team={teamDetail.team} groups={groups} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.links")}</h2>
         <div className="mb-4">
           <TeamLinksDisplay team={teamDetail.team} />
@@ -62,10 +58,10 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
         <TeamLinksForm locale={locale} team={teamDetail.team} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{tTeam("members")}</h2>
         {members.length === 0 ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("emptyMembers")}</p>
+          <p className="text-sm text-muted-foreground">{t("emptyMembers")}</p>
         ) : (
           <ul className="space-y-2">
             {members.map((member) => (
@@ -76,14 +72,14 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
                 <span>
                   {member.name} ({member.email})
                 </span>
-                <span className="text-zinc-500">{tTeam(`roles.${member.projectRole}`)}</span>
+                <span className="text-muted-foreground">{tTeam(`roles.${member.projectRole}`)}</span>
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <TeamFeedbackPanel
           locale={locale}
           teamId={teamId}

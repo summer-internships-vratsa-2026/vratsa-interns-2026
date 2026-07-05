@@ -49,13 +49,13 @@ export function AdminTeamMentorsPanel({
   return (
     <div className="space-y-6">
       {assignedMentors.length === 0 ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("mentors.empty")}</p>
+        <p className="text-sm text-muted-foreground">{t("mentors.empty")}</p>
       ) : (
         <ul className="space-y-2">
           {assignedMentors.map((mentor) => (
             <li
               key={mentor.id}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-zinc-200 px-3 py-2 dark:border-zinc-800"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border px-3 py-2"
             >
               <span className="text-sm">
                 {mentor.name} ({mentor.email})
@@ -81,7 +81,7 @@ export function AdminTeamMentorsPanel({
       ) : null}
 
       {unassignedMentors.length > 0 ? (
-        <form action={assignAction} className="space-y-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+        <form action={assignAction} className="space-y-4 border-t border-border pt-4">
           <div className="space-y-2">
             <Label htmlFor="mentorId">{t("mentors.add")}</Label>
             <select id="mentorId" name="mentorId" className={selectClassName} required>
@@ -108,7 +108,7 @@ export function AdminTeamMentorsPanel({
           </Button>
         </form>
       ) : (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("mentors.allAssigned")}</p>
+        <p className="text-sm text-muted-foreground">{t("mentors.allAssigned")}</p>
       )}
     </div>
   );

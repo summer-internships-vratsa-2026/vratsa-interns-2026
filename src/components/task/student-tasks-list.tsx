@@ -40,7 +40,7 @@ export async function StudentTasksList({ locale, tasks, submissions = [] }: Stud
 
   if (tasks.length === 0) {
     return (
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("studentEmptyTasks")}</p>
+      <p className="text-sm text-muted-foreground">{t("studentEmptyTasks")}</p>
     );
   }
 
@@ -62,7 +62,7 @@ export async function StudentTasksList({ locale, tasks, submissions = [] }: Stud
         return (
           <li
             key={task.taskGroupId}
-            className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800"
+            className="rounded-lg border border-border p-4"
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="space-y-1">
@@ -71,12 +71,12 @@ export async function StudentTasksList({ locale, tasks, submissions = [] }: Stud
                   <SubmissionStatusBadge status={status} label={statusLabels[status]} />
                 </div>
                 {task.topicTitle ? (
-                  <p className="text-sm text-zinc-500">
+                  <p className="text-sm text-muted-foreground">
                     {t("topicLabel", { topic: task.topicTitle })}
                   </p>
                 ) : null}
               </div>
-              <p className={`text-sm ${isPastDeadline ? "font-medium text-red-600 dark:text-red-400" : "text-zinc-500"}`}>
+              <p className={`text-sm ${isPastDeadline ? "font-medium text-red-600 dark:text-red-400" : "text-muted-foreground"}`}>
                 {t("deadline")}:{" "}
                 {new Intl.DateTimeFormat(locale, {
                   dateStyle: "medium",
@@ -84,14 +84,14 @@ export async function StudentTasksList({ locale, tasks, submissions = [] }: Stud
                 }).format(task.deadline)}
               </p>
             </div>
-            <p className="mt-2 text-xs text-zinc-500">{formatTaskTarget(task, t)}</p>
-            <p className="mt-1 text-xs text-zinc-500">
+            <p className="mt-2 text-xs text-muted-foreground">{formatTaskTarget(task, t)}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
               {t("responseTypesLabel", { types: formatTaskResponseTypes(task.responseTypes, t) })}
             </p>
             <div className="mt-3">
               <Link
                 href={`/dashboard/student/tasks/${task.taskGroupId}`}
-                className="text-sm font-medium underline text-zinc-800 dark:text-zinc-200"
+                className="text-sm font-medium text-white underline"
               >
                 {status === "not_submitted" ? tSub("openToSubmit") : tSub("viewSubmission")}
               </Link>

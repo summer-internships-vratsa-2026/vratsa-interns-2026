@@ -1,6 +1,8 @@
 {
   "Common": {
-    "language": "Language"
+    "language": "Language",
+    "localeBg": "BG",
+    "localeEn": "EN"
   },
   "HomePage": {
     "title": "Internship Platform",
@@ -55,6 +57,18 @@
   "Dashboard": {
     "welcome": "Welcome",
     "logout": "Log out",
+    "nav": {
+      "dashboard": "Dashboard",
+      "teams": "Teams",
+      "tasks": "Tasks",
+      "topics": "Topics",
+      "users": "Users",
+      "submissions": "Submissions",
+      "mentors": "Mentors",
+      "clients": "Clients",
+      "groups": "Groups",
+      "team": "My team"
+    },
     "student": {
       "title": "Student dashboard",
       "description": "Your team, tasks, and submissions will appear here."

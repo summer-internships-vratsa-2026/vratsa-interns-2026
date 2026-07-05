@@ -207,7 +207,19 @@
 - [x] Disable or delete users if needed
 - [x] Reset user password manually if needed
 
-## 14. Dashboard
+## 14. UI Design System & Navigation
+
+- [x] Add Vratsa Software brand color tokens (green background, orange accent, white text)
+- [x] Update global theme and typography (Plus Jakarta Sans)
+- [x] Restyle Button, Card, Input, and form components
+- [x] Create shared role-based dashboard navigation for all user roles
+- [x] Integrate navigation into dashboard layout
+- [x] Restyle auth, home, and team-join pages
+- [x] Migrate dashboard pages from zinc utilities to semantic brand tokens
+- [x] Add i18n labels for admin and student navigation
+- [ ] Verify contrast and readability across all roles
+
+## 15. Dashboard
 
 - [ ] Create shared dashboard layout
 - [ ] Create role-specific dashboard cards
@@ -216,7 +228,7 @@
 - [ ] Admin dashboard: users, teams, groups, tasks, submissions
 - [ ] Client dashboard: assigned teams, recent submissions, comments
 
-## 15. Permissions Matrix
+## 16. Permissions Matrix
 
 - [ ] Implement `canViewTeam`
 - [ ] Implement `canEditTeam`
@@ -230,7 +242,7 @@
 - [ ] Implement server-side permission checks
 - [ ] Hide unavailable UI actions client-side
 
-## 16. Seed Data
+## 17. Seed Data
 
 - [x] Seed admin user
 - [ ] Seed 3 groups
@@ -242,7 +254,7 @@
 - [ ] Seed sample tasks
 - [ ] Seed sample submissions
 
-## 17. Testing Checklist
+## 18. Testing Checklist
 
 - [ ] Student can register
 - [ ] Student can verify email
@@ -264,7 +276,7 @@
 - [ ] English UI works
 - [ ] Deployment works on Vercel
 
-## 18. Deployment
+## 19. Deployment
 
 - [ ] Add Neon database URL to Vercel
 - [ ] Add auth secret to Vercel
@@ -277,7 +289,7 @@
 - [ ] Test password reset on production
 - [ ] Test role permissions on production
 
-## 19. Version 2 Public Website
+## 20. Version 2 Public Website
 
 - [ ] Create public landing page
 - [ ] Create public teams showcase

@@ -27,7 +27,7 @@ export function ForgotPasswordForm({ locale }: ForgotPasswordFormProps) {
   return (
     <AuthCard title={t("forgotPasswordTitle")} description={t("forgotPasswordDescription")}>
       {state.success === "reset_email_sent" ? (
-        <p className="text-sm text-zinc-600">{t("resetEmailSent")}</p>
+        <p className="text-sm text-muted-foreground">{t("resetEmailSent")}</p>
       ) : (
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">

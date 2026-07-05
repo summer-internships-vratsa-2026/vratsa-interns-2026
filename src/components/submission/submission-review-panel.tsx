@@ -73,41 +73,41 @@ export function SubmissionReviewPanel({
   const actionSuccess = commentState.success ?? gradeState.success;
 
   return (
-    <section className="space-y-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <section className="space-y-4 rounded-lg border border-border p-4">
       <div className="space-y-1">
         <h2 className="text-lg font-medium">{t("evaluationTitle")}</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("evaluationDescription")}</p>
-        <p className="text-xs text-zinc-500">{t("latestGradeNote")}</p>
+        <p className="text-sm text-muted-foreground">{t("evaluationDescription")}</p>
+        <p className="text-xs text-muted-foreground">{t("latestGradeNote")}</p>
       </div>
 
       {comments.length === 0 ? (
-        <p className="text-sm text-zinc-500">{t("noComments")}</p>
+        <p className="text-sm text-muted-foreground">{t("noComments")}</p>
       ) : (
         <ul className="space-y-3">
           {comments.map((comment) => (
             <li
               key={comment.id}
-              className="rounded-lg border border-zinc-100 p-3 text-sm dark:border-zinc-800"
+              className="rounded-lg border border-white/10 p-3 text-sm"
             >
               <div className="mb-1 flex flex-wrap items-center justify-between gap-1">
                 <span className="font-medium">{comment.authorName}</span>
-                <span className="text-xs text-zinc-400">
+                <span className="text-xs text-muted-foreground">
                   {new Intl.DateTimeFormat(locale, {
                     dateStyle: "medium",
                     timeStyle: "short",
                   }).format(comment.createdAt)}
                 </span>
               </div>
-              <p className="whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">{comment.content}</p>
+              <p className="whitespace-pre-wrap text-foreground">{comment.content}</p>
             </li>
           ))}
         </ul>
       )}
 
       {grade ? (
-        <div className="rounded-lg bg-zinc-50 px-4 py-3 text-sm dark:bg-zinc-900">
+        <div className="rounded-lg bg-brand-dark/30 px-4 py-3 text-sm ">
           <p className="font-medium">{t("currentGrade", { grade: grade.grade })}</p>
-          <p className="text-zinc-500">
+          <p className="text-muted-foreground">
             {t("gradedBy", {
               name: grade.gradedByName,
               date: new Intl.DateTimeFormat(locale, {
@@ -118,7 +118,7 @@ export function SubmissionReviewPanel({
           </p>
         </div>
       ) : (
-        <p className="text-sm text-zinc-500">{t("noGrade")}</p>
+        <p className="text-sm text-muted-foreground">{t("noGrade")}</p>
       )}
 
       {showForm ? (
@@ -177,7 +177,7 @@ export function SubmissionReviewPanel({
       ) : null}
 
       {!canEditGrade && grade && canGrade ? (
-        <p className="text-sm text-zinc-500">{t("cannotEditOtherGrade")}</p>
+        <p className="text-sm text-muted-foreground">{t("cannotEditOtherGrade")}</p>
       ) : null}
 
       {canDeleteGrade && grade ? (

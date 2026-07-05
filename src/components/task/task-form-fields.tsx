@@ -114,7 +114,7 @@ export function TaskRoleFields({
             value="all_roles"
             checked={targetMode === "all_roles"}
             onChange={() => selectMode("all_roles")}
-            className="size-4 accent-zinc-900 dark:accent-zinc-100"
+            className="size-4 accent-brand-accent"
           />
           {t("allRoles")}
         </label>
@@ -125,7 +125,7 @@ export function TaskRoleFields({
             value="selected_roles"
             checked={targetMode === "selected_roles"}
             onChange={() => selectMode("selected_roles")}
-            className="size-4 accent-zinc-900 dark:accent-zinc-100"
+            className="size-4 accent-brand-accent"
           />
           {t("selectedRoles")}
         </label>
@@ -136,13 +136,13 @@ export function TaskRoleFields({
             value="one_per_team"
             checked={targetMode === "one_per_team"}
             onChange={() => selectMode("one_per_team")}
-            className="size-4 accent-zinc-900 dark:accent-zinc-100"
+            className="size-4 accent-brand-accent"
           />
           {t("onePerTeam")}
         </label>
       </div>
       {targetMode === "one_per_team" ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("onePerTeamHint")}</p>
+        <p className="text-sm text-muted-foreground">{t("onePerTeamHint")}</p>
       ) : null}
       <div className="flex flex-wrap gap-4">
         {ALL_PROJECT_ROLES.map((role) => (
@@ -156,7 +156,7 @@ export function TaskRoleFields({
               checked={rolesLocked || selectedRoles.includes(role)}
               disabled={rolesLocked}
               onChange={() => toggleRole(role)}
-              className="size-4 accent-zinc-900 dark:accent-zinc-100 disabled:cursor-not-allowed"
+              className="size-4 accent-brand-accent disabled:cursor-not-allowed"
             />
             {t(`roles.${role}`)}
           </label>
@@ -203,7 +203,7 @@ export function TaskResponseTypeFields({
   return (
     <fieldset className="space-y-3">
       <legend className="text-sm font-medium">{t("responseTypes")}</legend>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("responseTypesHint")}</p>
+      <p className="text-sm text-muted-foreground">{t("responseTypesHint")}</p>
       <div className="flex flex-wrap gap-4">
         {TASK_RESPONSE_TYPES.map((type) => (
           <label key={type} className="flex cursor-pointer items-center gap-2 text-sm">
@@ -212,7 +212,7 @@ export function TaskResponseTypeFields({
               value={type}
               checked={selectedTypes.includes(type)}
               onChange={() => toggleResponseType(type)}
-              className="size-4 accent-zinc-900 dark:accent-zinc-100"
+              className="size-4 accent-brand-accent"
             />
             {t(`responseTypeOptions.${type}`)}
           </label>
@@ -284,7 +284,7 @@ export function AdminGroupFields({
           type="checkbox"
           checked={assignAll}
           onChange={(event) => handleAssignAllChange(event.target.checked)}
-          className="size-4 accent-zinc-900 dark:accent-zinc-100"
+          className="size-4 accent-brand-accent"
         />
         {t("allGroups")}
       </label>
@@ -293,7 +293,7 @@ export function AdminGroupFields({
         <input key={groupId} type="hidden" name="groupIds" value={groupId} />
       ))}
       <div className="space-y-2">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("selectGroupsHint")}</p>
+        <p className="text-sm text-muted-foreground">{t("selectGroupsHint")}</p>
         <div className="flex flex-col gap-2">
           {groups.map((group) => (
             <label key={group.id} className="flex cursor-pointer items-center gap-2 text-sm">
@@ -302,7 +302,7 @@ export function AdminGroupFields({
                 value={group.id}
                 checked={selectedGroupIds.includes(group.id)}
                 onChange={(event) => handleGroupChange(group.id, event.target.checked)}
-                className="size-4 accent-zinc-900 dark:accent-zinc-100"
+                className="size-4 accent-brand-accent"
               />
               {group.name}
             </label>

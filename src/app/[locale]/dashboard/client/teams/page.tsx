@@ -1,6 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { ClientNav } from "@/components/client/client-nav";
 import { Link } from "@/i18n/navigation";
 import { requireClientProfile } from "@/lib/auth/session";
 import { getClientTeamsByUserId } from "@/lib/clients/queries";
@@ -28,23 +27,20 @@ export default async function ClientTeamsPage({ params }: ClientTeamsPageProps) 
     <section className="space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("title")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("description")}</p>
-      </div>
-
-      <ClientNav current="teams" />
-
+        <p className="text-muted-foreground">{t("description")}</p>
+      </div>
       {teamsWithGroups.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("empty")}
         </p>
       ) : (
         <ul className="space-y-3">
           {teamsWithGroups.map((team) => (
-            <li key={team.id} className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+            <li key={team.id} className="rounded-lg border border-border p-4">
               <Link href={`/dashboard/client/teams/${team.id}`} className="font-medium underline">
                 {team.name}
               </Link>
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-muted-foreground">
                 {t("groupLabel", { group: team.groupName ?? "—" })}
               </p>
             </li>

@@ -50,14 +50,14 @@ export async function SubmissionDetailView({
   return (
     <section className="space-y-8">
       <div className="space-y-2">
-        <Link href={backHref} className="text-sm text-zinc-500 underline">
+        <Link href={backHref} className="text-sm text-muted-foreground underline">
           {backLabel}
         </Link>
         <div className="flex flex-wrap items-center gap-3">
           <h1 className="text-2xl font-semibold">{detail.task.title}</h1>
           <SubmissionStatusBadge status={status} label={statusLabels[status]} />
         </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           {t("meta", {
             team: detail.teamName,
             group: detail.groupName,
@@ -65,46 +65,46 @@ export async function SubmissionDetailView({
         </p>
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 space-y-3">
+      <div className="rounded-lg border border-border p-4 space-y-3">
         <h2 className="text-base font-medium">{t("taskSection")}</h2>
         <TaskDescriptionContent content={detail.task.description} />
         <dl className="grid gap-2 text-sm sm:grid-cols-2">
           <div>
-            <dt className="font-medium text-zinc-500">{tTasks("deadline")}</dt>
+            <dt className="font-medium text-muted-foreground">{tTasks("deadline")}</dt>
             <dd>{dateFormatter.format(detail.deadline)}</dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{t("targetLabel")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("targetLabel")}</dt>
             <dd>{formatTaskTarget(detail.task, tTasks)}</dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{tTasks("responseTypes")}</dt>
+            <dt className="font-medium text-muted-foreground">{tTasks("responseTypes")}</dt>
             <dd>{formatTaskResponseTypes(detail.task.responseTypes, tTasks)}</dd>
           </div>
         </dl>
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 space-y-4">
+      <div className="rounded-lg border border-border p-4 space-y-4">
         <h2 className="text-base font-medium">{t("submissionSection")}</h2>
 
         {detail.submission.submittedAt ? (
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-muted-foreground">
             {t("submittedAt", { date: dateFormatter.format(detail.submission.submittedAt) })}
           </p>
         ) : (
-          <p className="text-sm text-zinc-500">{t("draftNote")}</p>
+          <p className="text-sm text-muted-foreground">{t("draftNote")}</p>
         )}
 
         {detail.submission.textReply ? (
           <div className="space-y-1">
-            <p className="text-sm font-medium text-zinc-500">{t("textReply")}</p>
+            <p className="text-sm font-medium text-muted-foreground">{t("textReply")}</p>
             <TaskDescriptionContent content={detail.submission.textReply} />
           </div>
         ) : null}
 
         {detail.submission.urls.length > 0 ? (
           <div className="space-y-1">
-            <p className="text-sm font-medium text-zinc-500">{t("urls")}</p>
+            <p className="text-sm font-medium text-muted-foreground">{t("urls")}</p>
             <ul className="space-y-1">
               {detail.submission.urls.map((url) => (
                 <li key={url}>
@@ -118,7 +118,7 @@ export async function SubmissionDetailView({
         ) : null}
 
         {!detail.submission.textReply && detail.submission.urls.length === 0 ? (
-          <p className="text-sm text-zinc-500">{t("emptySubmission")}</p>
+          <p className="text-sm text-muted-foreground">{t("emptySubmission")}</p>
         ) : null}
       </div>
 

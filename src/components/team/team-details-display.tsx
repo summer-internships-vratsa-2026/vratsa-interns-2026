@@ -13,22 +13,22 @@ export async function TeamDetailsDisplay({ team, groupName }: TeamDetailsDisplay
 
   return (
     <div className="space-y-3 text-sm">
-      <p className="text-zinc-600 dark:text-zinc-400">{t("teamDetailsReadOnlyNote")}</p>
+      <p className="text-muted-foreground">{t("teamDetailsReadOnlyNote")}</p>
       <dl className="grid gap-2 sm:grid-cols-2">
         <div>
-          <dt className="font-medium text-zinc-500">{t("classroom")}</dt>
+          <dt className="font-medium text-muted-foreground">{t("classroom")}</dt>
           <dd>{team.classroom}</dd>
         </div>
         <div>
-          <dt className="font-medium text-zinc-500">{t("schoolClass")}</dt>
+          <dt className="font-medium text-muted-foreground">{t("schoolClass")}</dt>
           <dd>{team.schoolClass}</dd>
         </div>
         <div>
-          <dt className="font-medium text-zinc-500">{t("school")}</dt>
+          <dt className="font-medium text-muted-foreground">{t("school")}</dt>
           <dd>{t(`schoolOptions.${team.school as SchoolValue}`)}</dd>
         </div>
         <div>
-          <dt className="font-medium text-zinc-500">{t("group")}</dt>
+          <dt className="font-medium text-muted-foreground">{t("group")}</dt>
           <dd>{groupName ?? "—"}</dd>
         </div>
       </dl>

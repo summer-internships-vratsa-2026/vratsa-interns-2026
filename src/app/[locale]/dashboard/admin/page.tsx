@@ -17,44 +17,44 @@ export default async function AdminDashboardPage({ params }: AdminDashboardPageP
     <section className="space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("title")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("description")}</p>
+        <p className="text-muted-foreground">{t("description")}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/dashboard/admin/teams"
-          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
+          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
         >
           <h2 className="font-medium">{t("teamsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("teamsLinkDescription")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("teamsLinkDescription")}</p>
         </Link>
         <Link
           href="/dashboard/admin/tasks"
-          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
+          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
         >
           <h2 className="font-medium">{t("tasksLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("tasksLinkDescription")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("tasksLinkDescription")}</p>
         </Link>
         <Link
           href="/dashboard/admin/topics"
-          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
+          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
         >
           <h2 className="font-medium">{t("topicsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("topicsLinkDescription")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("topicsLinkDescription")}</p>
         </Link>
         <Link
           href="/dashboard/admin/users"
-          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
+          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
         >
           <h2 className="font-medium">{t("usersLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("usersLinkDescription")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("usersLinkDescription")}</p>
         </Link>
         <Link
           href="/dashboard/admin/submissions"
-          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
+          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
         >
           <h2 className="font-medium">{t("submissionsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("submissionsLinkDescription")}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("submissionsLinkDescription")}</p>
         </Link>
       </div>
     </section>

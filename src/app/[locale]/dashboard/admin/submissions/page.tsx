@@ -34,11 +34,8 @@ export default async function AdminSubmissionsPage({
   return (
     <section className="space-y-6">
       <div className="space-y-2">
-        <Link href="/dashboard/admin" className="text-sm text-zinc-500 underline">
-          {t("backToDashboard")}
-        </Link>
         <h1 className="text-2xl font-semibold">{t("listTitle")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("listDescription")}</p>
+        <p className="text-muted-foreground">{t("listDescription")}</p>
       </div>
 
       <SubmissionFilters
@@ -50,7 +47,7 @@ export default async function AdminSubmissionsPage({
       />
 
       {submissions.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("emptySubmissions")}
         </p>
       ) : (

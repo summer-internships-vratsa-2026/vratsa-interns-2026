@@ -53,7 +53,7 @@ export function TeamLinksForm({ locale, team }: TeamLinksFormProps) {
 
       <fieldset className="space-y-3">
         <legend className="text-sm font-medium">{t("socialUrls")}</legend>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("socialUrlsHint")}</p>
+        <p className="text-sm text-muted-foreground">{t("socialUrlsHint")}</p>
         <div className="grid gap-3 sm:grid-cols-2">
           {TEAM_SOCIAL_PLATFORMS.map((platform) => (
             <div key={platform} className="space-y-1">

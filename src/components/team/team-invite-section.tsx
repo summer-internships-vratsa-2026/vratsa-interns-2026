@@ -37,10 +37,10 @@ export function TeamInviteSection({
   const teamFull = memberCount >= maxMembers;
 
   return (
-    <div className="space-y-6 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <div className="space-y-6 rounded-lg border border-border p-4">
       <div>
         <h2 className="text-lg font-medium">{t("inviteTeammates")}</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           {t("membersCount", { count: memberCount, max: maxMembers })}
         </p>
         {memberCount < 2 ? (
@@ -49,7 +49,7 @@ export function TeamInviteSection({
       </div>
 
       {teamFull ? (
-        <p className="text-sm text-zinc-600">{t("teamFullMessage")}</p>
+        <p className="text-sm text-muted-foreground">{t("teamFullMessage")}</p>
       ) : (
         <>
           <form action={linkAction} className="space-y-2">
@@ -57,7 +57,7 @@ export function TeamInviteSection({
               {linkPending ? t("loading") : t("generateInviteLink")}
             </Button>
             {linkState.inviteUrl ? (
-              <p className="break-all text-sm text-zinc-600">{linkState.inviteUrl}</p>
+              <p className="break-all text-sm text-muted-foreground">{linkState.inviteUrl}</p>
             ) : null}
             {linkState.error ? (
               <p className="text-sm text-red-600">{t(`errors.${linkState.error}`)}</p>

@@ -74,11 +74,11 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
   return (
     <section className="space-y-6">
       <div className="space-y-2">
-        <Link href="/dashboard/admin/users" className="text-sm text-zinc-500 underline">
+        <Link href="/dashboard/admin/users" className="text-sm text-muted-foreground underline">
           {t("backToUsers")}
         </Link>
         <h1 className="text-2xl font-semibold">{user.name}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{user.email}</p>
+        <p className="text-muted-foreground">{user.email}</p>
       </div>
 
       <AdminUserDetailPanel

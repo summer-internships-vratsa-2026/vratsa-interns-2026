@@ -10,7 +10,7 @@ type TeamLinksDisplayProps = {
 function LinkRow({ label, href }: { label: string; href: string }) {
   return (
     <div>
-      <dt className="font-medium text-zinc-500">{label}</dt>
+      <dt className="font-medium text-muted-foreground">{label}</dt>
       <dd>
         <a href={href} target="_blank" rel="noreferrer" className="break-all underline">
           {href}
@@ -26,7 +26,7 @@ export async function TeamLinksDisplay({ team }: TeamLinksDisplayProps) {
   const hasLinks = team.githubRepoUrl || team.projectUrl || hasTeamSocialUrls(socialUrls);
 
   if (!hasLinks) {
-    return <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("noTeamLinks")}</p>;
+    return <p className="text-sm text-muted-foreground">{t("noTeamLinks")}</p>;
   }
 
   return (

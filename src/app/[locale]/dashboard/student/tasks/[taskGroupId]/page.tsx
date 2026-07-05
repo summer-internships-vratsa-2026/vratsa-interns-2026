@@ -60,7 +60,7 @@ export default async function StudentTaskDetailPage({ params }: StudentTaskDetai
       <div className="space-y-2">
         <Link
           href="/dashboard/student/team"
-          className="text-sm text-zinc-500 underline"
+          className="text-sm text-muted-foreground underline"
         >
           {t("backToTeam")}
         </Link>
@@ -69,38 +69,38 @@ export default async function StudentTaskDetailPage({ params }: StudentTaskDetai
           <SubmissionStatusBadge status={status} label={statusLabels[status]} />
         </div>
         {taskGroup.topicTitle ? (
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-muted-foreground">
             {tTasks("topicLabel", { topic: taskGroup.topicTitle })}
           </p>
         ) : null}
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 space-y-3">
+      <div className="rounded-lg border border-border p-4 space-y-3">
         <h2 className="text-base font-medium">{t("taskDetails")}</h2>
         <TaskDescriptionContent content={taskGroup.task.description} />
         <dl className="grid gap-2 text-sm sm:grid-cols-2">
           <div>
-            <dt className="font-medium text-zinc-500">{tTasks("deadline")}</dt>
+            <dt className="font-medium text-muted-foreground">{tTasks("deadline")}</dt>
             <dd className={new Date() > taskGroup.deadline ? "text-red-600 dark:text-red-400 font-medium" : ""}>
               {dateFormatter.format(taskGroup.deadline)}
             </dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{t("targetLabel")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("targetLabel")}</dt>
             <dd>{formatTaskTarget(taskGroup.task, tTasks)}</dd>
           </div>
           <div>
-            <dt className="font-medium text-zinc-500">{tTasks("responseTypes")}</dt>
+            <dt className="font-medium text-muted-foreground">{tTasks("responseTypes")}</dt>
             <dd>{formatTaskResponseTypes(taskGroup.task.responseTypes, tTasks)}</dd>
           </div>
         </dl>
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 space-y-4">
+      <div className="rounded-lg border border-border p-4 space-y-4">
         <h2 className="text-base font-medium">{t("submissionTitle")}</h2>
 
         {submissionData?.submission.submittedAt ? (
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-muted-foreground">
             {t("lastSaved", {
               date: dateFormatter.format(submissionData.submission.updatedAt),
             })}
@@ -117,15 +117,15 @@ export default async function StudentTaskDetailPage({ params }: StudentTaskDetai
       </div>
 
       {submissionData && (submissionData.comments.length > 0 || submissionData.grade) ? (
-        <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 space-y-4">
+        <div className="rounded-lg border border-border p-4 space-y-4">
           <h2 className="text-base font-medium">{t("feedbackTitle")}</h2>
 
           {submissionData.grade ? (
-            <div className="rounded-lg bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-sm">
+            <div className="rounded-lg bg-brand-dark/30 px-4 py-3 text-sm">
               <p className="font-medium">
                 {t("grade")}: {submissionData.grade.grade}/10
               </p>
-              <p className="text-zinc-500">
+              <p className="text-muted-foreground">
                 {t("gradedBy", { name: submissionData.grade.gradedByName })}
               </p>
             </div>
@@ -136,20 +136,20 @@ export default async function StudentTaskDetailPage({ params }: StudentTaskDetai
               {submissionData.comments.map((comment) => (
                 <li
                   key={comment.id}
-                  className="rounded-lg border border-zinc-100 p-3 text-sm dark:border-zinc-800"
+                  className="rounded-lg border border-white/10 p-3 text-sm"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-1 mb-1">
                     <span className="font-medium">{comment.authorName}</span>
-                    <span className="text-xs text-zinc-400">
+                    <span className="text-xs text-muted-foreground">
                       {dateFormatter.format(comment.createdAt)}
                     </span>
                   </div>
-                  <p className="text-zinc-700 dark:text-zinc-300">{comment.content}</p>
+                  <p className="text-foreground">{comment.content}</p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-zinc-500">{t("noComments")}</p>
+            <p className="text-sm text-muted-foreground">{t("noComments")}</p>
           )}
         </div>
       ) : null}

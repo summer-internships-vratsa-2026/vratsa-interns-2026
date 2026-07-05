@@ -9,7 +9,7 @@ export function TaskDescriptionContent({ content, className = "" }: TaskDescript
   if (!isProbablyHtml(content)) {
     return (
       <p
-        className={`task-description whitespace-pre-wrap text-sm text-zinc-700 dark:text-zinc-300 ${className}`}
+        className={`task-description whitespace-pre-wrap text-sm text-foreground ${className}`}
       >
         {content}
       </p>
@@ -20,7 +20,7 @@ export function TaskDescriptionContent({ content, className = "" }: TaskDescript
 
   return (
     <div
-      className={`task-description text-sm text-zinc-700 dark:text-zinc-300 ${className}`}
+      className={`task-description text-sm text-foreground ${className}`}
       dangerouslySetInnerHTML={{ __html: sanitized }}
     />
   );

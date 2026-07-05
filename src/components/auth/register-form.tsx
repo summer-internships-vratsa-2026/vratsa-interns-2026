@@ -27,7 +27,7 @@ export function RegisterForm({ locale }: RegisterFormProps) {
   if (state.success === "registration_success") {
     return (
       <AuthCard title={t("verifyEmailTitle")} description={t("verifyEmailDescription")}>
-        <p className="text-sm text-zinc-600">{t("checkInbox")}</p>
+        <p className="text-sm text-muted-foreground">{t("checkInbox")}</p>
         <p className="mt-4 text-sm">
           <Link href="/login" className="underline">
             {t("backToLogin")}

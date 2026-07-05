@@ -18,7 +18,7 @@ export default async function TeamSetupPage({ params }: TeamSetupPageProps) {
     <section className="mx-auto max-w-lg space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("setupTitle")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("setupDescription")}</p>
+        <p className="text-muted-foreground">{t("setupDescription")}</p>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
@@ -27,7 +27,7 @@ export default async function TeamSetupPage({ params }: TeamSetupPageProps) {
         </Button>
       </div>
 
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("setupJoinHint")}</p>
+      <p className="text-sm text-muted-foreground">{t("setupJoinHint")}</p>
     </section>
   );
 }

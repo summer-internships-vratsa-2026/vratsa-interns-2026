@@ -32,9 +32,9 @@ export function ApplyTaskForm({
   );
 
   return (
-    <form action={formAction} className="space-y-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <form action={formAction} className="space-y-4 rounded-lg border border-border p-4">
       <h3 className="font-medium">{t("applyToGroupTitle", { group: mainGroupName })}</h3>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("applyToGroupDescription")}</p>
+      <p className="text-sm text-muted-foreground">{t("applyToGroupDescription")}</p>
 
       <input type="hidden" name="sourceTaskId" value={sourceTaskId} />
       <input type="hidden" name="sourceGroupId" value={sourceGroupId} />

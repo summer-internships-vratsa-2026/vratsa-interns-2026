@@ -1,7 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { AdminTeamFilters } from "@/components/admin/admin-team-filters";
-import { MentorNav } from "@/components/mentor/mentor-nav";
 import { Link } from "@/i18n/navigation";
 import type { School } from "@/db/schema/enums";
 import { requireMentorProfile } from "@/lib/auth/session";
@@ -31,10 +30,7 @@ export default async function MentorTeamsPage({ params, searchParams }: MentorTe
     <section className="space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("teamsPageTitle")}</h1>
-      </div>
-
-      <MentorNav current="teams" />
-
+      </div>
       <AdminTeamFilters
         groups={groups}
         current={filters}
@@ -43,13 +39,13 @@ export default async function MentorTeamsPage({ params, searchParams }: MentorTe
       />
 
       {teams.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("emptyTeams")}
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <div className="overflow-x-auto rounded-lg border border-border">
           <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50">
+            <thead className="border-b border-border bg-brand-dark/30 /50">
               <tr>
                 <th className="px-4 py-3 font-medium">{t("teamsColumns.name")}</th>
                 <th className="px-4 py-3 font-medium">{t("teamsColumns.group")}</th>
@@ -63,7 +59,7 @@ export default async function MentorTeamsPage({ params, searchParams }: MentorTe
               {teams.map((team) => (
                 <tr
                   key={team.id}
-                  className="border-b border-zinc-100 last:border-0 dark:border-zinc-800"
+                  className="border-b border-white/10 last:border-0"
                 >
                   <td className="px-4 py-3">
                     <Link

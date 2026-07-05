@@ -32,7 +32,7 @@ export function SubmissionFilters({
   const t = useTranslations("SubmissionReviews");
 
   return (
-    <form method="get" className="grid gap-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800 sm:grid-cols-2 lg:grid-cols-3">
+    <form method="get" className="grid gap-4 rounded-lg border border-border p-4 sm:grid-cols-2 lg:grid-cols-3">
       <div className="space-y-1">
         <Label htmlFor="groupId">{t("filters.group")}</Label>
         <select

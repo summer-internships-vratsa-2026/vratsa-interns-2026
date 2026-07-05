@@ -49,17 +49,17 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
   return (
     <section className="space-y-8">
       <div className="space-y-2">
-        <Link href="/dashboard/admin/teams" className="text-sm text-zinc-500 underline">
+        <Link href="/dashboard/admin/teams" className="text-sm text-muted-foreground underline">
           {t("backToTeams")}
         </Link>
         <h1 className="text-2xl font-semibold">{teamDetail.team.name}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
+        <p className="text-muted-foreground">
           {t("detailDescription", { group: teamDetail.groupName })}
         </p>
       </div>
 
       {!roleValidation.valid ? (
-        <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
+        <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900   ">
           <p className="font-medium">{t("roleValidationWarning")}</p>
           <ul className="mt-2 list-disc pl-5">
             {roleValidation.errors.map((error) => (
@@ -70,17 +70,17 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
       ) : null}
 
       {teamDetail.members.length < MIN_TEAM_SIZE ? (
-        <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
+        <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900   ">
           {t("teamSizeWarning", { count: teamDetail.members.length, min: MIN_TEAM_SIZE })}
         </div>
       ) : null}
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.details")}</h2>
         <UpdateTeamForm locale={locale} team={teamDetail.team} groups={groups} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.links")}</h2>
         <div className="mb-4">
           <TeamLinksDisplay team={teamDetail.team} />
@@ -88,7 +88,7 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
         <TeamLinksForm locale={locale} team={teamDetail.team} />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.members")}</h2>
         <AdminTeamMembersPanel
           locale={locale}
@@ -99,7 +99,7 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
         />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.mentors")}</h2>
         <AdminTeamMentorsPanel
           locale={locale}
@@ -109,17 +109,17 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
         />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.client")}</h2>
         {teamDetail.clientOrganization ? (
-          <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mb-4 text-sm text-muted-foreground">
             {t("client.current", {
               name: teamDetail.clientUserName ?? teamDetail.clientOrganization,
               organization: teamDetail.clientOrganization,
             })}
           </p>
         ) : (
-          <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">{t("client.noneAssigned")}</p>
+          <p className="mb-4 text-sm text-muted-foreground">{t("client.noneAssigned")}</p>
         )}
         <AdminTeamClientForm
           locale={locale}
@@ -129,7 +129,7 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
         />
       </div>
 
-      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <div className="rounded-lg border border-border p-4">
         <TeamFeedbackPanel
           locale={locale}
           teamId={teamId}

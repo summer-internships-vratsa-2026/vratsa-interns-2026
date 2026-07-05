@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { SubmissionDetailView } from "@/components/submission/submission-detail-view";
-import { MentorNav } from "@/components/mentor/mentor-nav";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { getSubmissionDetailById } from "@/lib/submissions/queries";
 
@@ -26,9 +25,7 @@ export default async function MentorSubmissionDetailPage({
   const t = await getTranslations("SubmissionReviews");
 
   return (
-    <section className="space-y-6">
-      <MentorNav current="submissions" />
-      <SubmissionDetailView
+    <section className="space-y-6">      <SubmissionDetailView
         locale={locale}
         submissionId={submissionId}
         backHref="/dashboard/mentor/submissions"

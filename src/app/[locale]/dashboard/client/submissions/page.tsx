@@ -1,6 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { ClientNav } from "@/components/client/client-nav";
 import { SubmissionFilters } from "@/components/submission/submission-filters";
 import { SubmissionsTable } from "@/components/submission/submissions-table";
 import { requireClientProfile } from "@/lib/auth/session";
@@ -35,11 +34,8 @@ export default async function ClientSubmissionsPage({
     <section className="space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("title")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("description")}</p>
-      </div>
-
-      <ClientNav current="submissions" />
-
+        <p className="text-muted-foreground">{t("description")}</p>
+      </div>
       <SubmissionFilters
         groups={filterOptions.groups}
         teams={filterOptions.teams}
@@ -49,7 +45,7 @@ export default async function ClientSubmissionsPage({
       />
 
       {submissions.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("emptySubmissions")}
         </p>
       ) : (

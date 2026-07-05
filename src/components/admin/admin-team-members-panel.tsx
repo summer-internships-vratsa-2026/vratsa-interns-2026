@@ -60,13 +60,13 @@ export function AdminTeamMembersPanel({
   return (
     <div className="space-y-6">
       {members.length === 0 ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("members.empty")}</p>
+        <p className="text-sm text-muted-foreground">{t("members.empty")}</p>
       ) : (
         <ul className="space-y-3">
           {members.map((member) => (
             <li
               key={member.id}
-              className="space-y-3 rounded-md border border-zinc-200 p-3 dark:border-zinc-800"
+              className="space-y-3 rounded-md border border-border p-3"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-sm font-medium">
@@ -122,7 +122,7 @@ export function AdminTeamMembersPanel({
       ) : null}
 
       {canAddMember && availableStudents.length > 0 ? (
-        <form action={addAction} className="space-y-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+        <form action={addAction} className="space-y-4 border-t border-border pt-4">
           <h3 className="text-sm font-medium">{t("members.add")}</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
@@ -162,11 +162,11 @@ export function AdminTeamMembersPanel({
       ) : null}
 
       {canAddMember && availableStudents.length === 0 ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("members.noAvailableStudents")}</p>
+        <p className="text-sm text-muted-foreground">{t("members.noAvailableStudents")}</p>
       ) : null}
 
       {!canAddMember ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("members.teamFull")}</p>
+        <p className="text-sm text-muted-foreground">{t("members.teamFull")}</p>
       ) : null}
     </div>
   );

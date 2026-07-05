@@ -47,11 +47,11 @@ export function AdminClientTeamsPanel({
   return (
     <div className="space-y-6">
       {assignedTeams.length === 0 ? (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("emptyAssigned")}</p>
+        <p className="text-sm text-muted-foreground">{t("emptyAssigned")}</p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <div className="overflow-x-auto rounded-lg border border-border">
           <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50">
+            <thead className="border-b border-border bg-brand-dark/30 /50">
               <tr>
                 <th className="px-4 py-3 font-medium">{t("columns.team")}</th>
                 <th className="px-4 py-3 font-medium">{t("columns.group")}</th>
@@ -94,7 +94,7 @@ function AssignedTeamRow({
   );
 
   return (
-    <tr className="border-b border-zinc-100 last:border-0 dark:border-zinc-800">
+    <tr className="border-b border-white/10 last:border-0">
       <td className="px-4 py-3 font-medium">
         <Link href={`/dashboard/admin/teams/${team.id}`} className="underline">
           {team.name}
@@ -139,13 +139,13 @@ function AssignTeamForm({
   );
 
   return (
-    <form action={formAction} className="max-w-xl space-y-4 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <form action={formAction} className="max-w-xl space-y-4 rounded-lg border border-border p-4">
       <h3 className="font-medium">{t("assignTitle")}</h3>
       <input type="hidden" name="clientId" value={clientId} />
       <div className="space-y-2">
         <Label htmlFor="assign-team">{t("fields.team")}</Label>
         {availableTeams.length === 0 ? (
-          <p className="text-sm text-zinc-500">{t("noAvailableTeams")}</p>
+          <p className="text-sm text-muted-foreground">{t("noAvailableTeams")}</p>
         ) : (
           <select id="assign-team" name="teamId" className={selectClassName} required>
             <option value="">{t("selectTeam")}</option>

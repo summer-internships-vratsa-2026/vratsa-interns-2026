@@ -62,7 +62,7 @@ export function TaskDescriptionEditor({
     editorProps: {
       attributes: {
         class:
-          "min-h-[160px] px-3 py-2 text-sm outline-none [&_p.is-editor-empty:first-child]:before:pointer-events-none [&_p.is-editor-empty:first-child]:before:float-left [&_p.is-editor-empty:first-child]:before:h-0 [&_p.is-editor-empty:first-child]:before:text-zinc-400 [&_p.is-editor-empty:first-child]:before:content-[attr(data-placeholder)]",
+          "min-h-[160px] px-3 py-2 text-sm outline-none [&_p.is-editor-empty:first-child]:before:pointer-events-none [&_p.is-editor-empty:first-child]:before:float-left [&_p.is-editor-empty:first-child]:before:h-0 [&_p.is-editor-empty:first-child]:before:text-muted-foreground [&_p.is-editor-empty:first-child]:before:content-[attr(data-placeholder)]",
       },
     },
     onUpdate: ({ editor: currentEditor }) => {
@@ -115,7 +115,7 @@ export function TaskDescriptionEditor({
   return (
     <div className="space-y-2">
       <div className="overflow-hidden rounded-md border border-input shadow-xs focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]">
-        <div className="flex flex-wrap gap-1 border-b border-input bg-zinc-50 p-1 dark:bg-zinc-900/50">
+        <div className="flex flex-wrap gap-1 border-b border-input bg-brand-dark/30 p-1 /50">
           <ToolbarButton
             type="button"
             title={t("bold")}
@@ -156,7 +156,7 @@ export function TaskDescriptionEditor({
       <input type="hidden" name={name} value={html} required={required} />
 
       {isUploadingImage ? (
-        <p className="text-xs text-zinc-500">{t("uploadingImage")}</p>
+        <p className="text-xs text-muted-foreground">{t("uploadingImage")}</p>
       ) : null}
       {imageError ? (
         <p className="text-xs text-red-600">{t(`errors.${imageError}`)}</p>
@@ -193,7 +193,7 @@ function ToolbarButton({
         event.preventDefault();
       }}
       onClick={onClick}
-      className={cn(active && "bg-zinc-200 dark:bg-zinc-800")}
+      className={cn(active && "bg-brand-medium/50")}
     >
       {children}
     </Button>

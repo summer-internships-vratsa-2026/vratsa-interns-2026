@@ -19,7 +19,7 @@ export function AdminUserFilters({ currentRole }: AdminUserFiltersProps) {
   const t = useTranslations("AdminUsers");
 
   return (
-    <form method="get" className="flex flex-wrap items-end gap-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <form method="get" className="flex flex-wrap items-end gap-3 rounded-lg border border-border p-4">
       <div className="space-y-1">
         <Label htmlFor="role">{t("filters.role")}</Label>
         <select

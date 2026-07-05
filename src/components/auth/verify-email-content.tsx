@@ -50,7 +50,7 @@ export function VerifyEmailContent({ token }: VerifyEmailContentProps) {
   if (state.success) {
     return (
       <AuthCard title={t("verifyEmailTitle")} description={t("verifyEmailDescription")}>
-        <p className="text-sm text-zinc-600">
+        <p className="text-sm text-muted-foreground">
           {state.success === "already_verified" ? t("alreadyVerified") : t("emailVerified")}
         </p>
         <p className="mt-4 text-sm">
@@ -64,7 +64,7 @@ export function VerifyEmailContent({ token }: VerifyEmailContentProps) {
 
   return (
     <AuthCard title={t("verifyEmailTitle")} description={t("verifyEmailDescription")}>
-      <p className="text-sm text-zinc-600">{t("loading")}</p>
+      <p className="text-sm text-muted-foreground">{t("loading")}</p>
     </AuthCard>
   );
 }

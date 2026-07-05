@@ -85,20 +85,20 @@ export function AdminUserDetailPanel({
 
   return (
     <div className="space-y-6">
-      <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <section className="rounded-lg border border-border p-4">
         <h2 className="mb-4 font-medium">{t("sections.details")}</h2>
         <DetailsForm locale={locale} user={user} />
       </section>
 
-      <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <section className="rounded-lg border border-border p-4">
         <h2 className="mb-4 font-medium">{t("sections.role")}</h2>
         <RoleForm locale={locale} user={user} isSelf={isSelf} />
       </section>
 
       {user.role === "MENTOR" && mentorProfile ? (
-        <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <section className="rounded-lg border border-border p-4">
           <h2 className="mb-1 font-medium">{t("sections.mentorGroup")}</h2>
-          <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">{t("mentorGroupDescription")}</p>
+          <p className="mb-4 text-sm text-muted-foreground">{t("mentorGroupDescription")}</p>
           <AdminMentorMainGroupForm
             locale={locale}
             mentorId={mentorProfile.id}
@@ -109,9 +109,9 @@ export function AdminUserDetailPanel({
       ) : null}
 
       {user.role === "CLIENT" && clientProfile ? (
-        <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <section className="rounded-lg border border-border p-4">
           <h2 className="mb-1 font-medium">{t("sections.clientTeams")}</h2>
-          <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">{t("clientTeamsDescription")}</p>
+          <p className="mb-4 text-sm text-muted-foreground">{t("clientTeamsDescription")}</p>
           <AdminClientTeamsPanel
             locale={locale}
             clientId={clientProfile.id}
@@ -125,22 +125,22 @@ export function AdminUserDetailPanel({
         <StudentTeamSection studentTeam={studentTeam} />
       ) : null}
 
-      <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <section className="rounded-lg border border-border p-4">
         <h2 className="mb-2 font-medium">{t("sections.verification")}</h2>
-        <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mb-4 text-sm text-muted-foreground">
           {user.emailVerifiedAt ? t("verifiedYes") : t("verifiedNo")}
         </p>
         {!user.emailVerifiedAt ? <VerifyEmailForm locale={locale} userId={user.id} /> : null}
       </section>
 
-      <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <section className="rounded-lg border border-border p-4">
         <h2 className="mb-4 font-medium">{t("sections.password")}</h2>
         <PasswordForm locale={locale} userId={user.id} />
       </section>
 
-      <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+      <section className="rounded-lg border border-border p-4">
         <h2 className="mb-2 font-medium">{t("sections.accountStatus")}</h2>
-        <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mb-4 text-sm text-muted-foreground">
           {user.disabledAt ? t("statusDisabled") : t("statusActive")}
         </p>
         {!isSelf ? (
@@ -150,14 +150,14 @@ export function AdminUserDetailPanel({
             <DisableForm locale={locale} userId={user.id} />
           )
         ) : (
-          <p className="text-sm text-zinc-500">{t("cannotManageSelfStatus")}</p>
+          <p className="text-sm text-muted-foreground">{t("cannotManageSelfStatus")}</p>
         )}
       </section>
 
       {!isSelf ? (
         <section className="rounded-lg border border-red-200 p-4 dark:border-red-900/50">
           <h2 className="mb-2 font-medium text-red-700 dark:text-red-400">{t("sections.danger")}</h2>
-          <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">{t("deleteWarning")}</p>
+          <p className="mb-4 text-sm text-muted-foreground">{t("deleteWarning")}</p>
           <DeleteForm locale={locale} userId={user.id} />
         </section>
       ) : null}
@@ -174,12 +174,12 @@ function StudentTeamSection({
   const tTasks = useTranslations("Tasks");
 
   return (
-    <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <section className="rounded-lg border border-border p-4">
       <h2 className="mb-4 font-medium">{t("sections.studentTeam")}</h2>
       {studentTeam ? (
         <dl className="space-y-2 text-sm">
           <div>
-            <dt className="font-medium text-zinc-500">{t("studentTeam.fields.team")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("studentTeam.fields.team")}</dt>
             <dd>
               <Link href={`/dashboard/admin/teams/${studentTeam.id}`} className="underline">
                 {studentTeam.name}
@@ -188,17 +188,17 @@ function StudentTeamSection({
           </div>
           {studentTeam.groupName ? (
             <div>
-              <dt className="font-medium text-zinc-500">{t("studentTeam.fields.group")}</dt>
+              <dt className="font-medium text-muted-foreground">{t("studentTeam.fields.group")}</dt>
               <dd>{studentTeam.groupName}</dd>
             </div>
           ) : null}
           <div>
-            <dt className="font-medium text-zinc-500">{t("studentTeam.fields.role")}</dt>
+            <dt className="font-medium text-muted-foreground">{t("studentTeam.fields.role")}</dt>
             <dd>{tTasks(`roles.${studentTeam.projectRole}`)}</dd>
           </div>
         </dl>
       ) : (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("studentTeam.noTeam")}</p>
+        <p className="text-sm text-muted-foreground">{t("studentTeam.noTeam")}</p>
       )}
     </section>
   );
@@ -280,12 +280,12 @@ function RoleForm({
             </option>
           ))}
         </select>
-        {isSelf ? <p className="text-xs text-zinc-500">{t("cannotChangeOwnRole")}</p> : null}
+        {isSelf ? <p className="text-xs text-muted-foreground">{t("cannotChangeOwnRole")}</p> : null}
       </div>
       <div className="space-y-2">
         <Label htmlFor="user-organization">{t("fields.organization")}</Label>
         <Input id="user-organization" name="organizationName" disabled={isSelf} />
-        <p className="text-xs text-zinc-500">{t("fields.organizationHint")}</p>
+        <p className="text-xs text-muted-foreground">{t("fields.organizationHint")}</p>
       </div>
       <ActionFeedback state={state} t={t} />
       <Button type="submit" disabled={isPending || isSelf}>

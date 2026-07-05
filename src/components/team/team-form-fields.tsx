@@ -38,7 +38,7 @@ export function SchoolClassField({ defaultValue }: SchoolClassFieldProps) {
               value={value}
               defaultChecked={defaultValue === value || (!defaultValue && value === "10 клас")}
               required
-              className="size-4 accent-zinc-900 dark:accent-zinc-100"
+              className="size-4 accent-brand-accent"
             />
             {t(`schoolClassOptions.${SCHOOL_CLASS_LABEL_KEYS[value]}`)}
           </label>

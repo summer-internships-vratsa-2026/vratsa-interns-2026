@@ -30,7 +30,7 @@ export default async function CreateTeamPage({ params }: CreateTeamPageProps) {
     <section className="mx-auto max-w-lg space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("createTeamTitle")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("createTeamDescription")}</p>
+        <p className="text-muted-foreground">{t("createTeamDescription")}</p>
       </div>
       <CreateTeamForm locale={locale} groups={groups} />
     </section>

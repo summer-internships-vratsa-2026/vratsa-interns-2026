@@ -45,9 +45,9 @@ export async function SubmissionsTable({
   });
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+    <div className="overflow-x-auto rounded-lg border border-border">
       <table className="min-w-full text-left text-sm">
-        <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/50">
+        <thead className="border-b border-border bg-brand-dark/30 /50">
           <tr>
             <th className="px-4 py-3 font-medium">{t("columns.task")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.team")}</th>
@@ -68,7 +68,7 @@ export async function SubmissionsTable({
             return (
               <tr
                 key={submission.submissionId}
-                className="border-b border-zinc-100 last:border-0 dark:border-zinc-800"
+                className="border-b border-white/10 last:border-0"
               >
                 <td className="px-4 py-3 font-medium">{submission.taskTitle}</td>
                 <td className="px-4 py-3">{submission.teamName}</td>
@@ -81,11 +81,11 @@ export async function SubmissionsTable({
                     <span>
                       {submission.grade}/10
                       {submission.gradedByName ? (
-                        <span className="block text-xs text-zinc-500">{submission.gradedByName}</span>
+                        <span className="block text-xs text-muted-foreground">{submission.gradedByName}</span>
                       ) : null}
                     </span>
                   ) : (
-                    <span className="text-zinc-500">{t("ungraded")}</span>
+                    <span className="text-muted-foreground">{t("ungraded")}</span>
                   )}
                 </td>
                 <td className="px-4 py-3">{dateFormatter.format(submission.updatedAt)}</td>

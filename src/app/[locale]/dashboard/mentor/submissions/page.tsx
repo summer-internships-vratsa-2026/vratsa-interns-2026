@@ -2,7 +2,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { SubmissionFilters } from "@/components/submission/submission-filters";
 import { SubmissionsTable } from "@/components/submission/submissions-table";
-import { MentorNav } from "@/components/mentor/mentor-nav";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { parseSubmissionListFilters } from "@/lib/submissions/filters";
 import {
@@ -35,11 +34,8 @@ export default async function MentorSubmissionsPage({
     <section className="space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("listTitle")}</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t("listDescription")}</p>
-      </div>
-
-      <MentorNav current="submissions" />
-
+        <p className="text-muted-foreground">{t("listDescription")}</p>
+      </div>
       <SubmissionFilters
         groups={filterOptions.groups}
         teams={filterOptions.teams}
@@ -49,7 +45,7 @@ export default async function MentorSubmissionsPage({
       />
 
       {submissions.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
+        <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("emptySubmissions")}
         </p>
       ) : (
