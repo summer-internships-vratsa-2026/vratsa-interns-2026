@@ -5,6 +5,7 @@ import { groups, submissionComments, submissionGrades, submissions, taskGroups, 
 import type { ProjectRole } from "@/db/schema/enums";
 import { users } from "@/db/schema/users";
 import type { SubmissionListFilters } from "@/lib/submissions/filters";
+import { getClientByUserId } from "@/lib/clients/queries";
 
 export async function getSubmissionForTeamTask(teamId: string, taskGroupId: string) {
   const [submission] = await db
@@ -38,6 +39,10 @@ function buildRoleFilter(role: ProjectRole) {
 
 function buildSubmissionFilterConditions(filters: SubmissionListFilters) {
   const conditions = [];
+
+  if (filters.clientId) {
+    conditions.push(eq(teams.clientId, filters.clientId));
+  }
 
   if (filters.groupId) {
     conditions.push(eq(teams.groupId, filters.groupId));
@@ -123,6 +128,59 @@ export async function getSubmissionFilterOptions() {
   ]);
 
   return { groups: groupRows, teams: teamRows, tasks: taskRows };
+}
+
+export async function getSubmissionFilterOptionsForClient(clientId: string) {
+  const clientTeamCondition = eq(teams.clientId, clientId);
+
+  const [groupRows, teamRows, taskRows] = await Promise.all([
+    db
+      .selectDistinct({ id: groups.id, name: groups.name })
+      .from(submissions)
+      .innerJoin(teams, eq(submissions.teamId, teams.id))
+      .innerJoin(groups, eq(teams.groupId, groups.id))
+      .where(clientTeamCondition)
+      .orderBy(groups.name),
+    db
+      .selectDistinct({ id: teams.id, name: teams.name })
+      .from(submissions)
+      .innerJoin(teams, eq(submissions.teamId, teams.id))
+      .where(clientTeamCondition)
+      .orderBy(teams.name),
+    db
+      .selectDistinct({ id: tasks.id, title: tasks.title })
+      .from(submissions)
+      .innerJoin(teams, eq(submissions.teamId, teams.id))
+      .innerJoin(taskGroups, eq(submissions.taskGroupId, taskGroups.id))
+      .innerJoin(tasks, eq(taskGroups.taskId, tasks.id))
+      .where(clientTeamCondition)
+      .orderBy(tasks.title),
+  ]);
+
+  return { groups: groupRows, teams: teamRows, tasks: taskRows };
+}
+
+export async function getSubmissionsForClientUser(
+  userId: string,
+  filters: SubmissionListFilters = { gradeStatus: "all" },
+) {
+  const client = await getClientByUserId(userId);
+
+  if (!client) {
+    return [];
+  }
+
+  return getSubmissionsListWithContext({ ...filters, clientId: client.id });
+}
+
+export async function getSubmissionFilterOptionsForClientUser(userId: string) {
+  const client = await getClientByUserId(userId);
+
+  if (!client) {
+    return { groups: [], teams: [], tasks: [] };
+  }
+
+  return getSubmissionFilterOptionsForClient(client.id);
 }
 
 export async function getSubmissionDetailById(submissionId: string) {

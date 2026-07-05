@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 
 import { groups, users } from "../src/db/schema";
 import { db } from "../src/db";
-import { getUserByEmail } from "../src/lib/auth/users";
+import { createClientUser, getUserByEmail } from "../src/lib/auth/users";
 import { hashPassword } from "../src/lib/password";
 import { INTERNSHIP_GROUP_NAMES } from "../src/lib/teams/constants";
 
@@ -70,11 +70,42 @@ async function seedAdminUser() {
   console.log(`Created admin user: ${adminEmail}`);
 }
 
+async function seedSampleClient() {
+  const clientEmail = (process.env.SEED_CLIENT_EMAIL ?? "client@example.com").toLowerCase();
+  const clientPassword = process.env.SEED_CLIENT_PASSWORD;
+  const clientName = process.env.SEED_CLIENT_NAME ?? "Sample Client";
+  const organizationName = process.env.SEED_CLIENT_ORGANIZATION ?? "Sample Organization";
+
+  const existingUser = await getUserByEmail(clientEmail);
+
+  if (existingUser) {
+    console.log(`Client user already exists: ${clientEmail}`);
+    return;
+  }
+
+  if (!clientPassword) {
+    console.log("Skipping sample client (SEED_CLIENT_PASSWORD not set).");
+    return;
+  }
+
+  const passwordHash = await hashPassword(clientPassword);
+
+  await createClientUser({
+    email: clientEmail,
+    passwordHash,
+    name: clientName,
+    organizationName,
+  });
+
+  console.log(`Created sample client: ${clientEmail}`);
+}
+
 async function seed() {
   console.log("Seeding database...");
 
   await seedGroups();
   await seedAdminUser();
+  await seedSampleClient();
 }
 
 seed()

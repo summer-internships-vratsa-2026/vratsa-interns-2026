@@ -74,13 +74,17 @@
       "topicsLinkTitle": "Topics",
       "topicsLinkDescription": "Define topics that can be assigned to tasks.",
       "submissionsLinkTitle": "Submissions",
-      "submissionsLinkDescription": "Review student submissions, add comments, and manage grades."
+      "submissionsLinkDescription": "Review student submissions, add comments, and manage grades.",
+      "clientsLinkTitle": "Clients",
+      "clientsLinkDescription": "Create client accounts and manage organization details."
     },
     "client": {
       "title": "Client dashboard",
-      "description": "View assigned teams and submissions here.",
+      "description": "View assigned teams and review student submissions.",
       "teamsLinkTitle": "Assigned teams",
-      "teamsLinkDescription": "Open a team and leave individual feedback."
+      "teamsLinkDescription": "Open a team, view members, and leave feedback.",
+      "submissionsLinkTitle": "Submissions",
+      "submissionsLinkDescription": "Review submissions from your assigned teams and leave comments."
     }
   },
   "Team": {
@@ -282,6 +286,39 @@
       "main_group_updated": "Main group updated."
     }
   },
+  "AdminClients": {
+    "title": "Clients",
+    "description": "Create client accounts and manage organization details. Assign clients to teams from the team detail page.",
+    "backToDashboard": "Back to admin dashboard",
+    "createTitle": "Create client",
+    "createClient": "Create client",
+    "emptyClients": "No clients registered yet.",
+    "save": "Save",
+    "loading": "Loading...",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "organization": "Organization",
+      "organizationPlaceholder": "Organization name"
+    },
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "organization": "Organization",
+      "teams": "Assigned teams"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "forbidden": "You do not have permission for this action.",
+      "email_exists": "An account with this email already exists.",
+      "client_not_found": "Client not found."
+    },
+    "success": {
+      "client_created": "Client account created.",
+      "client_updated": "Client details saved."
+    }
+  },
   "AdminTopics": {
     "title": "Topics",
     "description": "Define topics with a title and short description. Tasks can optionally be assigned to a topic.",
@@ -393,14 +430,32 @@
   },
   "ClientTeams": {
     "title": "Assigned teams",
-    "description": "Open a team to leave individual feedback and follow progress.",
+    "description": "Open a team to view members, review submissions, and leave feedback.",
     "backToDashboard": "Back to client dashboard",
     "backToTeams": "Back to teams",
     "empty": "No teams are assigned yet.",
     "groupLabel": "Group: {group}",
+    "emptyMembers": "No team members yet.",
+    "viewSubmissions": "View submissions",
+    "submissionsHint": "Review task submissions from this team and leave comments for the students.",
     "sections": {
-      "links": "Project links"
+      "members": "Team members",
+      "links": "Project links",
+      "submissions": "Submissions"
     }
+  },
+  "ClientDashboard": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "teams": "Teams",
+      "submissions": "Submissions"
+    }
+  },
+  "ClientSubmissions": {
+    "title": "Submissions",
+    "description": "Review student work from your assigned teams and leave comments.",
+    "backToSubmissions": "Back to submissions",
+    "emptySubmissions": "No submissions match the selected filters."
   },
   "SubmissionReviews": {
     "listTitle": "Submissions",

@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { submissionComments, submissionGrades } from "@/db/schema";
 import { canCommentSubmission, canGradeSubmission } from "@/lib/permissions/mentor";
+import { canAccessSubmission } from "@/lib/permissions/submission";
 import { getSubmissionDetailById } from "@/lib/submissions/queries";
 import {
   addSubmissionCommentSchema,
@@ -20,6 +21,8 @@ function revalidateSubmissionPaths(locale: string, submissionId: string, taskGro
   revalidatePath(`/${locale}/dashboard/mentor/submissions/${submissionId}`);
   revalidatePath(`/${locale}/dashboard/admin/submissions`);
   revalidatePath(`/${locale}/dashboard/admin/submissions/${submissionId}`);
+  revalidatePath(`/${locale}/dashboard/client/submissions`);
+  revalidatePath(`/${locale}/dashboard/client/submissions/${submissionId}`);
   revalidatePath(`/${locale}/dashboard/student/tasks/${taskGroupId}`);
 }
 
@@ -47,6 +50,10 @@ export async function addSubmissionCommentAction(
 
   if (!detail) {
     return { error: "submission_not_found" };
+  }
+
+  if (!(await canAccessSubmission(session.user.id, session.user.role, detail.teamId))) {
+    return { error: "forbidden" };
   }
 
   await db.insert(submissionComments).values({

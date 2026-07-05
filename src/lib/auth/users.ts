@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { mentors, students, users } from "@/db/schema";
+import { clients, mentors, students, users } from "@/db/schema";
 import type { UserRole } from "@/db/schema/enums";
 
 export async function getUserByEmail(email: string) {
@@ -58,6 +58,33 @@ export async function createUserWithProfile(input: {
     if (input.role === "MENTOR") {
       await tx.insert(mentors).values({ userId: user.id });
     }
+
+    return user;
+  });
+}
+
+export async function createClientUser(input: {
+  email: string;
+  passwordHash: string;
+  name: string;
+  organizationName?: string | null;
+}) {
+  return db.transaction(async (tx) => {
+    const [user] = await tx
+      .insert(users)
+      .values({
+        email: input.email.toLowerCase(),
+        passwordHash: input.passwordHash,
+        name: input.name,
+        role: "CLIENT",
+        emailVerifiedAt: new Date(),
+      })
+      .returning();
+
+    await tx.insert(clients).values({
+      userId: user.id,
+      organizationName: input.organizationName ?? null,
+    });
 
     return user;
   });

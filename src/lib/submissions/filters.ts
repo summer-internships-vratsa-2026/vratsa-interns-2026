@@ -3,6 +3,7 @@ import type { ProjectRole } from "@/db/schema/enums";
 export type SubmissionGradeStatus = "all" | "graded" | "ungraded";
 
 export type SubmissionListFilters = {
+  clientId?: string;
   groupId?: string;
   teamId?: string;
   taskId?: string;

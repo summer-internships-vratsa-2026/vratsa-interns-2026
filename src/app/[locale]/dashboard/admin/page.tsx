@@ -50,6 +50,13 @@ export default async function AdminDashboardPage({ params }: AdminDashboardPageP
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("topicsLinkDescription")}</p>
         </Link>
         <Link
+          href="/dashboard/admin/clients"
+          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
+        >
+          <h2 className="font-medium">{t("clientsLinkTitle")}</h2>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("clientsLinkDescription")}</p>
+        </Link>
+        <Link
           href="/dashboard/admin/submissions"
           className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
         >

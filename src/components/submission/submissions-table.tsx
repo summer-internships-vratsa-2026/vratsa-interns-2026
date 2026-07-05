@@ -20,7 +20,10 @@ type SubmissionRow = {
 type SubmissionsTableProps = {
   locale: string;
   submissions: SubmissionRow[];
-  reviewBasePath: "/dashboard/mentor/submissions" | "/dashboard/admin/submissions";
+  reviewBasePath:
+    | "/dashboard/mentor/submissions"
+    | "/dashboard/admin/submissions"
+    | "/dashboard/client/submissions";
 };
 
 export async function SubmissionsTable({

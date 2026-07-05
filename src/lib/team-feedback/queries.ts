@@ -2,20 +2,18 @@ import { and, asc, desc, eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import {
-  clients,
   students,
   teamFeedback,
   teamFeedbackComments,
   teamMembers,
-  teams,
   users,
   type UserRole,
 } from "@/db/schema";
+import {
+  isClientAssignedToTeam,
+} from "@/lib/clients/queries";
 
-export async function getClientByUserId(userId: string) {
-  const [client] = await db.select().from(clients).where(eq(clients.userId, userId)).limit(1);
-  return client ?? null;
-}
+export { getClientByUserId, getClientTeamsByUserId, isClientAssignedToTeam } from "@/lib/clients/queries";
 
 export async function isStudentInTeamByUserId(userId: string, teamId: string) {
   const [membership] = await db
@@ -26,22 +24,6 @@ export async function isStudentInTeamByUserId(userId: string, teamId: string) {
     .limit(1);
 
   return !!membership;
-}
-
-export async function isClientAssignedToTeam(userId: string, teamId: string) {
-  const client = await getClientByUserId(userId);
-
-  if (!client) {
-    return false;
-  }
-
-  const [assigned] = await db
-    .select({ id: teams.id })
-    .from(teams)
-    .where(and(eq(teams.id, teamId), eq(teams.clientId, client.id)))
-    .limit(1);
-
-  return !!assigned;
 }
 
 export async function canAccessTeamFeedback(userId: string, role: UserRole, teamId: string) {
@@ -121,25 +103,4 @@ export async function getTeamFeedbackForTeam(teamId: string) {
     ...feedback,
     comments: commentRows.filter((comment) => comment.feedbackId === feedback.id),
   }));
-}
-
-export async function getClientTeamsByUserId(userId: string) {
-  const client = await getClientByUserId(userId);
-
-  if (!client) {
-    return [];
-  }
-
-  return db
-    .select({
-      id: teams.id,
-      name: teams.name,
-      groupId: teams.groupId,
-      classroom: teams.classroom,
-      schoolClass: teams.schoolClass,
-      school: teams.school,
-    })
-    .from(teams)
-    .where(eq(teams.clientId, client.id))
-    .orderBy(teams.name);
 }

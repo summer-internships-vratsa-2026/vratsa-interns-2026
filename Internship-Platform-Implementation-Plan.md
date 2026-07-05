@@ -184,16 +184,16 @@
 
 ## 12. Client Access
 
-- [ ] Create client user role
-- [ ] Allow admin to create/manage clients
-- [ ] Allow admin to assign client to team
-- [ ] Allow client to log in
-- [ ] Restrict client to assigned team or teams
-- [ ] Allow client to view team details
-- [ ] Allow client to view submissions from assigned team
-- [ ] Allow client to comment on submissions
-- [ ] Prevent client from grading
-- [ ] Prevent client from seeing unrelated teams if desired
+- [x] Create client user role
+- [x] Allow admin to create/manage clients
+- [x] Allow admin to assign client to team
+- [x] Allow client to log in
+- [x] Restrict client to assigned team or teams
+- [x] Allow client to view team details
+- [x] Allow client to view submissions from assigned team
+- [x] Allow client to comment on submissions
+- [x] Prevent client from grading
+- [x] Prevent client from seeing unrelated teams if desired
 
 ## 13. Admin Users
 
@@ -236,7 +236,7 @@
 - [ ] Seed 3 groups
 - [ ] Seed sample mentors
 - [ ] Assign mentor main groups
-- [ ] Seed sample clients
+- [x] Seed sample clients
 - [ ] Seed sample students
 - [ ] Seed sample teams
 - [ ] Seed sample tasks

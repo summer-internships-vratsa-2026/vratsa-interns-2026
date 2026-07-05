@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import type { UserRole } from "@/db/schema/enums";
 import { getDashboardPath } from "@/lib/auth/routes";
 import { getMentorByUserId } from "@/lib/mentors/queries";
+import { getClientByUserId } from "@/lib/clients/queries";
 
 export async function requireAuth(locale: string) {
   const session = await auth();
@@ -34,4 +35,15 @@ export async function requireMentorProfile(locale: string) {
   }
 
   return { session, mentor };
+}
+
+export async function requireClientProfile(locale: string) {
+  const session = await requireRole(locale, "CLIENT");
+  const client = await getClientByUserId(session.user.id);
+
+  if (!client) {
+    redirect(getDashboardPath("CLIENT", locale));
+  }
+
+  return { session, client };
 }
