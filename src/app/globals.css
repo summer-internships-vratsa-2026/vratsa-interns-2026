@@ -103,6 +103,15 @@
   html {
     @apply font-sans;
   }
+
+  select {
+    color-scheme: dark;
+  }
+
+  select option {
+    background-color: var(--brand-dark);
+    color: #ffffff;
+  }
 }
 
 .task-description :is(p, ul, ol, blockquote, h2, h3) {

@@ -119,7 +119,7 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
                     </td>
                     <td className="px-4 py-3">
                       {isMainGroup ? (
-                        <span className="text-green-700 dark:text-green-400">{t("mainGroupTask")}</span>
+                        <span className="font-medium text-brand-accent">{t("mainGroupTask")}</span>
                       ) : canApply ? (
                         <Link
                           href={`/dashboard/mentor/tasks/${task.taskId}?groupId=${task.groupId}`}
