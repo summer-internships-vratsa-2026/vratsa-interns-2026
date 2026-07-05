@@ -6,6 +6,7 @@ import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { TeamInviteSection } from "@/components/team/team-invite-section";
 import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { TeamLinksForm } from "@/components/team/team-links-form";
+import { TeamTasksPanel } from "@/components/team/team-tasks-panel";
 import { UpdateTeamNameForm } from "@/components/team/update-team-name-form";
 import {
   getGroupName,
@@ -14,6 +15,7 @@ import {
   getTeamMembershipForStudent,
 } from "@/lib/teams/queries";
 import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
+import { getTeamTasksWithSubmissions } from "@/lib/teams/task-submissions";
 import { MAX_TEAM_SIZE } from "@/lib/validations/team";
 import { requireRole } from "@/lib/auth/session";
 
@@ -37,10 +39,13 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
     redirect(`/${locale}/dashboard/student/team/setup`);
   }
 
-  const [members, groupName, feedbackItems] = await Promise.all([
+  const [members, groupName, feedbackItems, teamTasks] = await Promise.all([
     getTeamMembersWithNames(membership.team.id),
     getGroupName(membership.team.groupId),
     getTeamFeedbackForTeam(membership.team.id),
+    getTeamTasksWithSubmissions(membership.team.id, {
+      projectRole: membership.member.projectRole,
+    }),
   ]);
 
   const t = await getTranslations("Team");
@@ -98,6 +103,15 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
         memberCount={members.length}
         maxMembers={MAX_TEAM_SIZE}
       />
+
+      <div className="rounded-lg border border-border p-4">
+        <h2 className="mb-4 text-lg font-medium">{t("studentTasksTitle")}</h2>
+        <TeamTasksPanel
+          locale={locale}
+          tasks={teamTasks}
+          taskHref={(taskGroupId) => `/dashboard/student/tasks/${taskGroupId}`}
+        />
+      </div>
 
       <div className="rounded-lg border border-border p-4">
         <TeamFeedbackPanel

@@ -4,12 +4,14 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { TeamLinksForm } from "@/components/team/team-links-form";
+import { TeamTasksPanel } from "@/components/team/team-tasks-panel";
 import { UpdateTeamForm } from "@/components/team/update-team-form";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { getAdminTeamDetail } from "@/lib/teams/admin-queries";
 import { getInternshipGroups, getTeamMembersWithNames } from "@/lib/teams/queries";
 import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
+import { getTeamTasksWithSubmissions } from "@/lib/teams/task-submissions";
 
 type MentorTeamDetailPageProps = {
   params: Promise<{ locale: string; teamId: string }>;
@@ -20,11 +22,12 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
   setRequestLocale(locale);
   await requireMentorProfile(locale);
 
-  const [teamDetail, groups, members, feedbackItems] = await Promise.all([
+  const [teamDetail, groups, members, feedbackItems, teamTasks] = await Promise.all([
     getAdminTeamDetail(teamId),
     getInternshipGroups(),
     getTeamMembersWithNames(teamId),
     getTeamFeedbackForTeam(teamId),
+    getTeamTasksWithSubmissions(teamId),
   ]);
 
   if (!teamDetail) {
@@ -44,7 +47,7 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
         <p className="text-muted-foreground">
           {t("teamDetailDescription", { group: teamDetail.groupName })}
         </p>
-      </div>
+      </div>
       <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.details")}</h2>
         <UpdateTeamForm locale={locale} team={teamDetail.team} groups={groups} />
@@ -77,6 +80,15 @@ export default async function MentorTeamDetailPage({ params }: MentorTeamDetailP
             ))}
           </ul>
         )}
+      </div>
+
+      <div className="rounded-lg border border-border p-4">
+        <h2 className="mb-4 text-lg font-medium">{t("sections.tasks")}</h2>
+        <TeamTasksPanel
+          locale={locale}
+          tasks={teamTasks}
+          reviewHref={(submissionId) => `/dashboard/mentor/submissions/${submissionId}`}
+        />
       </div>
 
       <div className="rounded-lg border border-border p-4">

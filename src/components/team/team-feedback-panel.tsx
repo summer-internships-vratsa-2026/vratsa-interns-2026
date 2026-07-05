@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import { useActionState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -13,6 +14,7 @@ import { TaskDescriptionEditor } from "@/components/task/task-description-editor
 import { Button } from "@/components/ui/button";
 import type { FeedbackCategory, FeedbackStatus } from "@/db/schema";
 import type { TeamFeedbackActionState } from "@/lib/validations/team-feedback";
+import { cn } from "@/lib/utils";
 
 type FeedbackCommentView = {
   id: string;
@@ -58,6 +60,11 @@ export function TeamFeedbackPanel({
     initialState,
   );
 
+  const dateFormatter = new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+
   return (
     <section className="space-y-4">
       <div className="space-y-1">
@@ -76,7 +83,7 @@ export function TeamFeedbackPanel({
               <select
                 id="feedback-category"
                 name="category"
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm"
+                className="flex h-9 w-full rounded-md border border-input bg-input px-3 py-1 text-sm text-[var(--input-foreground)]"
                 defaultValue="SUGGESTION"
               >
                 <option value="POSITIVE">{t("category.POSITIVE")}</option>
@@ -91,20 +98,20 @@ export function TeamFeedbackPanel({
               <input
                 id="feedback-title"
                 name="title"
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm"
+                className="flex h-9 w-full rounded-md border border-input bg-input px-3 py-1 text-sm text-[var(--input-foreground)]"
                 required
               />
             </div>
           </div>
           <div className="space-y-1">
-            <label className="text-sm font-medium">
-              {t("fields.content")}
-            </label>
+            <label className="text-sm font-medium">{t("fields.content")}</label>
             <TaskDescriptionEditor name="content" required placeholder={t("feedbackPlaceholder")} />
           </div>
-          {createState.error ? <p className="text-sm text-red-600">{t(`errors.${createState.error}`)}</p> : null}
+          {createState.error ? (
+            <p className="text-sm text-red-400">{t(`errors.${createState.error}`)}</p>
+          ) : null}
           {createState.success ? (
-            <p className="text-sm text-green-700 dark:text-green-400">{t(`success.${createState.success}`)}</p>
+            <p className="text-sm text-green-400">{t(`success.${createState.success}`)}</p>
           ) : null}
           <Button type="submit" disabled={isCreating}>
             {isCreating ? t("loading") : t("create")}
@@ -113,39 +120,72 @@ export function TeamFeedbackPanel({
       ) : null}
 
       {feedbackItems.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground ">
+        <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground">
           {t("empty")}
         </p>
       ) : (
-        <ul className="space-y-3">
-          {feedbackItems.map((item) => (
-            <FeedbackCard
-              key={item.id}
-              locale={locale}
-              teamId={teamId}
-              item={item}
-              canComment={canComment}
-              canMarkDone={canMarkDone}
-            />
-          ))}
-        </ul>
+        <div className="overflow-hidden rounded-lg border border-border">
+          <table className="min-w-full text-left text-sm">
+            <thead className="border-b border-border bg-brand-dark/30">
+              <tr>
+                <th className="px-4 py-3 font-medium">{t("columns.title")}</th>
+                <th className="hidden px-4 py-3 font-medium md:table-cell">{t("columns.category")}</th>
+                <th className="px-4 py-3 font-medium">{t("columns.status")}</th>
+                <th className="hidden px-4 py-3 font-medium sm:table-cell">{t("columns.author")}</th>
+                <th className="hidden px-4 py-3 font-medium lg:table-cell">{t("columns.created")}</th>
+                <th className="hidden px-4 py-3 font-medium sm:table-cell">{t("columns.comments")}</th>
+              </tr>
+            </thead>
+          </table>
+
+          <div className="divide-y divide-white/10">
+            {feedbackItems.map((item) => (
+              <FeedbackAccordionRow
+                key={item.id}
+                locale={locale}
+                teamId={teamId}
+                item={item}
+                canComment={canComment}
+                canMarkDone={canMarkDone}
+                dateFormatter={dateFormatter}
+              />
+            ))}
+          </div>
+        </div>
       )}
     </section>
   );
 }
 
-function FeedbackCard({
+function FeedbackStatusBadge({ status, label }: { status: FeedbackStatus; label: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium",
+        status === "DONE"
+          ? "bg-green-500/20 text-green-200"
+          : "bg-amber-500/20 text-amber-200",
+      )}
+    >
+      {label}
+    </span>
+  );
+}
+
+function FeedbackAccordionRow({
   locale,
   teamId,
   item,
   canComment,
   canMarkDone,
+  dateFormatter,
 }: {
   locale: string;
   teamId: string;
   item: FeedbackItemView;
   canComment: boolean;
   canMarkDone: boolean;
+  dateFormatter: Intl.DateTimeFormat;
 }) {
   const t = useTranslations("TeamFeedback");
   const [commentState, commentAction, isCommenting] = useActionState(
@@ -159,96 +199,114 @@ function FeedbackCard({
   const isDone = item.status === "DONE";
 
   return (
-    <li className="space-y-3 rounded-lg border border-border p-4">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="space-y-1">
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">{t(`category.${item.category}`)}</p>
-          <h3 className="font-medium">{item.title}</h3>
-          <TaskDescriptionContent content={item.content} />
-          <p className="text-xs text-muted-foreground">
-            {t("meta.createdBy", {
-              author: item.authorName ?? "—",
-              date: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(
-                item.createdAt,
-              ),
-            })}
-          </p>
-          {isDone && item.doneAt ? (
-            <p className="text-xs text-green-700 dark:text-green-400">
-              {t("meta.doneAt", {
-                date: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(
-                  item.doneAt,
-                ),
-              })}
-            </p>
-          ) : null}
-        </div>
-        <span
-          className={
-            isDone
-              ? "rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800 dark:bg-green-900/40 dark:text-green-300"
-              : "rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/40 dark:text-amber-300"
-          }
-        >
-          {t(`status.${item.status}`)}
-        </span>
-      </div>
-
-      {canMarkDone ? (
-        <form action={markAction} className="flex items-center gap-2">
-          <input type="hidden" name="teamId" value={teamId} />
-          <input type="hidden" name="feedbackId" value={item.id} />
-          <input type="hidden" name="done" value={isDone ? "false" : "true"} />
-          <Button type="submit" size="sm" variant={isDone ? "outline" : "default"} disabled={isMarking}>
-            {isMarking ? t("loading") : isDone ? t("markOpen") : t("markDone")}
-          </Button>
-          {markState.error ? <span className="text-xs text-red-600">{t(`errors.${markState.error}`)}</span> : null}
-        </form>
-      ) : null}
-
-      <div className="space-y-2">
-        <p className="text-sm font-medium">{t("commentsTitle")}</p>
-        {item.comments.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("emptyComments")}</p>
-        ) : (
-          <ul className="space-y-2">
-            {item.comments.map((comment) => (
-              <li key={comment.id} className="rounded-md bg-brand-dark/30 p-2 text-sm /50">
-                <p>{comment.content}</p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {t("meta.commentBy", {
-                    author: comment.authorName ?? "—",
-                    date: new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(
-                      comment.createdAt,
-                    ),
-                  })}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {canComment ? (
-        <form action={commentAction} className="space-y-2">
-          <input type="hidden" name="teamId" value={teamId} />
-          <input type="hidden" name="feedbackId" value={item.id} />
-          <textarea
-            name="content"
-            className="min-h-20 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
-            placeholder={t("commentPlaceholder")}
-            required
-          />
-          <div className="flex items-center gap-2">
-            <Button type="submit" size="sm" disabled={isCommenting}>
-              {isCommenting ? t("loading") : t("addComment")}
-            </Button>
-            {commentState.error ? (
-              <span className="text-xs text-red-600">{t(`errors.${commentState.error}`)}</span>
-            ) : null}
+    <details className="group">
+      <summary className="cursor-pointer list-none hover:bg-brand-dark/20 [&::-webkit-details-marker]:hidden">
+        <div className="grid grid-cols-1 gap-2 px-4 py-3 sm:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_auto_minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-center sm:gap-4">
+          <div className="flex min-w-0 items-center gap-2">
+            <ChevronDown className="size-4 shrink-0 text-white/70 transition-transform group-open:rotate-180" />
+            <span className="truncate font-medium">{item.title}</span>
           </div>
-        </form>
-      ) : null}
-    </li>
+          <span className="hidden truncate text-muted-foreground md:block">
+            {t(`category.${item.category}`)}
+          </span>
+          <div>
+            <FeedbackStatusBadge status={item.status} label={t(`status.${item.status}`)} />
+          </div>
+          <span className="hidden truncate text-muted-foreground sm:block">
+            {item.authorName ?? "—"}
+          </span>
+          <span className="hidden text-muted-foreground lg:block">
+            {dateFormatter.format(item.createdAt)}
+          </span>
+          <span className="hidden text-muted-foreground sm:block">{item.comments.length}</span>
+        </div>
+      </summary>
+
+      <div className="space-y-4 border-t border-white/10 bg-brand-dark/20 px-4 py-4">
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium">{t("fields.content")}</h3>
+          <TaskDescriptionContent content={item.content} />
+          <dl className="grid gap-2 text-sm sm:grid-cols-2">
+            <div>
+              <dt className="font-medium text-muted-foreground">{t("columns.category")}</dt>
+              <dd>{t(`category.${item.category}`)}</dd>
+            </div>
+            <div>
+              <dt className="font-medium text-muted-foreground">{t("columns.created")}</dt>
+              <dd>
+                {t("meta.createdBy", {
+                  author: item.authorName ?? "—",
+                  date: dateFormatter.format(item.createdAt),
+                })}
+              </dd>
+            </div>
+            {isDone && item.doneAt ? (
+              <div>
+                <dt className="font-medium text-muted-foreground">{t("columns.status")}</dt>
+                <dd className="text-green-400">
+                  {t("meta.doneAt", { date: dateFormatter.format(item.doneAt) })}
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+        </div>
+
+        {canMarkDone ? (
+          <form action={markAction} className="flex items-center gap-2">
+            <input type="hidden" name="teamId" value={teamId} />
+            <input type="hidden" name="feedbackId" value={item.id} />
+            <input type="hidden" name="done" value={isDone ? "false" : "true"} />
+            <Button type="submit" size="sm" variant={isDone ? "outline" : "default"} disabled={isMarking}>
+              {isMarking ? t("loading") : isDone ? t("markOpen") : t("markDone")}
+            </Button>
+            {markState.error ? (
+              <span className="text-xs text-red-400">{t(`errors.${markState.error}`)}</span>
+            ) : null}
+          </form>
+        ) : null}
+
+        <div className="space-y-2">
+          <p className="text-sm font-medium">{t("commentsTitle")}</p>
+          {item.comments.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("emptyComments")}</p>
+          ) : (
+            <ul className="space-y-2">
+              {item.comments.map((comment) => (
+                <li key={comment.id} className="rounded-md bg-brand-dark/30 p-2 text-sm">
+                  <p>{comment.content}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {t("meta.commentBy", {
+                      author: comment.authorName ?? "—",
+                      date: dateFormatter.format(comment.createdAt),
+                    })}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {canComment ? (
+          <form action={commentAction} className="space-y-2">
+            <input type="hidden" name="teamId" value={teamId} />
+            <input type="hidden" name="feedbackId" value={item.id} />
+            <textarea
+              name="content"
+              className="min-h-20 w-full rounded-md border border-input bg-input px-3 py-2 text-sm text-[var(--input-foreground)]"
+              placeholder={t("commentPlaceholder")}
+              required
+            />
+            <div className="flex items-center gap-2">
+              <Button type="submit" size="sm" disabled={isCommenting}>
+                {isCommenting ? t("loading") : t("addComment")}
+              </Button>
+              {commentState.error ? (
+                <span className="text-xs text-red-400">{t(`errors.${commentState.error}`)}</span>
+              ) : null}
+            </div>
+          </form>
+        ) : null}
+      </div>
+    </details>
   );
 }

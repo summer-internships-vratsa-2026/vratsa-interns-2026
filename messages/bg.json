@@ -235,7 +235,8 @@
       "links": "Линкове към проекта",
       "members": "Членове",
       "mentors": "Ментори",
-      "client": "Клиент"
+      "client": "Клиент",
+      "tasks": "Задачи"
     },
     "members": {
       "empty": "Все още няма членове.",
@@ -537,7 +538,8 @@
     "emptyMembers": "Все още няма членове.",
     "sections": {
       "details": "Данни за отбора",
-      "links": "Линкове към проекта"
+      "links": "Линкове към проекта",
+      "tasks": "Задачи"
     },
     "teamsColumns": {
       "name": "Отбор",
@@ -750,6 +752,14 @@
       "OPEN": "Отворено",
       "DONE": "Изпълнено"
     },
+    "columns": {
+      "title": "Заглавие",
+      "category": "Категория",
+      "status": "Статус",
+      "author": "Автор",
+      "created": "Създадено",
+      "comments": "Коментари"
+    },
     "meta": {
       "createdBy": "Създадено от {author} на {date}",
       "doneAt": "Маркирано като изпълнено на {date}",
@@ -766,6 +776,24 @@
       "comment_added": "Коментарът е добавен.",
       "feedback_marked_done": "Маркирано като изпълнено.",
       "feedback_marked_open": "Маркирано като отворено."
+    }
+  },
+  "TeamTasks": {
+    "empty": "Няма задачи за този отбор.",
+    "taskDetails": "Описание на задачата",
+    "solution": "Решение",
+    "noSolution": "Все още няма предадено решение.",
+    "submittedAt": "Предадено на {date}",
+    "textReply": "Текстов отговор",
+    "urls": "Линкове",
+    "target": "Насочена към",
+    "reviewSubmission": "Преглед и коментари",
+    "columns": {
+      "task": "Задача",
+      "topic": "Тема",
+      "deadline": "Краен срок",
+      "status": "Статус",
+      "grade": "Оценка"
     }
   },
   "StudentTasks": {
@@ -832,6 +860,7 @@
     "viewingGroup": "Преглед на назначение за {group}",
     "reusedTaskNote": "Тази задача е приложена от друга група.",
     "alreadyAppliedNote": "Тази задача вече е назначена към основната ви група.",
+    "teamTasksTitle": "Задачи на отбора",
     "studentTasksTitle": "Задачи на отбора",
     "studentEmptyTasks": "Все още няма задачи за вашия отбор.",
     "submissionComingSoon": "Submissions ще бъдат налични в следваща стъпка.",

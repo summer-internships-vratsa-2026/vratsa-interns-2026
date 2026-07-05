@@ -146,7 +146,19 @@ export async function getEligibleTasksForStudent(
   groupId: string,
   projectRole: ProjectRole,
 ) {
-  const rows = await db
+  const rows = await getTasksForGroup(groupId);
+
+  return rows.filter((row) =>
+    isRoleEligibleForTask(projectRole, {
+      targetAllRoles: row.targetAllRoles,
+      onePerTeam: row.onePerTeam,
+      targetRoles: row.targetRoles,
+    }),
+  );
+}
+
+export async function getTasksForGroup(groupId: string) {
+  return db
     .select({
       taskGroupId: taskGroups.id,
       taskId: tasks.id,
@@ -166,12 +178,4 @@ export async function getEligibleTasksForStudent(
     .leftJoin(topics, eq(tasks.topicId, topics.id))
     .where(eq(taskGroups.groupId, groupId))
     .orderBy(desc(taskGroups.deadline));
-
-  return rows.filter((row) =>
-    isRoleEligibleForTask(projectRole, {
-      targetAllRoles: row.targetAllRoles,
-      onePerTeam: row.onePerTeam,
-      targetRoles: row.targetRoles,
-    }),
-  );
 }

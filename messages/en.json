@@ -235,7 +235,8 @@
       "links": "Project links",
       "members": "Members",
       "mentors": "Mentors",
-      "client": "Client"
+      "client": "Client",
+      "tasks": "Tasks"
     },
     "members": {
       "empty": "No members yet.",
@@ -537,7 +538,8 @@
     "emptyMembers": "No members yet.",
     "sections": {
       "details": "Team details",
-      "links": "Project links"
+      "links": "Project links",
+      "tasks": "Tasks"
     },
     "teamsColumns": {
       "name": "Team",
@@ -750,6 +752,14 @@
       "OPEN": "Open",
       "DONE": "Done"
     },
+    "columns": {
+      "title": "Title",
+      "category": "Category",
+      "status": "Status",
+      "author": "Author",
+      "created": "Created",
+      "comments": "Comments"
+    },
     "meta": {
       "createdBy": "Created by {author} on {date}",
       "doneAt": "Marked done on {date}",
@@ -766,6 +776,24 @@
       "comment_added": "Comment added.",
       "feedback_marked_done": "Marked as done.",
       "feedback_marked_open": "Marked as open."
+    }
+  },
+  "TeamTasks": {
+    "empty": "There are no tasks for this team.",
+    "taskDetails": "Task description",
+    "solution": "Solution",
+    "noSolution": "No solution has been submitted yet.",
+    "submittedAt": "Submitted on {date}",
+    "textReply": "Text reply",
+    "urls": "Links",
+    "target": "Targeted to",
+    "reviewSubmission": "Review and comment",
+    "columns": {
+      "task": "Task",
+      "topic": "Topic",
+      "deadline": "Deadline",
+      "status": "Status",
+      "grade": "Grade"
     }
   },
   "StudentTasks": {

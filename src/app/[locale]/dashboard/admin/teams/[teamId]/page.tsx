@@ -7,6 +7,7 @@ import { AdminTeamMentorsPanel } from "@/components/admin/admin-team-mentors-pan
 import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { TeamLinksForm } from "@/components/team/team-links-form";
+import { TeamTasksPanel } from "@/components/team/team-tasks-panel";
 import { UpdateTeamForm } from "@/components/team/update-team-form";
 import { Link } from "@/i18n/navigation";
 import {
@@ -17,6 +18,7 @@ import {
 } from "@/lib/teams/admin-queries";
 import { getInternshipGroups } from "@/lib/teams/queries";
 import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
+import { getTeamTasksWithSubmissions } from "@/lib/teams/task-submissions";
 import { MAX_TEAM_SIZE, MIN_TEAM_SIZE, validateTeamRoles } from "@/lib/validations/team";
 import { requireRole } from "@/lib/auth/session";
 
@@ -29,13 +31,15 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
   setRequestLocale(locale);
   await requireRole(locale, "ADMIN");
 
-  const [teamDetail, groups, mentors, clients, availableStudents, feedbackItems] = await Promise.all([
+  const [teamDetail, groups, mentors, clients, availableStudents, feedbackItems, teamTasks] =
+    await Promise.all([
     getAdminTeamDetail(teamId),
     getInternshipGroups(),
     getAllMentorsWithNames(),
     getAllClientsWithNames(),
     getStudentsWithoutTeam(),
     getTeamFeedbackForTeam(teamId),
+    getTeamTasksWithSubmissions(teamId),
   ]);
 
   if (!teamDetail) {
@@ -126,6 +130,15 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
           teamId={teamId}
           currentClientId={teamDetail.team.clientId}
           clients={clients}
+        />
+      </div>
+
+      <div className="rounded-lg border border-border p-4">
+        <h2 className="mb-4 text-lg font-medium">{t("sections.tasks")}</h2>
+        <TeamTasksPanel
+          locale={locale}
+          tasks={teamTasks}
+          reviewHref={(submissionId) => `/dashboard/admin/submissions/${submissionId}`}
         />
       </div>
 
