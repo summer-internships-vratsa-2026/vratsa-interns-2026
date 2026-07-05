@@ -33,7 +33,7 @@ export async function ensureUserProfileForRole(
       .limit(1);
 
     if (!existing) {
-      await executor.insert(mentors).values({ userId });
+      await executor.insert(mentors).values({ userId, approvedAt: null });
     }
     return;
   }

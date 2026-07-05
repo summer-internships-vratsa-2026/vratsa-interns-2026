@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 
 import { authConfig } from "@/auth.config";
 import { getUserByEmail } from "@/lib/auth/users";
+import { isMentorApproved } from "@/lib/mentors/approval";
 import { verifyPassword } from "@/lib/password";
 import { loginSchema } from "@/lib/validations/auth";
 
@@ -16,6 +17,10 @@ class InvalidCredentialsError extends CredentialsSignin {
 
 class AccountDisabledError extends CredentialsSignin {
   code = "account_disabled";
+}
+
+class MentorNotApprovedError extends CredentialsSignin {
+  code = "mentor_not_approved";
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -51,6 +56,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (user.disabledAt) {
           throw new AccountDisabledError();
+        }
+
+        if (user.role === "MENTOR" && !(await isMentorApproved(user.id))) {
+          throw new MentorNotApprovedError();
         }
 
         return {

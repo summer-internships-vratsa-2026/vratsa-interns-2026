@@ -19,6 +19,7 @@ import {
   setPasswordResetToken,
 } from "@/lib/auth/users";
 import { getDashboardPath } from "@/lib/auth/routes";
+import { isMentorApproved } from "@/lib/mentors/approval";
 import { hashPassword, verifyPassword } from "@/lib/password";
 import {
   forgotPasswordSchema,
@@ -107,6 +108,10 @@ export async function loginAction(
 
   if (user.disabledAt) {
     return { error: "account_disabled", email: parsed.data.email };
+  }
+
+  if (user.role === "MENTOR" && !(await isMentorApproved(user.id))) {
+    return { error: "mentor_not_approved", email: parsed.data.email };
   }
 
   const passwordValid = await verifyPassword(parsed.data.password, user.passwordHash);

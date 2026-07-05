@@ -48,6 +48,7 @@
       "invalid_credentials": "Invalid email or password.",
       "email_not_verified": "Please verify your email before logging in.",
       "account_disabled": "This account has been disabled. Contact an administrator.",
+      "mentor_not_approved": "Your mentor account is pending administrator approval.",
       "email_exists": "An account with this email already exists.",
       "invalid_input": "Please check the entered details.",
       "invalid_token": "Invalid or expired link.",
@@ -390,6 +391,12 @@
     "noAffiliation": "—",
     "verifiedYes": "Verified",
     "verifiedNo": "Not verified",
+    "mentorApprovedYes": "Approved",
+    "mentorApprovedNo": "Pending approval",
+    "approveMentor": "Approve mentor",
+    "confirmMentorApprovalPrompt": "Are you sure you want to approve this mentor? They will be able to log in after email verification.",
+    "confirmMentorApprovalAction": "Yes, approve mentor",
+    "mentorApprovalDescription": "Mentors must be approved by an administrator before they can log in.",
     "statusActive": "Active",
     "statusDisabled": "Disabled",
     "loading": "Loading...",
@@ -408,6 +415,7 @@
       "role": "Role",
       "affiliation": "Affiliation",
       "verified": "Email verified",
+      "mentorApproval": "Mentor approval",
       "status": "Status",
       "actions": "Actions"
     },
@@ -430,6 +438,7 @@
       "clientTeams": "Assigned teams",
       "studentTeam": "Team",
       "verification": "Email verification",
+      "mentorApproval": "Mentor approval",
       "password": "Password",
       "accountStatus": "Account status",
       "danger": "Danger zone"
@@ -442,7 +451,8 @@
       "cannot_change_own_role": "You cannot change your own role.",
       "cannot_disable_self": "You cannot disable your own account.",
       "cannot_delete_self": "You cannot delete your own account.",
-      "last_admin": "At least one active administrator must remain."
+      "last_admin": "At least one active administrator must remain.",
+      "not_a_mentor": "This user is not a mentor."
     },
     "success": {
       "user_created": "User account created.",
@@ -451,7 +461,8 @@
       "email_verified": "Email marked as verified.",
       "password_reset": "Password updated.",
       "user_disabled": "Account disabled.",
-      "user_enabled": "Account enabled."
+      "user_enabled": "Account enabled.",
+      "mentor_approved": "Mentor approved."
     },
     "clientTeams": {
       "emptyAssigned": "No teams assigned yet.",

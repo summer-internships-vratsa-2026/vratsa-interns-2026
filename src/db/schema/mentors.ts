@@ -10,6 +10,7 @@ export const mentors = pgTable("mentors", {
     .unique()
     .references(() => users.id, { onDelete: "cascade" }),
   mainGroupId: uuid("main_group_id").references(() => groups.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

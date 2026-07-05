@@ -57,7 +57,7 @@ export async function createUserWithProfile(input: {
     }
 
     if (input.role === "MENTOR") {
-      await tx.insert(mentors).values({ userId: user.id });
+      await tx.insert(mentors).values({ userId: user.id, approvedAt: null });
     }
 
     return user;

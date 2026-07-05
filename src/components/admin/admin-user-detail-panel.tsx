@@ -11,6 +11,7 @@ import {
   updateAdminUserDetailsAction,
   updateAdminUserRoleAction,
 } from "@/actions/admin-users";
+import { AdminApproveMentorButton } from "@/components/admin/admin-approve-mentor-button";
 import { AdminClientTeamsPanel } from "@/components/admin/admin-client-teams-panel";
 import { AdminMentorMainGroupForm } from "@/components/admin/admin-mentor-main-group-form";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ type AdminUserDetailPanelProps = {
   mentorProfile?: {
     id: string;
     mainGroupId: string | null;
+    approvedAt: Date | null;
   } | null;
   groups?: Group[];
   clientProfile?: {
@@ -105,6 +107,19 @@ export function AdminUserDetailPanel({
             mainGroupId={mentorProfile.mainGroupId}
             groups={groups}
           />
+        </section>
+      ) : null}
+
+      {user.role === "MENTOR" && mentorProfile ? (
+        <section className="rounded-lg border border-border p-4">
+          <h2 className="mb-2 font-medium">{t("sections.mentorApproval")}</h2>
+          <p className="mb-2 text-sm text-muted-foreground">{t("mentorApprovalDescription")}</p>
+          <p className="mb-4 text-sm">
+            {mentorProfile.approvedAt ? t("mentorApprovedYes") : t("mentorApprovedNo")}
+          </p>
+          {!mentorProfile.approvedAt ? (
+            <AdminApproveMentorButton locale={locale} userId={user.id} />
+          ) : null}
         </section>
       ) : null}
 

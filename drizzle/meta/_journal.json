@@ -57,6 +57,13 @@
       "when": 1783340000000,
       "tag": "0007_add_task_status",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1783350000000,
+      "tag": "0008_add_mentor_approved_at",
+      "breakpoints": true
     }
   ]
 }

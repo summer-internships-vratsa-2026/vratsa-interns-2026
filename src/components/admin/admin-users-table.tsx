@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import { AdminApproveMentorButton } from "@/components/admin/admin-approve-mentor-button";
 import { AdminVerifyEmailButton } from "@/components/admin/admin-verify-email-button";
 import { Link } from "@/i18n/navigation";
 import type { UserListRow } from "@/lib/users/queries";
@@ -30,6 +31,7 @@ export async function AdminUsersTable({ locale, users }: AdminUsersTableProps) {
             <th className="px-4 py-3 font-medium">{t("columns.role")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.affiliation")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.verified")}</th>
+            <th className="px-4 py-3 font-medium">{t("columns.mentorApproval")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.status")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.actions")}</th>
           </tr>
@@ -58,6 +60,23 @@ export async function AdminUsersTable({ locale, users }: AdminUsersTableProps) {
                     />
                   ) : null}
                 </div>
+              </td>
+              <td className="px-4 py-3">
+                {user.role === "MENTOR" ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span>{user.mentorApprovedAt ? t("mentorApprovedYes") : t("mentorApprovedNo")}</span>
+                    {!user.mentorApprovedAt ? (
+                      <AdminApproveMentorButton
+                        locale={locale}
+                        userId={user.id}
+                        size="sm"
+                        showFeedback={false}
+                      />
+                    ) : null}
+                  </div>
+                ) : (
+                  <span className="text-muted-foreground">{t("noAffiliation")}</span>
+                )}
               </td>
               <td className="px-4 py-3">
                 {user.disabledAt ? t("statusDisabled") : t("statusActive")}

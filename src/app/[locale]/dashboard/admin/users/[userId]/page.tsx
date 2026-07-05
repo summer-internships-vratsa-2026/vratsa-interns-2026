@@ -94,7 +94,11 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
         isSelf={session?.user?.id === user.id}
         mentorProfile={
           mentorProfile
-            ? { id: mentorProfile.id, mainGroupId: mentorProfile.mainGroupId }
+            ? {
+                id: mentorProfile.id,
+                mainGroupId: mentorProfile.mainGroupId,
+                approvedAt: mentorProfile.approvedAt,
+              }
             : null
         }
         groups={groups}

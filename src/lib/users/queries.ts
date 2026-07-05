@@ -15,6 +15,7 @@ export type UserListRow = {
   role: UserRole;
   emailVerifiedAt: Date | null;
   disabledAt: Date | null;
+  mentorApprovedAt: Date | null;
   createdAt: Date;
   affiliation: string | null;
 };
@@ -92,9 +93,11 @@ export async function getUsersList(filters: UserListFilters = {}): Promise<UserL
       role: users.role,
       emailVerifiedAt: users.emailVerifiedAt,
       disabledAt: users.disabledAt,
+      mentorApprovedAt: mentors.approvedAt,
       createdAt: users.createdAt,
     })
     .from(users)
+    .leftJoin(mentors, eq(mentors.userId, users.id))
     .where(conditions.length > 0 ? and(...conditions) : undefined)
     .orderBy(users.name);
 

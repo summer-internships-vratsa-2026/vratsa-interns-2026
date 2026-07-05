@@ -16,6 +16,8 @@ import {
 } from "@/lib/auth/users";
 import { hashPassword } from "@/lib/password";
 import { canManageUsers } from "@/lib/permissions";
+import { approveMentor } from "@/lib/mentors/approval";
+import { getMentorByUserId } from "@/lib/mentors/queries";
 import { ensureUserProfileForRole } from "@/lib/users/admin";
 import { countAdmins } from "@/lib/users/queries";
 import {
@@ -213,6 +215,50 @@ export async function verifyAdminUserEmailAction(
 
   revalidateUserPaths(locale, parsed.data.userId);
   return { success: "email_verified" };
+}
+
+export async function approveAdminMentorAction(
+  locale: string,
+  _prevState: AdminUserActionState,
+  formData: FormData,
+): Promise<AdminUserActionState> {
+  if (!(await requireAdmin())) {
+    return { error: "forbidden" };
+  }
+
+  const parsed = adminUserIdSchema.safeParse({
+    userId: formData.get("userId"),
+  });
+
+  if (!parsed.success) {
+    return { error: "invalid_input" };
+  }
+
+  const user = await getUserById(parsed.data.userId);
+
+  if (!user) {
+    return { error: "user_not_found" };
+  }
+
+  if (user.role !== "MENTOR") {
+    return { error: "not_a_mentor" };
+  }
+
+  const mentor = await getMentorByUserId(parsed.data.userId);
+
+  if (!mentor) {
+    return { error: "user_not_found" };
+  }
+
+  if (mentor.approvedAt) {
+    return { success: "mentor_approved" };
+  }
+
+  await approveMentor(parsed.data.userId);
+
+  revalidateUserPaths(locale, parsed.data.userId);
+  revalidatePath(`/${locale}/dashboard/admin/mentors`);
+  return { success: "mentor_approved" };
 }
 
 export async function resetAdminUserPasswordAction(
