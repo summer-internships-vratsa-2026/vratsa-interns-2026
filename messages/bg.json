@@ -72,7 +72,9 @@
       "tasksLinkTitle": "Задачи",
       "tasksLinkDescription": "Създаване и управление на задачи за групите в стажа.",
       "topicsLinkTitle": "Теми",
-      "topicsLinkDescription": "Дефиниране на теми, които могат да се присвояват на задачи."
+      "topicsLinkDescription": "Дефиниране на теми, които могат да се присвояват на задачи.",
+      "submissionsLinkTitle": "Решения",
+      "submissionsLinkDescription": "Преглед на решения, коментари и оценки."
     },
     "client": {
       "title": "Табло — клиент",
@@ -398,6 +400,87 @@
     "groupLabel": "Група: {group}",
     "sections": {
       "links": "Линкове към проекта"
+    }
+  },
+  "SubmissionReviews": {
+    "listTitle": "Решения",
+    "listDescription": "Преглеждайте работата на учениците, оставяйте коментари и поставяйте оценки.",
+    "backToSubmissions": "Към решенията",
+    "backToDashboard": "Към администраторското табло",
+    "emptySubmissions": "Няма решения, отговарящи на избраните филтри.",
+    "review": "Преглед",
+    "ungraded": "Без оценка",
+    "meta": "Отбор: {team} · Група: {group}",
+    "taskSection": "Задача",
+    "submissionSection": "Решение на ученика",
+    "targetLabel": "Назначено на",
+    "submittedAt": "Предадено: {date}",
+    "draftNote": "Това решение все още не е предадено (чернова).",
+    "textReply": "Текстов отговор",
+    "urls": "Линкове",
+    "emptySubmission": "Все още няма съдържание.",
+    "commentsTitle": "Коментари",
+    "commentsDescription": "Оставете обратна връзка за отбора относно това решение.",
+    "evaluationTitle": "Обратна връзка и оценка",
+    "evaluationDescription": "Добавете коментар, оценка или и двете. Коментарът може да се запази самостоятелно; запазването на оценка изисква оценка и може да включи по избор коментар.",
+    "commentLabel": "Коментар",
+    "addComment": "Добави коментар",
+    "commentPlaceholder": "Напишете коментар…",
+    "noComments": "Все още няма коментари.",
+    "gradeTitle": "Оценка",
+    "gradeDescription": "Поставете оценка от 1 до 10.",
+    "latestGradeNote": "За всяко решение се пази само последната оценка.",
+    "gradeLabel": "Оценка (1–10)",
+    "saveGrade": "Запази оценка",
+    "deleteGrade": "Премахни оценката",
+    "currentGrade": "Текуща оценка: {grade}/10",
+    "gradedBy": "Оценено от {name} на {date}",
+    "noGrade": "Все още няма оценка.",
+    "cannotEditOtherGrade": "Тази оценка е поставена от друг ментор. Само той или администратор може да я промени.",
+    "loading": "Запазване…",
+    "columns": {
+      "task": "Задача",
+      "team": "Отбор",
+      "group": "Група",
+      "status": "Статус",
+      "grade": "Оценка",
+      "updated": "Обновено",
+      "actions": "Действия"
+    },
+    "status": {
+      "not_submitted": "Непредадено",
+      "submitted": "Предадено",
+      "late": "Закъсняло"
+    },
+    "filters": {
+      "group": "Група",
+      "team": "Отбор",
+      "task": "Задача",
+      "role": "Роля в задачата",
+      "gradeStatus": "Статус на оценката",
+      "all": "Всички",
+      "graded": "С оценка",
+      "ungraded": "Без оценка",
+      "apply": "Приложи филтрите",
+      "clear": "Изчисти"
+    },
+    "roles": {
+      "SOFTWARE_DEVELOPER": "Software Developer",
+      "MARKETING_EXPERT": "Marketing Expert",
+      "PRODUCT_OWNER": "Product Owner"
+    },
+    "errors": {
+      "forbidden": "Нямате права за това действие.",
+      "invalid_input": "Моля, проверете въведените данни.",
+      "invalid_grade": "Оценката трябва да е цяло число от 1 до 10.",
+      "submission_not_found": "Решението не е намерено.",
+      "grade_not_found": "Няма оценка за премахване.",
+      "cannot_edit_other_grade": "Можете да променяте само оценки, които сте поставили вие."
+    },
+    "success": {
+      "comment_added": "Коментарът е добавен.",
+      "grade_saved": "Оценката е запазена.",
+      "grade_deleted": "Оценката е премахната."
     }
   },
   "Submissions": {

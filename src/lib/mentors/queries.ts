@@ -1,7 +1,7 @@
 import { desc, eq, isNotNull, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { groups, mentors, submissions, taskGroups, tasks, teams, users } from "@/db/schema";
+import { groups, mentors, teams, users } from "@/db/schema";
 
 export async function getMentorByUserId(userId: string) {
   const [mentor] = await db.select().from(mentors).where(eq(mentors.userId, userId)).limit(1);
@@ -64,29 +64,6 @@ export async function getGroupsOverview() {
     teamCount: teamCountByGroup.get(group.id) ?? 0,
     mainMentors: mentorsByGroup.get(group.id) ?? [],
   }));
-}
-
-export async function getAllSubmissionsWithContext() {
-  return db
-    .select({
-      submissionId: submissions.id,
-      teamId: teams.id,
-      teamName: teams.name,
-      groupId: groups.id,
-      groupName: groups.name,
-      taskId: tasks.id,
-      taskTitle: tasks.title,
-      submittedAt: submissions.submittedAt,
-      textReply: submissions.textReply,
-      urlCount: sql<number>`jsonb_array_length(${submissions.urls})`.mapWith(Number),
-      updatedAt: submissions.updatedAt,
-    })
-    .from(submissions)
-    .innerJoin(teams, eq(submissions.teamId, teams.id))
-    .innerJoin(groups, eq(teams.groupId, groups.id))
-    .innerJoin(taskGroups, eq(submissions.taskGroupId, taskGroups.id))
-    .innerJoin(tasks, eq(taskGroups.taskId, tasks.id))
-    .orderBy(desc(submissions.updatedAt));
 }
 
 export type MentorProfile = NonNullable<Awaited<ReturnType<typeof getMentorByUserId>>>;

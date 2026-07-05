@@ -172,15 +172,15 @@
 
 ## 11. Mentor Reviews and Grades
 
-- [ ] Create submission review page
-- [ ] Allow mentors to view submissions
-- [ ] Allow mentors to add comments
-- [ ] Allow mentors to add optional grade
-- [ ] Validate grade from 1 to 10
-- [ ] Allow mentor to update own grade
-- [ ] Allow admin to edit/delete grades if needed
-- [ ] Show grading history or latest grade only
-- [ ] Add filters by group, team, task, role, grade status
+- [x] Create submission review page
+- [x] Allow mentors to view submissions
+- [x] Allow mentors to add comments
+- [x] Allow mentors to add optional grade
+- [x] Validate grade from 1 to 10
+- [x] Allow mentor to update own grade
+- [x] Allow admin to edit/delete grades if needed
+- [x] Show grading history or latest grade only
+- [x] Add filters by group, team, task, role, grade status
 
 ## 12. Client Access
 

@@ -2,27 +2,27 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { SubmissionFilters } from "@/components/submission/submission-filters";
 import { SubmissionsTable } from "@/components/submission/submissions-table";
-import { MentorNav } from "@/components/mentor/mentor-nav";
-import { requireMentorProfile } from "@/lib/auth/session";
+import { Link } from "@/i18n/navigation";
+import { requireRole } from "@/lib/auth/session";
 import { parseSubmissionListFilters } from "@/lib/submissions/filters";
 import {
   getSubmissionFilterOptions,
   getSubmissionsListWithContext,
 } from "@/lib/submissions/queries";
 
-type MentorSubmissionsPageProps = {
+type AdminSubmissionsPageProps = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function MentorSubmissionsPage({
+export default async function AdminSubmissionsPage({
   params,
   searchParams,
-}: MentorSubmissionsPageProps) {
+}: AdminSubmissionsPageProps) {
   const { locale } = await params;
   const resolvedSearchParams = await searchParams;
   setRequestLocale(locale);
-  await requireMentorProfile(locale);
+  await requireRole(locale, "ADMIN");
 
   const filters = parseSubmissionListFilters(resolvedSearchParams);
   const [submissions, filterOptions] = await Promise.all([
@@ -34,18 +34,19 @@ export default async function MentorSubmissionsPage({
   return (
     <section className="space-y-6">
       <div className="space-y-2">
+        <Link href="/dashboard/admin" className="text-sm text-zinc-500 underline">
+          {t("backToDashboard")}
+        </Link>
         <h1 className="text-2xl font-semibold">{t("listTitle")}</h1>
         <p className="text-zinc-600 dark:text-zinc-400">{t("listDescription")}</p>
       </div>
-
-      <MentorNav current="submissions" />
 
       <SubmissionFilters
         groups={filterOptions.groups}
         teams={filterOptions.teams}
         tasks={filterOptions.tasks}
         current={filters}
-        clearHref="/dashboard/mentor/submissions"
+        clearHref="/dashboard/admin/submissions"
       />
 
       {submissions.length === 0 ? (
@@ -56,7 +57,7 @@ export default async function MentorSubmissionsPage({
         <SubmissionsTable
           locale={locale}
           submissions={submissions}
-          reviewBasePath="/dashboard/mentor/submissions"
+          reviewBasePath="/dashboard/admin/submissions"
         />
       )}
     </section>

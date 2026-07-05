@@ -72,7 +72,9 @@
       "tasksLinkTitle": "Tasks",
       "tasksLinkDescription": "Create and manage tasks for internship groups.",
       "topicsLinkTitle": "Topics",
-      "topicsLinkDescription": "Define topics that can be assigned to tasks."
+      "topicsLinkDescription": "Define topics that can be assigned to tasks.",
+      "submissionsLinkTitle": "Submissions",
+      "submissionsLinkDescription": "Review student submissions, add comments, and manage grades."
     },
     "client": {
       "title": "Client dashboard",
@@ -398,6 +400,87 @@
     "groupLabel": "Group: {group}",
     "sections": {
       "links": "Project links"
+    }
+  },
+  "SubmissionReviews": {
+    "listTitle": "Submissions",
+    "listDescription": "Review student work, leave comments, and assign grades.",
+    "backToSubmissions": "Back to submissions",
+    "backToDashboard": "Back to admin dashboard",
+    "emptySubmissions": "No submissions match the selected filters.",
+    "review": "Review",
+    "ungraded": "Not graded",
+    "meta": "Team: {team} · Group: {group}",
+    "taskSection": "Task",
+    "submissionSection": "Student submission",
+    "targetLabel": "Assigned to",
+    "submittedAt": "Submitted: {date}",
+    "draftNote": "This submission has not been submitted yet (draft).",
+    "textReply": "Text reply",
+    "urls": "Links",
+    "emptySubmission": "No content submitted yet.",
+    "commentsTitle": "Comments",
+    "commentsDescription": "Leave feedback for the team about this submission.",
+    "evaluationTitle": "Feedback & grade",
+    "evaluationDescription": "Add a comment, assign a grade, or both. Comments can be saved on their own; saving a grade requires a grade and can include an optional comment.",
+    "commentLabel": "Comment",
+    "addComment": "Add comment",
+    "commentPlaceholder": "Write your comment…",
+    "noComments": "No comments yet.",
+    "gradeTitle": "Grade",
+    "gradeDescription": "Assign a grade from 1 to 10.",
+    "latestGradeNote": "Only the latest grade is stored for each submission.",
+    "gradeLabel": "Grade (1–10)",
+    "saveGrade": "Save grade",
+    "deleteGrade": "Remove grade",
+    "currentGrade": "Current grade: {grade}/10",
+    "gradedBy": "Graded by {name} on {date}",
+    "noGrade": "No grade assigned yet.",
+    "cannotEditOtherGrade": "This grade was assigned by another mentor. Only they or an administrator can change it.",
+    "loading": "Saving…",
+    "columns": {
+      "task": "Task",
+      "team": "Team",
+      "group": "Group",
+      "status": "Status",
+      "grade": "Grade",
+      "updated": "Updated",
+      "actions": "Actions"
+    },
+    "status": {
+      "not_submitted": "Not submitted",
+      "submitted": "Submitted",
+      "late": "Late"
+    },
+    "filters": {
+      "group": "Group",
+      "team": "Team",
+      "task": "Task",
+      "role": "Task role",
+      "gradeStatus": "Grade status",
+      "all": "All",
+      "graded": "Graded",
+      "ungraded": "Not graded",
+      "apply": "Apply filters",
+      "clear": "Clear"
+    },
+    "roles": {
+      "SOFTWARE_DEVELOPER": "Software Developer",
+      "MARKETING_EXPERT": "Marketing Expert",
+      "PRODUCT_OWNER": "Product Owner"
+    },
+    "errors": {
+      "forbidden": "You do not have permission for this action.",
+      "invalid_input": "Please check the entered details.",
+      "invalid_grade": "Grade must be a whole number from 1 to 10.",
+      "submission_not_found": "Submission not found.",
+      "grade_not_found": "No grade to remove.",
+      "cannot_edit_other_grade": "You can only update grades you assigned."
+    },
+    "success": {
+      "comment_added": "Comment added.",
+      "grade_saved": "Grade saved.",
+      "grade_deleted": "Grade removed."
     }
   },
   "Submissions": {
