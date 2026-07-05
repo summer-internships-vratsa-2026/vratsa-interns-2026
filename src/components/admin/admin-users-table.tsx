@@ -32,7 +32,6 @@ export async function AdminUsersTable({ locale, users }: AdminUsersTableProps) {
             <th className="px-4 py-3 font-medium">{t("columns.affiliation")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.verified")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.mentorApproval")}</th>
-            <th className="px-4 py-3 font-medium">{t("columns.status")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.actions")}</th>
           </tr>
         </thead>
@@ -77,9 +76,6 @@ export async function AdminUsersTable({ locale, users }: AdminUsersTableProps) {
                 ) : (
                   <span className="text-muted-foreground">{t("noAffiliation")}</span>
                 )}
-              </td>
-              <td className="px-4 py-3">
-                {user.disabledAt ? t("statusDisabled") : t("statusActive")}
               </td>
               <td className="px-4 py-3">
                 <Link href={`/dashboard/admin/users/${user.id}`} className="underline">
