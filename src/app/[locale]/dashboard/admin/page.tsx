@@ -1,7 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { Link } from "@/i18n/navigation";
+import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
+import { DashboardStatCard } from "@/components/dashboard/dashboard-stat-card";
 import { requireRole } from "@/lib/auth/session";
+import { getAdminDashboardStats } from "@/lib/dashboard/queries";
 
 type AdminDashboardPageProps = {
   params: Promise<{ locale: string }>;
@@ -11,51 +13,52 @@ export default async function AdminDashboardPage({ params }: AdminDashboardPageP
   const { locale } = await params;
   setRequestLocale(locale);
   await requireRole(locale, "ADMIN");
-  const t = await getTranslations("Dashboard.admin");
+
+  const [stats, t] = await Promise.all([
+    getAdminDashboardStats(),
+    getTranslations("Dashboard.admin"),
+  ]);
 
   return (
-    <section className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-semibold">{t("title")}</h1>
-        <p className="text-muted-foreground">{t("description")}</p>
-      </div>
+    <section className="space-y-8">
+      <DashboardPageHeader title={t("title")} description={t("description")} />
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Link
-          href="/dashboard/admin/teams"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("teamsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("teamsLinkDescription")}</p>
-        </Link>
-        <Link
-          href="/dashboard/admin/tasks"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("tasksLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("tasksLinkDescription")}</p>
-        </Link>
-        <Link
-          href="/dashboard/admin/topics"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("topicsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("topicsLinkDescription")}</p>
-        </Link>
-        <Link
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <DashboardStatCard
           href="/dashboard/admin/users"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("usersLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("usersLinkDescription")}</p>
-        </Link>
-        <Link
+          value={stats.users}
+          title={t("usersLinkTitle")}
+          description={t("usersLinkDescription")}
+        />
+        <DashboardStatCard
+          href="/dashboard/admin/teams"
+          value={stats.teams}
+          title={t("teamsLinkTitle")}
+          description={t("teamsLinkDescription")}
+        />
+        <DashboardStatCard
+          href="/dashboard/admin/tasks"
+          value={stats.tasks}
+          title={t("tasksLinkTitle")}
+          description={t("tasksLinkDescription")}
+        />
+        <DashboardStatCard
+          value={stats.groups}
+          title={t("groupsStatTitle")}
+          description={t("groupsStatDescription")}
+        />
+        <DashboardStatCard
           href="/dashboard/admin/submissions"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("submissionsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("submissionsLinkDescription")}</p>
-        </Link>
+          value={stats.submissions}
+          title={t("submissionsLinkTitle")}
+          description={t("submissionsLinkDescription")}
+        />
+        <DashboardStatCard
+          href="/dashboard/admin/topics"
+          value={stats.topics}
+          title={t("topicsLinkTitle")}
+          description={t("topicsLinkDescription")}
+        />
       </div>
     </section>
   );

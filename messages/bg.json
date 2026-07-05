@@ -73,7 +73,20 @@
     },
     "student": {
       "title": "Табло — ученик",
-      "description": "Тук ще виждате вашия отбор, задачи и submissions."
+      "description": "Преглед на отбора, активни задачи, срокове и решения.",
+      "teamLabel": "Вашият отбор",
+      "teamMeta": "{group} · {members, plural, one {# член} other {# члена}}",
+      "viewTeam": "Виж детайли за отбора",
+      "activeTasksTitle": "Активни задачи",
+      "activeTasksDescription": "Задачи, които очакват вашето решение.",
+      "submissionsTitle": "Предадени задачи",
+      "submissionsDescription": "Задачи, които вече сте предали.",
+      "upcomingDeadlinesTitle": "Предстоящи срокове",
+      "upcomingDeadlinesDescription": "Отворени задачи, подредени по най-близък срок.",
+      "emptyDeadlines": "Няма отворени задачи в момента.",
+      "recentSubmissionsTitle": "Последни решения",
+      "recentSubmissionsDescription": "Вашата най-нова предадена работа.",
+      "emptySubmissions": "Все още няма решения."
     },
     "mentor": {
       "title": "Табло — ментор",
@@ -95,7 +108,9 @@
       "clientsLinkTitle": "Клиенти",
       "clientsLinkDescription": "Създаване на клиентски акаунти и управление на организации.",
       "usersLinkTitle": "Потребители",
-      "usersLinkDescription": "Създаване на акаунти, управление на роли и достъп."
+      "usersLinkDescription": "Създаване на акаунти, управление на роли и достъп.",
+      "groupsStatTitle": "Групи",
+      "groupsStatDescription": "Групи в стажа на платформата."
     },
     "client": {
       "title": "Табло — клиент",
@@ -103,7 +118,13 @@
       "teamsLinkTitle": "Назначени отбори",
       "teamsLinkDescription": "Отворете отбор, вижте членовете и оставете обратна връзка.",
       "submissionsLinkTitle": "Решения",
-      "submissionsLinkDescription": "Прегледайте решения от назначените отбори и оставете коментари."
+      "submissionsLinkDescription": "Прегледайте решения от назначените отбори и оставете коментари.",
+      "recentSubmissionsTitle": "Последни решения",
+      "recentSubmissionsDescription": "Най-новата работа от назначените ви отбори.",
+      "emptySubmissions": "Все още няма решения.",
+      "recentCommentsTitle": "Последни коментари",
+      "recentCommentsDescription": "Най-новата обратна връзка по решения от вашите отбори.",
+      "emptyComments": "Все още няма коментари."
     }
   },
   "Team": {
@@ -524,6 +545,13 @@
       "tasksDescription": "Преглед на задачи от всички групи",
       "submissionsTitle": "Всички submissions",
       "submissionsDescription": "Преглед на submissions от всички групи"
+    },
+    "dashboard": {
+      "mainGroupTasksDescription": "Задачи, назначени на вашата основна група.",
+      "pendingReviewsTitle": "Чакащи прегледи",
+      "pendingReviewsDescription": "Предадена работа без оценка.",
+      "recentSubmissionsTitle": "Последни решения",
+      "recentSubmissionsDescription": "Най-новата работа на учениците от всички групи."
     },
     "groupsPageTitle": "Всички групи",
     "groupsColumns": {

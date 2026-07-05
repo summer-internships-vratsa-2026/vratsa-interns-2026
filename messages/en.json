@@ -73,7 +73,20 @@
     },
     "student": {
       "title": "Student dashboard",
-      "description": "Your team, tasks, and submissions will appear here."
+      "description": "Your team overview, active tasks, deadlines, and submissions.",
+      "teamLabel": "Your team",
+      "teamMeta": "{group} · {members, plural, one {# member} other {# members}}",
+      "viewTeam": "View team details",
+      "activeTasksTitle": "Active tasks",
+      "activeTasksDescription": "Tasks waiting for your submission.",
+      "submissionsTitle": "Submitted tasks",
+      "submissionsDescription": "Tasks you have already submitted.",
+      "upcomingDeadlinesTitle": "Upcoming deadlines",
+      "upcomingDeadlinesDescription": "Open tasks sorted by nearest deadline.",
+      "emptyDeadlines": "No open tasks right now.",
+      "recentSubmissionsTitle": "Recent submissions",
+      "recentSubmissionsDescription": "Your latest submitted work.",
+      "emptySubmissions": "No submissions yet."
     },
     "mentor": {
       "title": "Mentor dashboard",
@@ -95,7 +108,9 @@
       "clientsLinkTitle": "Clients",
       "clientsLinkDescription": "Create client accounts and manage organization details.",
       "usersLinkTitle": "Users",
-      "usersLinkDescription": "Create accounts, manage roles, and control access."
+      "usersLinkDescription": "Create accounts, manage roles, and control access.",
+      "groupsStatTitle": "Groups",
+      "groupsStatDescription": "Internship groups in the platform."
     },
     "client": {
       "title": "Client dashboard",
@@ -103,7 +118,13 @@
       "teamsLinkTitle": "Assigned teams",
       "teamsLinkDescription": "Open a team, view members, and leave feedback.",
       "submissionsLinkTitle": "Submissions",
-      "submissionsLinkDescription": "Review submissions from your assigned teams and leave comments."
+      "submissionsLinkDescription": "Review submissions from your assigned teams and leave comments.",
+      "recentSubmissionsTitle": "Recent submissions",
+      "recentSubmissionsDescription": "Latest student work from your assigned teams.",
+      "emptySubmissions": "No submissions yet.",
+      "recentCommentsTitle": "Recent comments",
+      "recentCommentsDescription": "Latest feedback on submissions from your teams.",
+      "emptyComments": "No comments yet."
     }
   },
   "Team": {
@@ -524,6 +545,13 @@
       "tasksDescription": "Browse tasks from all groups",
       "submissionsTitle": "All submissions",
       "submissionsDescription": "Review student submissions from all groups"
+    },
+    "dashboard": {
+      "mainGroupTasksDescription": "Tasks assigned to your main group.",
+      "pendingReviewsTitle": "Pending reviews",
+      "pendingReviewsDescription": "Submitted work without a grade yet.",
+      "recentSubmissionsTitle": "Recent submissions",
+      "recentSubmissionsDescription": "Latest student work across all groups."
     },
     "groupsPageTitle": "All groups",
     "groupsColumns": {

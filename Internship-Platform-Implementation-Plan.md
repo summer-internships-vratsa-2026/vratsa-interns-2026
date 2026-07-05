@@ -221,12 +221,12 @@
 
 ## 15. Dashboard
 
-- [ ] Create shared dashboard layout
-- [ ] Create role-specific dashboard cards
-- [ ] Student dashboard: team, active tasks, deadlines, submissions
-- [ ] Mentor dashboard: main group, tasks, pending reviews, recent submissions
-- [ ] Admin dashboard: users, teams, groups, tasks, submissions
-- [ ] Client dashboard: assigned teams, recent submissions, comments
+- [x] Create shared dashboard layout
+- [x] Create role-specific dashboard cards
+- [x] Student dashboard: team, active tasks, deadlines, submissions
+- [x] Mentor dashboard: main group, tasks, pending reviews, recent submissions
+- [x] Admin dashboard: users, teams, groups, tasks, submissions
+- [x] Client dashboard: assigned teams, recent submissions, comments
 
 ## 16. Permissions Matrix
 

@@ -1,9 +1,11 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { Link } from "@/i18n/navigation";
+import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
+import { DashboardRecentList } from "@/components/dashboard/dashboard-recent-list";
+import { DashboardSection } from "@/components/dashboard/dashboard-section";
+import { DashboardStatCard } from "@/components/dashboard/dashboard-stat-card";
 import { requireMentorProfile } from "@/lib/auth/session";
-import { getGroupsOverview } from "@/lib/mentors/queries";
-import { getGroupName } from "@/lib/teams/queries";
+import { getMentorDashboardOverview } from "@/lib/dashboard/queries";
 import { hasMainGroupAssigned } from "@/lib/permissions";
 
 type MentorDashboardPageProps = {
@@ -14,79 +16,78 @@ export default async function MentorDashboardPage({ params }: MentorDashboardPag
   const { locale } = await params;
   setRequestLocale(locale);
   const { mentor } = await requireMentorProfile(locale);
-  const t = await getTranslations("MentorDashboard");
 
-  const [mainGroupName, groups] = await Promise.all([
-    mentor.mainGroupId ? getGroupName(mentor.mainGroupId) : Promise.resolve(null),
-    getGroupsOverview(),
+  const [overview, t] = await Promise.all([
+    getMentorDashboardOverview(mentor),
+    getTranslations("MentorDashboard"),
   ]);
 
-  const mainGroupTeams = mentor.mainGroupId
-    ? (groups.find((group) => group.id === mentor.mainGroupId)?.teamCount ?? 0)
-    : 0;
+  const dateFormatter = new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
 
   return (
-    <section className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-semibold">{t("title")}</h1>
-      </div>
+    <section className="space-y-8">
+      <DashboardPageHeader title={t("title")} />
+
       {!hasMainGroupAssigned(mentor) ? (
-        <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900   ">
+        <div className="rounded-lg border border-amber-300/50 bg-amber-950/30 p-4 text-sm text-amber-100">
           {t("noMainGroupWarning")}
         </div>
       ) : (
-        <div className="rounded-lg border border-border p-4">
+        <div className="rounded-lg border border-border bg-card p-4">
           <h2 className="font-medium">{t("mainGroupTitle")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            {t("mainGroupDescription", { group: mainGroupName ?? "—", teams: mainGroupTeams })}
+            {t("mainGroupDescription", {
+              group: overview.mainGroupName ?? "—",
+              teams: overview.mainGroupTeams,
+            })}
           </p>
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Link
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <DashboardStatCard
           href="/dashboard/mentor/groups"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("cards.groupsTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t("cards.groupsDescription", { count: groups.length })}
-          </p>
-        </Link>
-        <Link
-          href="/dashboard/mentor/teams"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("cards.teamsTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("cards.teamsDescription")}</p>
-        </Link>
-        <Link
+          value={overview.groupCount}
+          title={t("cards.groupsTitle")}
+          description={t("cards.groupsDescription", { count: overview.groupCount })}
+        />
+        <DashboardStatCard
           href="/dashboard/mentor/tasks"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("cards.tasksTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t("cards.tasksDescription")}</p>
-        </Link>
-        <Link
+          value={overview.mainGroupTaskCount}
+          title={t("cards.tasksTitle")}
+          description={t("dashboard.mainGroupTasksDescription")}
+        />
+        <DashboardStatCard
           href="/dashboard/mentor/submissions"
-          className="rounded-lg border border-border p-4 transition hover:bg-brand-dark/30 "
-        >
-          <h2 className="font-medium">{t("cards.submissionsTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t("cards.submissionsDescription")}
-          </p>
-        </Link>
+          value={overview.pendingReviews}
+          title={t("dashboard.pendingReviewsTitle")}
+          description={t("dashboard.pendingReviewsDescription")}
+        />
+        <DashboardStatCard
+          href="/dashboard/mentor/teams"
+          title={t("cards.teamsTitle")}
+          description={t("cards.teamsDescription")}
+        />
       </div>
 
-      <div className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground ">
-        <p className="font-medium">{t("permissionsTitle")}</p>
-        <ul className="mt-2 list-disc space-y-1 pl-5">
-          <li>{t("permissions.viewAll")}</li>
-          <li>{t("permissions.createTasks")}</li>
-          <li>{t("permissions.commentAll")}</li>
-          <li>{t("permissions.gradeAll")}</li>
-        </ul>
-      </div>
+      <DashboardSection
+        title={t("dashboard.recentSubmissionsTitle")}
+        description={t("dashboard.recentSubmissionsDescription")}
+      >
+        <DashboardRecentList
+          emptyMessage={t("emptySubmissions")}
+          items={overview.recentSubmissions.map((row) => ({
+            id: row.submissionId,
+            title: row.taskTitle,
+            subtitle: `${row.teamName} · ${row.groupName}`,
+            meta: row.submittedAt ? dateFormatter.format(row.submittedAt) : undefined,
+            href: `/dashboard/mentor/submissions/${row.submissionId}`,
+          }))}
+        />
+      </DashboardSection>
     </section>
   );
 }
