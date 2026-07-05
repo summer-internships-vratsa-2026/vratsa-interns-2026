@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { SubmissionDetailView } from "@/components/submission/submission-detail-view";
 import { requireClientProfile } from "@/lib/auth/session";
-import { canAccessSubmission } from "@/lib/permissions/submission";
+import { canAccessSubmission } from "@/lib/permissions";
 import { getSubmissionDetailById } from "@/lib/submissions/queries";
 
 type ClientSubmissionDetailPageProps = {

@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { getAllTasksWithGroups, getRootSourceTaskId, isTaskAssignedToGroup } from "@/lib/tasks/queries";
-import { canApplyTaskToGroup, canCreateTaskForGroup, hasMainGroupAssigned } from "@/lib/permissions";
+import { canApplyTaskToGroup, canCreateTask, canCreateTaskForGroup } from "@/lib/permissions";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
 
 type MentorTasksPageProps = {
@@ -17,7 +17,7 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
 
   const tasks = await getAllTasksWithGroups();
   const t = await getTranslations("Tasks");
-  const canCreate = hasMainGroupAssigned(mentor);
+  const canCreate = canCreateTask("MENTOR", mentor);
 
   const applyChecks = await Promise.all(
     tasks.map(async (task) => {
@@ -54,7 +54,7 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
             {t("createTask")}
           </Link>
         ) : null}
-      </div>
+      </div>
       {tasks.length === 0 ? (
         <p className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground ">
           {t("emptyTasks")}

@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CreateTaskForm } from "@/components/task/create-task-form";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
-import { hasMainGroupAssigned } from "@/lib/permissions";
+import { canCreateTask } from "@/lib/permissions";
 import { getAllTopics } from "@/lib/topics/queries";
 
 type MentorCreateTaskPageProps = {
@@ -16,9 +16,10 @@ export default async function MentorCreateTaskPage({ params }: MentorCreateTaskP
   const { mentor } = await requireMentorProfile(locale);
   const t = await getTranslations("Tasks");
 
-  if (!hasMainGroupAssigned(mentor)) {
+  if (!canCreateTask("MENTOR", mentor)) {
     return (
-      <section className="space-y-6">        <p className="text-sm text-red-600">{t("errors.no_main_group")}</p>
+      <section className="space-y-6">
+        <p className="text-sm text-red-600">{t("errors.no_main_group")}</p>
         <Link href="/dashboard/mentor/tasks" className="text-sm underline">
           {t("backToTasks")}
         </Link>

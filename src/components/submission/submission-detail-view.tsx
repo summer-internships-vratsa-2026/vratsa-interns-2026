@@ -5,7 +5,12 @@ import { SubmissionStatusBadge } from "@/components/task/submission-status-badge
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
 import { TaskDescriptionContent } from "@/components/task/task-description-content";
 import { Link } from "@/i18n/navigation";
-import { canCommentSubmission, canGradeSubmission } from "@/lib/permissions/mentor";
+import {
+  canCommentOnSubmission,
+  canEditSubmissionGrade,
+  canGradeSubmission,
+  canManageUsers,
+} from "@/lib/permissions";
 import { getSubmissionDetailById, getSubmissionStatus } from "@/lib/submissions/queries";
 import type { UserRole } from "@/db/schema/enums";
 
@@ -32,8 +37,20 @@ export async function SubmissionDetailView({
     return null;
   }
 
-  const t = await getTranslations("SubmissionReviews");
-  const tTasks = await getTranslations("Tasks");
+  const [t, tTasks, canComment] = await Promise.all([
+    getTranslations("SubmissionReviews"),
+    getTranslations("Tasks"),
+    canCommentOnSubmission(currentUserId, currentUserRole, detail.teamId),
+  ]);
+
+  const canGrade = canGradeSubmission(currentUserRole);
+  const canEditGrade = canEditSubmissionGrade(
+    currentUserRole,
+    detail.grade?.gradedByUserId ?? null,
+    currentUserId,
+  );
+  const canDeleteGrade = canManageUsers(currentUserRole);
+
   const status = getSubmissionStatus(detail.submission, detail.deadline);
 
   const statusLabels = {
@@ -127,9 +144,9 @@ export async function SubmissionDetailView({
         submissionId={submissionId}
         comments={detail.comments}
         grade={detail.grade}
-        canComment={canCommentSubmission(currentUserRole)}
-        canGrade={canGradeSubmission(currentUserRole)}
-        canDeleteGrade={currentUserRole === "ADMIN"}
+        canComment={canComment}
+        canGrade={canGrade && canEditGrade}
+        canDeleteGrade={canDeleteGrade}
         currentUserId={currentUserId}
       />
     </section>

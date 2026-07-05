@@ -20,6 +20,7 @@ type SubmissionFormProps = {
   responseTypes: TaskResponseType[];
   deadline: Date;
   submission: Submission | null;
+  canSubmit?: boolean;
 };
 
 const initialState: SubmissionActionState = {};
@@ -30,6 +31,7 @@ export function SubmissionForm({
   responseTypes,
   deadline,
   submission,
+  canSubmit = true,
 }: SubmissionFormProps) {
   const t = useTranslations("Submissions");
   const [saveState, saveAction, isSaving] = useActionState(
@@ -45,6 +47,7 @@ export function SubmissionForm({
   );
 
   const isPastDeadline = new Date() > deadline;
+  const canEdit = canSubmit && !isPastDeadline;
   const hasUrl = responseTypes.includes("URL");
   const hasText = responseTypes.includes("TEXT");
   const hasFileUpload = responseTypes.includes("FILE_UPLOAD");
@@ -63,12 +66,17 @@ export function SubmissionForm({
 
   return (
     <div className="space-y-6">
-      {isPastDeadline ? (
+      {!canSubmit ? (
+        <p className="text-sm text-muted-foreground">{t("notEligible")}</p>
+      ) : null}
+
+      {canSubmit && isPastDeadline ? (
         <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900   ">
           {t("pastDeadlineWarning")}
         </div>
       ) : null}
 
+      {canSubmit ? (
       <form action={saveAction} className="space-y-5">
         <input type="hidden" name="urlCount" value={urls.length} />
 
@@ -142,7 +150,7 @@ export function SubmissionForm({
         ) : null}
 
         <div className="flex flex-wrap items-center gap-3">
-          <Button type="submit" disabled={isSaving || isWithdrawing}>
+          <Button type="submit" disabled={!canEdit || isSaving || isWithdrawing}>
             {isSaving ? t("saving") : t("submit")}
           </Button>
 
@@ -151,7 +159,7 @@ export function SubmissionForm({
               <Button
                 type="submit"
                 variant="outline"
-                disabled={isSaving || isWithdrawing}
+                disabled={!canEdit || isSaving || isWithdrawing}
               >
                 {isWithdrawing ? t("saving") : t("withdraw")}
               </Button>
@@ -159,6 +167,7 @@ export function SubmissionForm({
           ) : null}
         </div>
       </form>
+      ) : null}
     </div>
   );
 }

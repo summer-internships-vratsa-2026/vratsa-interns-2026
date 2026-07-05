@@ -5,7 +5,7 @@ import { TeamFeedbackPanel } from "@/components/team/team-feedback-panel";
 import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { Link } from "@/i18n/navigation";
 import { requireClientProfile } from "@/lib/auth/session";
-import { getClientTeamsByUserId } from "@/lib/clients/queries";
+import { canViewTeam } from "@/lib/permissions";
 import { getAdminTeamDetail } from "@/lib/teams/admin-queries";
 import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
 
@@ -20,13 +20,11 @@ export default async function ClientTeamDetailPage({ params }: ClientTeamDetailP
   const t = await getTranslations("ClientTeams");
   const tTasks = await getTranslations("Tasks");
 
-  const [teamDetail, feedbackItems, clientTeams] = await Promise.all([
+  const [teamDetail, feedbackItems, hasAccess] = await Promise.all([
     getAdminTeamDetail(teamId),
     getTeamFeedbackForTeam(teamId),
-    getClientTeamsByUserId(session.user.id),
+    canViewTeam(session.user.id, session.user.role, teamId),
   ]);
-
-  const hasAccess = clientTeams.some((team) => team.id === teamId);
 
   if (!teamDetail || !hasAccess) {
     notFound();
@@ -39,7 +37,7 @@ export default async function ClientTeamDetailPage({ params }: ClientTeamDetailP
         <p className="text-muted-foreground">
           {t("groupLabel", { group: teamDetail.groupName })}
         </p>
-      </div>
+      </div>
       <div className="rounded-lg border border-border p-4">
         <h2 className="mb-4 text-lg font-medium">{t("sections.members")}</h2>
         {teamDetail.members.length === 0 ? (

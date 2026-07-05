@@ -230,17 +230,17 @@
 
 ## 16. Permissions Matrix
 
-- [ ] Implement `canViewTeam`
-- [ ] Implement `canEditTeam`
-- [ ] Implement `canCreateTask`
-- [ ] Implement `canApplyTaskToGroup`
-- [ ] Implement `canSubmitTask`
-- [ ] Implement `canCommentSubmission`
-- [ ] Implement `canGradeSubmission`
-- [ ] Implement `canManageUsers`
-- [ ] Implement `canManageClients`
-- [ ] Implement server-side permission checks
-- [ ] Hide unavailable UI actions client-side
+- [x] Implement `canViewTeam`
+- [x] Implement `canEditTeam`
+- [x] Implement `canCreateTask`
+- [x] Implement `canApplyTaskToGroup`
+- [x] Implement `canSubmitTask`
+- [x] Implement `canCommentSubmission`
+- [x] Implement `canGradeSubmission`
+- [x] Implement `canManageUsers`
+- [x] Implement `canManageClients`
+- [x] Implement server-side permission checks
+- [x] Hide unavailable UI actions client-side
 
 ## 17. Seed Data
 

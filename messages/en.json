@@ -734,6 +734,7 @@
     "saving": "Saving…",
     "withdraw": "Withdraw submission",
     "pastDeadlineWarning": "The deadline has passed. You can still edit your submission, but it will be marked as late.",
+    "notEligible": "This task is not assigned to your role or team.",
     "fileUploadComingSoon": "File upload support is coming soon.",
     "openToSubmit": "Open to submit",
     "viewSubmission": "View / edit submission",

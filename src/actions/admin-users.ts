@@ -15,6 +15,7 @@ import {
   resetUserPassword,
 } from "@/lib/auth/users";
 import { hashPassword } from "@/lib/password";
+import { canManageUsers } from "@/lib/permissions";
 import { ensureUserProfileForRole } from "@/lib/users/admin";
 import { countAdmins } from "@/lib/users/queries";
 import {
@@ -28,7 +29,7 @@ import {
 
 async function requireAdmin() {
   const session = await auth();
-  return session?.user?.role === "ADMIN" ? session : null;
+  return session?.user && canManageUsers(session.user.role) ? session : null;
 }
 
 function revalidateUserPaths(locale: string, userId?: string) {

@@ -8,6 +8,7 @@ import { db } from "@/db";
 import { teamInvites, teamMembers, teams } from "@/db/schema";
 import { buildTeamJoinUrl, sendTeamInviteEmail } from "@/lib/teams/emails";
 import { createInviteToken, getInviteExpiryDate, isInviteExpired } from "@/lib/teams/invites";
+import { canEditTeam } from "@/lib/permissions";
 import {
   getInviteByToken,
   getMemberRoles,
@@ -144,7 +145,11 @@ export async function updateTeamDetailsAction(
 ): Promise<TeamActionState> {
   const session = await auth();
 
-  if (!session?.user || (session.user.role !== "ADMIN" && session.user.role !== "MENTOR")) {
+  if (!session?.user) {
+    return { error: "forbidden" };
+  }
+
+  if (!(await canEditTeam(session.user.id, session.user.role, teamId))) {
     return { error: "forbidden" };
   }
 
@@ -224,15 +229,9 @@ export async function updateTeamLinksAction(
     return { error: "team_not_found" };
   }
 
-  const { role } = session.user;
+  const { role, id: userId } = session.user;
 
-  if (role === "STUDENT") {
-    try {
-      await requireStudentTeamMember(teamId);
-    } catch {
-      return { error: "forbidden" };
-    }
-  } else if (role !== "ADMIN" && role !== "MENTOR") {
+  if (!(await canEditTeam(userId, role, teamId))) {
     return { error: "forbidden" };
   }
 

@@ -8,6 +8,7 @@ import { db } from "@/db";
 import { clients, teamMembers, teamMentors, teams } from "@/db/schema";
 import { getMemberRoles, getTeamById, getTeamMembershipForStudent } from "@/lib/teams/queries";
 import { ALL_PROJECT_ROLES, MAX_TEAM_SIZE } from "@/lib/validations/team";
+import { canManageUsers } from "@/lib/permissions";
 import {
   addTeamMemberSchema,
   assignTeamClientSchema,
@@ -21,7 +22,7 @@ import {
 async function requireAdmin(): Promise<{ userId: string } | null> {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "ADMIN") {
+  if (!session?.user || !canManageUsers(session.user.role)) {
     return null;
   }
 

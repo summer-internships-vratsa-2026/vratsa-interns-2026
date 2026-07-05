@@ -8,6 +8,7 @@ import { db } from "@/db";
 import { clients, teams } from "@/db/schema";
 import { createClientUser, getUserByEmail } from "@/lib/auth/users";
 import { hashPassword } from "@/lib/password";
+import { canManageClients } from "@/lib/permissions";
 import {
   assignClientTeamSchema,
   createClientSchema,
@@ -18,7 +19,7 @@ import {
 
 async function requireAdmin() {
   const session = await auth();
-  return session?.user?.role === "ADMIN" ? session : null;
+  return session?.user && canManageClients(session.user.role) ? session : null;
 }
 
 async function revalidateClientPaths(locale: string, clientId: string, teamId?: string) {

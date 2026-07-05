@@ -7,6 +7,7 @@ import { TaskDescriptionContent } from "@/components/task/task-description-conte
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
 import { Link } from "@/i18n/navigation";
 import { requireRole } from "@/lib/auth/session";
+import { canSubmitTask } from "@/lib/permissions";
 import { getTaskGroupById } from "@/lib/tasks/queries";
 import { getStudentByUserId, getTeamMembershipForStudent } from "@/lib/teams/queries";
 import { getSubmissionWithFeedback, getSubmissionStatus } from "@/lib/submissions/queries";
@@ -40,6 +41,7 @@ export default async function StudentTaskDetailPage({ params }: StudentTaskDetai
 
   const submissionData = await getSubmissionWithFeedback(membership.team.id, taskGroupId);
   const status = getSubmissionStatus(submissionData?.submission ?? null, taskGroup.deadline);
+  const canSubmit = await canSubmitTask(session.user.id, session.user.role, taskGroupId);
 
   const t = await getTranslations("Submissions");
   const tTasks = await getTranslations("Tasks");
@@ -113,6 +115,7 @@ export default async function StudentTaskDetailPage({ params }: StudentTaskDetai
           responseTypes={taskGroup.task.responseTypes}
           deadline={taskGroup.deadline}
           submission={submissionData?.submission ?? null}
+          canSubmit={canSubmit}
         />
       </div>
 

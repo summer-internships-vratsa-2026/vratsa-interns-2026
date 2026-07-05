@@ -6,8 +6,12 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { submissionComments, submissionGrades } from "@/db/schema";
-import { canCommentSubmission, canGradeSubmission } from "@/lib/permissions/mentor";
-import { canAccessSubmission } from "@/lib/permissions/submission";
+import {
+  canCommentOnSubmission,
+  canEditSubmissionGrade,
+  canGradeSubmission,
+  canManageUsers,
+} from "@/lib/permissions";
 import { getSubmissionDetailById } from "@/lib/submissions/queries";
 import {
   addSubmissionCommentSchema,
@@ -33,7 +37,7 @@ export async function addSubmissionCommentAction(
 ): Promise<SubmissionReviewActionState> {
   const session = await auth();
 
-  if (!session?.user || !canCommentSubmission(session.user.role)) {
+  if (!session?.user) {
     return { error: "forbidden" };
   }
 
@@ -52,7 +56,7 @@ export async function addSubmissionCommentAction(
     return { error: "submission_not_found" };
   }
 
-  if (!(await canAccessSubmission(session.user.id, session.user.role, detail.teamId))) {
+  if (!(await canCommentOnSubmission(session.user.id, session.user.role, detail.teamId))) {
     return { error: "forbidden" };
   }
 
@@ -93,7 +97,7 @@ export async function upsertSubmissionGradeAction(
     return { error: "submission_not_found" };
   }
 
-  if (detail.grade && session.user.role === "MENTOR" && detail.grade.gradedByUserId !== session.user.id) {
+  if (detail.grade && !canEditSubmissionGrade(session.user.role, detail.grade.gradedByUserId, session.user.id)) {
     return { error: "cannot_edit_other_grade" };
   }
 
@@ -135,7 +139,7 @@ export async function deleteSubmissionGradeAction(
 ): Promise<SubmissionReviewActionState> {
   const session = await auth();
 
-  if (!session?.user || session.user.role !== "ADMIN") {
+  if (!session?.user || !canManageUsers(session.user.role)) {
     return { error: "forbidden" };
   }
 

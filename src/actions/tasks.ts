@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { taskGroups, tasks } from "@/db/schema";
 import { getMentorByUserId } from "@/lib/mentors/queries";
-import { canApplyTaskToGroup, canCreateTaskForGroup } from "@/lib/permissions";
+import { canApplyTaskToGroup, canCreateTask, canCreateTaskForGroup } from "@/lib/permissions";
 import { getAllGroups } from "@/lib/teams/admin-queries";
 import {
   getRootSourceTaskId,
@@ -30,7 +30,7 @@ async function requireMentorWithMainGroup() {
 
   const mentor = await getMentorByUserId(session.user.id);
 
-  if (!mentor?.mainGroupId) {
+  if (!mentor || !canCreateTask(session.user.role, mentor)) {
     return null;
   }
 

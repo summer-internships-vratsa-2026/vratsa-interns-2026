@@ -8,6 +8,7 @@ import { db } from "@/db";
 import { submissions, taskGroups } from "@/db/schema";
 import { students, teamMembers } from "@/db/schema";
 import { getSubmissionForTeamTask } from "@/lib/submissions/queries";
+import { canSubmitTask } from "@/lib/permissions";
 import { getTeamMembershipForStudent } from "@/lib/teams/queries";
 import {
   type SubmissionActionState,
@@ -46,6 +47,16 @@ export async function upsertSubmissionAction(
   _prevState: SubmissionActionState,
   formData: FormData,
 ): Promise<SubmissionActionState> {
+  const session = await auth();
+
+  if (!session?.user) {
+    return { error: "forbidden" };
+  }
+
+  if (!(await canSubmitTask(session.user.id, session.user.role, taskGroupId))) {
+    return { error: "forbidden" };
+  }
+
   let membership: Awaited<ReturnType<typeof requireStudentMembership>>["membership"];
 
   try {
@@ -55,20 +66,6 @@ export async function upsertSubmissionAction(
   }
 
   const teamId = membership.team.id;
-
-  const [taskGroup] = await db
-    .select()
-    .from(taskGroups)
-    .where(eq(taskGroups.id, taskGroupId))
-    .limit(1);
-
-  if (!taskGroup) {
-    return { error: "task_not_found" };
-  }
-
-  if (taskGroup.groupId !== membership.team.groupId) {
-    return { error: "forbidden" };
-  }
 
   const raw: Record<string, unknown> = {
     textReply: formData.get("textReply"),
@@ -123,6 +120,16 @@ export async function withdrawSubmissionAction(
   _prevState: SubmissionActionState,
   _formData: FormData,
 ): Promise<SubmissionActionState> {
+  const session = await auth();
+
+  if (!session?.user) {
+    return { error: "forbidden" };
+  }
+
+  if (!(await canSubmitTask(session.user.id, session.user.role, taskGroupId))) {
+    return { error: "forbidden" };
+  }
+
   let membership: Awaited<ReturnType<typeof requireStudentMembership>>["membership"];
 
   try {
@@ -139,7 +146,7 @@ export async function withdrawSubmissionAction(
     .where(eq(taskGroups.id, taskGroupId))
     .limit(1);
 
-  if (!taskGroup || taskGroup.groupId !== membership.team.groupId) {
+  if (!taskGroup) {
     return { error: "forbidden" };
   }
 

@@ -6,7 +6,7 @@ import { DashboardSection } from "@/components/dashboard/dashboard-section";
 import { DashboardStatCard } from "@/components/dashboard/dashboard-stat-card";
 import { requireMentorProfile } from "@/lib/auth/session";
 import { getMentorDashboardOverview } from "@/lib/dashboard/queries";
-import { hasMainGroupAssigned } from "@/lib/permissions";
+import { canCreateTask } from "@/lib/permissions";
 
 type MentorDashboardPageProps = {
   params: Promise<{ locale: string }>;
@@ -31,7 +31,7 @@ export default async function MentorDashboardPage({ params }: MentorDashboardPag
     <section className="space-y-8">
       <DashboardPageHeader title={t("title")} />
 
-      {!hasMainGroupAssigned(mentor) ? (
+      {!canCreateTask("MENTOR", mentor) ? (
         <div className="rounded-lg border border-amber-300/50 bg-amber-950/30 p-4 text-sm text-amber-100">
           {t("noMainGroupWarning")}
         </div>

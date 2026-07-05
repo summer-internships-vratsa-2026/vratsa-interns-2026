@@ -1,14 +1,23 @@
+export { canManageClients, canManageUsers } from "./admin";
 export {
-  canApplyTaskToGroup,
-  canCommentSubmission,
-  canCreateTaskForGroup,
-  canEditTeam,
-  canGradeSubmission,
   canViewAllGroups,
-  canViewAllSubmissions,
   canViewAllTasks,
   canViewAllTeams,
-  hasMainGroupAssigned,
-  type MentorContext,
-  type MentorGroupAccess,
 } from "./mentor";
+export {
+  canAccessSubmission,
+  canCommentOnSubmission,
+  canCommentSubmission,
+  canEditSubmissionGrade,
+  canGradeSubmission,
+  canViewAllSubmissions,
+} from "./submission";
+export {
+  canApplyTaskToGroup,
+  canCreateTask,
+  canCreateTaskForGroup,
+  canSubmitTask,
+  hasMainGroupAssigned,
+} from "./task";
+export { canEditTeam, canViewTeam } from "./team";
+export type { MentorGroupAccess, PermissionUser } from "./types";
