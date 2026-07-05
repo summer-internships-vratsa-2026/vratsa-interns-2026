@@ -10,7 +10,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import { projectRoleEnum } from "./enums";
+import { projectRoleEnum, taskStatusEnum } from "./enums";
 import { groups } from "./groups";
 import { topics } from "./topics";
 import { users } from "./users";
@@ -33,6 +33,7 @@ export const tasks = pgTable(
       .notNull()
       .default(["URL"]),
     topicId: uuid("topic_id").references(() => topics.id, { onDelete: "set null" }),
+    status: taskStatusEnum("status").notNull().default("PUBLISHED"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },

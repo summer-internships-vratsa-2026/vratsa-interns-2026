@@ -874,6 +874,13 @@
     "allGroups": "Всички групи",
     "selectGroupsHint": "Или изберете една или повече групи:",
     "createTask": "Създай задача",
+    "saveDraft": "Запази чернова",
+    "publishTask": "Публикувай",
+    "editTask": "Редактирай задача",
+    "editTaskTitle": "Редакция на задача",
+    "backToTask": "Към задачата",
+    "editingGroup": "Редакция на назначение за {group}",
+    "taskStatus": "Статус",
     "applyToMyGroup": "Приложи към моята група",
     "applyToGroupTitle": "Приложи към {group}",
     "applyToGroupDescription": "Създайте копие на задачата за основната ви група с нов краен срок.",
@@ -889,6 +896,14 @@
     "viewingGroup": "Преглед на назначение за {group}",
     "reusedTaskNote": "Тази задача е приложена от друга група.",
     "alreadyAppliedNote": "Тази задача вече е назначена към основната ви група.",
+    "status": {
+      "draft": "Чернова",
+      "published": "Публикувана"
+    },
+    "success": {
+      "task_saved": "Задачата е запазена.",
+      "task_published": "Задачата е публикувана."
+    },
     "teamTasksTitle": "Задачи на отбора",
     "studentTasksTitle": "Задачи на отбора",
     "studentEmptyTasks": "Все още няма задачи за вашия отбор.",

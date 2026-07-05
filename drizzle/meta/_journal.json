@@ -50,6 +50,13 @@
       "when": 1783330000000,
       "tag": "0006_add_user_disabled_at",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1783340000000,
+      "tag": "0007_add_task_status",
+      "breakpoints": true
     }
   ]
 }

@@ -2,9 +2,11 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { TaskDescriptionContent } from "@/components/task/task-description-content";
+import { TaskStatusBadge } from "@/components/task/task-status-badge";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
 import { Link } from "@/i18n/navigation";
 import { requireRole } from "@/lib/auth/session";
+import { canEditTask } from "@/lib/permissions";
 import { getTaskAssignment, getTaskWithGroups } from "@/lib/tasks/queries";
 
 type AdminTaskDetailPageProps = {
@@ -19,7 +21,7 @@ export default async function AdminTaskDetailPage({
   const { locale, taskId } = await params;
   const { groupId } = await searchParams;
   setRequestLocale(locale);
-  await requireRole(locale, "ADMIN");
+  const session = await requireRole(locale, "ADMIN");
 
   const taskDetail = await getTaskWithGroups(taskId);
 
@@ -34,13 +36,41 @@ export default async function AdminTaskDetailPage({
       ? await getTaskAssignment(taskId, taskDetail.assignments[0].groupId)
       : null;
 
+  const canEdit = selectedAssignment
+    ? await canEditTask(
+        session.user.id,
+        session.user.role,
+        taskId,
+        selectedAssignment.groupId,
+      )
+    : false;
+
+  const statusLabels = {
+    DRAFT: t("status.draft"),
+    PUBLISHED: t("status.published"),
+  } as const;
+
   return (
     <section className="space-y-6">
       <div className="space-y-2">
         <Link href="/dashboard/admin/tasks" className="text-sm text-muted-foreground underline">
           {t("backToTasks")}
         </Link>
-        <h1 className="text-2xl font-semibold">{taskDetail.task.title}</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-semibold">{taskDetail.task.title}</h1>
+          <TaskStatusBadge
+            status={taskDetail.task.status}
+            label={statusLabels[taskDetail.task.status]}
+          />
+        </div>
+        {canEdit && selectedAssignment ? (
+          <Link
+            href={`/dashboard/admin/tasks/${taskId}/edit?groupId=${selectedAssignment.groupId}`}
+            className="inline-flex text-sm font-medium text-brand-accent underline-offset-4 hover:underline"
+          >
+            {t("editTask")}
+          </Link>
+        ) : null}
       </div>
 
       <div className="space-y-4 rounded-lg border border-border p-4">

@@ -2,7 +2,7 @@ import { and, desc, eq, or } from "drizzle-orm";
 
 import { db } from "@/db";
 import { groups, taskGroups, tasks, topics, users } from "@/db/schema";
-import type { ProjectRole } from "@/db/schema/enums";
+import type { ProjectRole, TaskStatus } from "@/db/schema/enums";
 import { isRoleEligibleForTask } from "@/lib/validations/task";
 
 export function getRootSourceTaskId(task: { id: string; sourceTaskId: string | null }): string {
@@ -27,6 +27,7 @@ export async function getAllTasksWithGroups() {
       topicId: tasks.topicId,
       topicTitle: topics.title,
       topicDescription: topics.description,
+      status: tasks.status,
       createdAt: tasks.createdAt,
       createdByName: users.name,
     })
@@ -146,7 +147,7 @@ export async function getEligibleTasksForStudent(
   groupId: string,
   projectRole: ProjectRole,
 ) {
-  const rows = await getTasksForGroup(groupId);
+  const rows = await getTasksForGroup(groupId, { publishedOnly: true });
 
   return rows.filter((row) =>
     isRoleEligibleForTask(projectRole, {
@@ -157,7 +158,17 @@ export async function getEligibleTasksForStudent(
   );
 }
 
-export async function getTasksForGroup(groupId: string) {
+type GetTasksForGroupOptions = {
+  publishedOnly?: boolean;
+};
+
+export async function getTasksForGroup(groupId: string, options: GetTasksForGroupOptions = {}) {
+  const conditions = [eq(taskGroups.groupId, groupId)];
+
+  if (options.publishedOnly) {
+    conditions.push(eq(tasks.status, "PUBLISHED"));
+  }
+
   return db
     .select({
       taskGroupId: taskGroups.id,
@@ -165,6 +176,7 @@ export async function getTasksForGroup(groupId: string) {
       title: tasks.title,
       description: tasks.description,
       deadline: taskGroups.deadline,
+      status: tasks.status,
       targetAllRoles: tasks.targetAllRoles,
       onePerTeam: tasks.onePerTeam,
       targetRoles: tasks.targetRoles,
@@ -176,6 +188,10 @@ export async function getTasksForGroup(groupId: string) {
     .from(taskGroups)
     .innerJoin(tasks, eq(taskGroups.taskId, tasks.id))
     .leftJoin(topics, eq(tasks.topicId, topics.id))
-    .where(eq(taskGroups.groupId, groupId))
+    .where(and(...conditions))
     .orderBy(desc(taskGroups.deadline));
+}
+
+export function isTaskPublished(status: TaskStatus): boolean {
+  return status === "PUBLISHED";
 }

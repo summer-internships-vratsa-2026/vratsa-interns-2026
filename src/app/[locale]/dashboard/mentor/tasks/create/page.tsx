@@ -39,7 +39,7 @@ export default async function MentorCreateTaskPage({ params }: MentorCreateTaskP
       </div>
 
       <div className="max-w-2xl rounded-lg border border-border p-4">
-        <CreateTaskForm locale={locale} variant="mentor" topics={topics} />
+        <CreateTaskForm locale={locale} variant="mentor" topics={topics} mode="create" />
       </div>
     </section>
   );

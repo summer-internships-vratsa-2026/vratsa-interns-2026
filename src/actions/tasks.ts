@@ -1,5 +1,6 @@
 "use server";
 
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -7,14 +8,28 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { taskGroups, tasks } from "@/db/schema";
 import { getMentorByUserId } from "@/lib/mentors/queries";
-import { canApplyTaskToGroup, canCreateTask, canCreateTaskForGroup } from "@/lib/permissions";
+import {
+  canApplyTaskToGroup,
+  canCreateTask,
+  canCreateTaskForGroup,
+  canEditTask,
+} from "@/lib/permissions";
 import { getAllGroups } from "@/lib/teams/admin-queries";
 import {
   getRootSourceTaskId,
   getTaskAssignment,
   isTaskAssignedToGroup,
 } from "@/lib/tasks/queries";
-import { applyTaskSchema, createTaskSchema, mapCreateTaskFieldErrors, parseTaskTargetInput, validationFailure, type TaskActionState } from "@/lib/validations/task-form";
+import {
+  applyTaskSchema,
+  createTaskSchema,
+  mapCreateTaskFieldErrors,
+  parseTaskTargetInput,
+  resolveTaskStatusFromIntent,
+  updateTaskSchema,
+  validationFailure,
+  type TaskActionState,
+} from "@/lib/validations/task-form";
 
 async function requireAdmin() {
   const session = await auth();
@@ -37,10 +52,45 @@ async function requireMentorWithMainGroup() {
   return { session, mentor };
 }
 
-function revalidateTaskPaths(locale: string) {
+function revalidateTaskPaths(locale: string, taskId?: string) {
   revalidatePath(`/${locale}/dashboard/mentor/tasks`);
   revalidatePath(`/${locale}/dashboard/admin/tasks`);
   revalidatePath(`/${locale}/dashboard/student/team`);
+
+  if (taskId) {
+    revalidatePath(`/${locale}/dashboard/admin/tasks/${taskId}`);
+    revalidatePath(`/${locale}/dashboard/mentor/tasks/${taskId}`);
+  }
+}
+
+function parseCreateTaskInput(formData: FormData) {
+  return createTaskSchema.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    deadline: formData.get("deadline"),
+    targetMode: formData.get("targetMode"),
+    targetRoles: formData.getAll("targetRoles"),
+    responseTypes: formData.getAll("responseTypes"),
+    topicId: formData.get("topicId"),
+    publishIntent: formData.get("publishIntent"),
+    assignAllGroups: formData.get("assignAllGroups"),
+    groupIds: formData.getAll("groupIds"),
+  });
+}
+
+function parseUpdateTaskInput(formData: FormData) {
+  return updateTaskSchema.safeParse({
+    taskId: formData.get("taskId"),
+    groupId: formData.get("groupId"),
+    title: formData.get("title"),
+    description: formData.get("description"),
+    deadline: formData.get("deadline"),
+    targetMode: formData.get("targetMode"),
+    targetRoles: formData.getAll("targetRoles"),
+    responseTypes: formData.getAll("responseTypes"),
+    topicId: formData.get("topicId"),
+    publishIntent: formData.get("publishIntent"),
+  });
 }
 
 export async function createMentorTaskAction(
@@ -54,15 +104,7 @@ export async function createMentorTaskAction(
     return { error: "forbidden" };
   }
 
-  const parsed = createTaskSchema.safeParse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    deadline: formData.get("deadline"),
-    targetMode: formData.get("targetMode"),
-    targetRoles: formData.getAll("targetRoles"),
-    responseTypes: formData.getAll("responseTypes"),
-    topicId: formData.get("topicId"),
-  });
+  const parsed = parseCreateTaskInput(formData);
 
   if (!parsed.success) {
     return validationFailure(mapCreateTaskFieldErrors(parsed.error), formData);
@@ -78,6 +120,7 @@ export async function createMentorTaskAction(
     targetRoles: parsed.data.targetRoles,
   });
   const groupId = context.mentor.mainGroupId!;
+  const status = resolveTaskStatusFromIntent(parsed.data.publishIntent);
 
   if (!canCreateTaskForGroup(context.mentor, groupId)) {
     return { error: "forbidden" };
@@ -95,6 +138,7 @@ export async function createMentorTaskAction(
         targetRoles: target.targetRoles,
         responseTypes: parsed.data.responseTypes,
         topicId: parsed.data.topicId,
+        status,
       })
       .returning();
 
@@ -106,7 +150,9 @@ export async function createMentorTaskAction(
   });
 
   revalidateTaskPaths(locale);
-  redirect(`/${locale}/dashboard/mentor/tasks?created=1`);
+  redirect(
+    `/${locale}/dashboard/mentor/tasks?${status === "DRAFT" ? "draft=1" : "created=1"}`,
+  );
 }
 
 export async function createAdminTaskAction(
@@ -120,17 +166,7 @@ export async function createAdminTaskAction(
     return { error: "forbidden" };
   }
 
-  const parsed = createTaskSchema.safeParse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    deadline: formData.get("deadline"),
-    targetMode: formData.get("targetMode"),
-    targetRoles: formData.getAll("targetRoles"),
-    responseTypes: formData.getAll("responseTypes"),
-    topicId: formData.get("topicId"),
-    assignAllGroups: formData.get("assignAllGroups"),
-    groupIds: formData.getAll("groupIds"),
-  });
+  const parsed = parseCreateTaskInput(formData);
 
   if (!parsed.success) {
     return validationFailure(mapCreateTaskFieldErrors(parsed.error), formData);
@@ -145,6 +181,7 @@ export async function createAdminTaskAction(
     targetMode: parsed.data.targetMode,
     targetRoles: parsed.data.targetRoles,
   });
+  const status = resolveTaskStatusFromIntent(parsed.data.publishIntent);
   let groupIds = parsed.data.groupIds;
 
   if (parsed.data.assignAllGroups) {
@@ -168,6 +205,7 @@ export async function createAdminTaskAction(
         targetRoles: target.targetRoles,
         responseTypes: parsed.data.responseTypes,
         topicId: parsed.data.topicId,
+        status,
       })
       .returning();
 
@@ -181,7 +219,135 @@ export async function createAdminTaskAction(
   });
 
   revalidateTaskPaths(locale);
-  redirect(`/${locale}/dashboard/admin/tasks?created=1`);
+  redirect(`/${locale}/dashboard/admin/tasks?${status === "DRAFT" ? "draft=1" : "created=1"}`);
+}
+
+export async function updateMentorTaskAction(
+  locale: string,
+  taskId: string,
+  groupId: string,
+  _prevState: TaskActionState,
+  formData: FormData,
+): Promise<TaskActionState> {
+  const context = await requireMentorWithMainGroup();
+
+  if (!context) {
+    return { error: "forbidden" };
+  }
+
+  if (
+    !(await canEditTask(context.session.user.id, context.session.user.role, taskId, groupId, context.mentor))
+  ) {
+    return { error: "forbidden" };
+  }
+
+  const parsed = parseUpdateTaskInput(formData);
+
+  if (!parsed.success) {
+    return validationFailure(mapCreateTaskFieldErrors(parsed.error), formData);
+  }
+
+  if (!parsed.data.deadline) {
+    return validationFailure({ deadline: "invalid_deadline" }, formData);
+  }
+
+  const target = parseTaskTargetInput({
+    targetMode: parsed.data.targetMode,
+    targetRoles: parsed.data.targetRoles,
+  });
+  const status = resolveTaskStatusFromIntent(parsed.data.publishIntent);
+  const now = new Date();
+
+  await db.transaction(async (tx) => {
+    await tx
+      .update(tasks)
+      .set({
+        title: parsed.data.title,
+        description: parsed.data.description,
+        targetAllRoles: target.targetAllRoles,
+        onePerTeam: target.onePerTeam,
+        targetRoles: target.targetRoles,
+        responseTypes: parsed.data.responseTypes,
+        topicId: parsed.data.topicId,
+        status,
+        updatedAt: now,
+      })
+      .where(eq(tasks.id, taskId));
+
+    await tx
+      .update(taskGroups)
+      .set({
+        deadline: parsed.data.deadline,
+        updatedAt: now,
+      })
+      .where(and(eq(taskGroups.taskId, taskId), eq(taskGroups.groupId, groupId)));
+  });
+
+  revalidateTaskPaths(locale, taskId);
+  redirect(`/${locale}/dashboard/mentor/tasks/${taskId}?groupId=${groupId}&saved=1`);
+}
+
+export async function updateAdminTaskAction(
+  locale: string,
+  taskId: string,
+  groupId: string,
+  _prevState: TaskActionState,
+  formData: FormData,
+): Promise<TaskActionState> {
+  const session = await requireAdmin();
+
+  if (!session) {
+    return { error: "forbidden" };
+  }
+
+  if (!(await canEditTask(session.user.id, session.user.role, taskId, groupId))) {
+    return { error: "forbidden" };
+  }
+
+  const parsed = parseUpdateTaskInput(formData);
+
+  if (!parsed.success) {
+    return validationFailure(mapCreateTaskFieldErrors(parsed.error), formData);
+  }
+
+  if (!parsed.data.deadline) {
+    return validationFailure({ deadline: "invalid_deadline" }, formData);
+  }
+
+  const target = parseTaskTargetInput({
+    targetMode: parsed.data.targetMode,
+    targetRoles: parsed.data.targetRoles,
+  });
+  const status = resolveTaskStatusFromIntent(parsed.data.publishIntent);
+  const now = new Date();
+
+  await db.transaction(async (tx) => {
+    await tx
+      .update(tasks)
+      .set({
+        title: parsed.data.title,
+        description: parsed.data.description,
+        targetAllRoles: target.targetAllRoles,
+        onePerTeam: target.onePerTeam,
+        targetRoles: target.targetRoles,
+        responseTypes: parsed.data.responseTypes,
+        topicId: parsed.data.topicId,
+        status,
+        updatedAt: now,
+      })
+      .where(eq(tasks.id, taskId));
+
+    await tx
+      .update(taskGroups)
+      .set({
+        deadline: parsed.data.deadline,
+        updatedAt: now,
+      })
+      .where(and(eq(taskGroups.taskId, taskId), eq(taskGroups.groupId, groupId)));
+  });
+
+  revalidateTaskPaths(locale, taskId);
+  redirect(`/${locale}/dashboard/admin/tasks/${taskId}?groupId=${groupId}&saved=1`);
 }
 
 export async function applyTaskToGroupAction(
@@ -245,6 +411,7 @@ export async function applyTaskToGroupAction(
         targetRoles: sourceAssignment.task.targetRoles,
         responseTypes: sourceAssignment.task.responseTypes,
         topicId: sourceAssignment.task.topicId,
+        status: "DRAFT",
       })
       .returning();
 
@@ -256,5 +423,5 @@ export async function applyTaskToGroupAction(
   });
 
   revalidateTaskPaths(locale);
-  redirect(`/${locale}/dashboard/mentor/tasks?applied=1`);
+  redirect(`/${locale}/dashboard/mentor/tasks?draft=1`);
 }

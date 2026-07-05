@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ApplyTaskForm } from "@/components/task/apply-task-form";
 import { TaskDescriptionContent } from "@/components/task/task-description-content";
+import { TaskStatusBadge } from "@/components/task/task-status-badge";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
 import { Link } from "@/i18n/navigation";
 import { requireMentorProfile } from "@/lib/auth/session";
@@ -12,7 +13,7 @@ import {
   getTaskAssignment,
   isTaskAssignedToGroup,
 } from "@/lib/tasks/queries";
-import { canApplyTaskToGroup } from "@/lib/permissions";
+import { canApplyTaskToGroup, canEditTask } from "@/lib/permissions";
 
 type MentorTaskDetailPageProps = {
   params: Promise<{ locale: string; taskId: string }>;
@@ -26,7 +27,7 @@ export default async function MentorTaskDetailPage({
   const { locale, taskId } = await params;
   const { groupId } = await searchParams;
   setRequestLocale(locale);
-  const { mentor } = await requireMentorProfile(locale);
+  const { mentor, session } = await requireMentorProfile(locale);
 
   if (!groupId) {
     notFound();
@@ -52,14 +53,35 @@ export default async function MentorTaskDetailPage({
     canApplyTaskToGroup(mentor, mentor.mainGroupId) &&
     !alreadyApplied;
 
+  const canEdit = await canEditTask(session.user.id, session.user.role, taskId, groupId, mentor);
+
+  const statusLabels = {
+    DRAFT: t("status.draft"),
+    PUBLISHED: t("status.published"),
+  } as const;
+
   return (
     <section className="space-y-6">
       <div className="space-y-2">
         <Link href="/dashboard/mentor/tasks" className="text-sm text-muted-foreground underline">
           {t("backToTasks")}
         </Link>
-        <h1 className="text-2xl font-semibold">{assignment.task.title}</h1>
-      </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-semibold">{assignment.task.title}</h1>
+          <TaskStatusBadge
+            status={assignment.task.status}
+            label={statusLabels[assignment.task.status]}
+          />
+        </div>
+        {canEdit ? (
+          <Link
+            href={`/dashboard/mentor/tasks/${taskId}/edit?groupId=${groupId}`}
+            className="inline-flex text-sm font-medium text-brand-accent underline-offset-4 hover:underline"
+          >
+            {t("editTask")}
+          </Link>
+        ) : null}
+      </div>
       <div className="space-y-4 rounded-lg border border-border p-4">
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
           <div>

@@ -874,6 +874,13 @@
     "allGroups": "All groups",
     "selectGroupsHint": "Or select one or more groups:",
     "createTask": "Create task",
+    "saveDraft": "Save draft",
+    "publishTask": "Publish",
+    "editTask": "Edit task",
+    "editTaskTitle": "Edit task",
+    "backToTask": "Back to task",
+    "editingGroup": "Editing assignment for {group}",
+    "taskStatus": "Status",
     "applyToMyGroup": "Apply to my group",
     "applyToGroupTitle": "Apply to {group}",
     "applyToGroupDescription": "Create a copy of this task for your main group with a new deadline.",
@@ -889,6 +896,14 @@
     "viewingGroup": "Viewing assignment for {group}",
     "reusedTaskNote": "This task was applied from another group.",
     "alreadyAppliedNote": "This task is already assigned to your main group.",
+    "status": {
+      "draft": "Draft",
+      "published": "Published"
+    },
+    "success": {
+      "task_saved": "Task saved.",
+      "task_published": "Task published."
+    },
     "studentTasksTitle": "Team tasks",
     "studentEmptyTasks": "No tasks assigned to your team yet.",
     "submissionComingSoon": "Submissions will be available in the next step.",

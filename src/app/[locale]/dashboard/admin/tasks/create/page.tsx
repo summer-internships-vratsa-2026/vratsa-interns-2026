@@ -28,7 +28,7 @@ export default async function AdminCreateTaskPage({ params }: AdminCreateTaskPag
       </div>
 
       <div className="max-w-2xl rounded-lg border border-border p-4">
-        <CreateTaskForm locale={locale} variant="admin" groups={groups} topics={topics} />
+        <CreateTaskForm locale={locale} variant="admin" groups={groups} topics={topics} mode="create" />
       </div>
     </section>
   );

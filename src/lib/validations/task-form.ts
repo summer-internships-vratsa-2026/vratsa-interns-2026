@@ -3,6 +3,12 @@ import { z } from "zod";
 import { isRichTextEmpty, sanitizeTaskDescription } from "@/lib/rich-text";
 import { projectRoleSchema, taskResponseTypeSchema, type TaskResponseType } from "@/lib/validations/task";
 
+const draftDescriptionSchema = z.preprocess(
+  (value) => (value == null ? "" : value),
+  z.string().transform(sanitizeTaskDescription),
+);
+
+export const taskPublishIntentSchema = z.enum(["draft", "publish"]);
 const richTextDescriptionSchema = z.preprocess(
   (value) => (value == null ? "" : value),
   z
@@ -76,6 +82,25 @@ export function parseTaskTargetInput(input: {
   };
 }
 
+export function resolveTaskStatusFromIntent(intent: "draft" | "publish"): "DRAFT" | "PUBLISHED" {
+  return intent === "draft" ? "DRAFT" : "PUBLISHED";
+}
+
+export function resolveTaskTargetMode(task: {
+  targetAllRoles: boolean;
+  onePerTeam: boolean;
+}): TaskTargetMode {
+  if (task.onePerTeam) {
+    return "one_per_team";
+  }
+
+  if (!task.targetAllRoles) {
+    return "selected_roles";
+  }
+
+  return "all_roles";
+}
+
 export const createTaskSchema = z
   .object({
     title: z.preprocess(
@@ -87,7 +112,7 @@ export const createTaskSchema = z
         .min(2, { message: "title_too_short" })
         .max(255, { message: "title_too_long" }),
     ),
-    description: richTextDescriptionSchema,
+    description: draftDescriptionSchema,
     deadline: z.preprocess(
       (value) => (value == null ? "" : value),
       z.string().min(1, { message: "deadline_required" }).transform(parseDeadline),
@@ -96,6 +121,10 @@ export const createTaskSchema = z
     targetRoles: targetRolesField,
     responseTypes: responseTypesField,
     topicId: topicIdField,
+    publishIntent: z.preprocess(
+      (value) => (value === "draft" ? "draft" : "publish"),
+      taskPublishIntentSchema,
+    ),
     assignAllGroups: z.preprocess(
       (value) => value === true || value === "true",
       z.boolean(),
@@ -118,6 +147,10 @@ export const createTaskSchema = z
       ctx.addIssue({ code: "custom", message: "invalid_deadline", path: ["deadline"] });
     }
 
+    if (data.publishIntent === "publish" && isRichTextEmpty(data.description)) {
+      ctx.addIssue({ code: "custom", message: "description_required", path: ["description"] });
+    }
+
     if (data.targetMode === "selected_roles" && data.targetRoles.length === 0) {
       ctx.addIssue({ code: "custom", message: "roles_required", path: ["targetRoles"] });
     }
@@ -128,6 +161,51 @@ export const createTaskSchema = z
 
     if (!data.assignAllGroups && data.groupIds.length === 0) {
       ctx.addIssue({ code: "custom", message: "groups_required", path: ["groupIds"] });
+    }
+  });
+
+export const updateTaskSchema = z
+  .object({
+    taskId: z.uuid(),
+    groupId: z.uuid(),
+    title: z.preprocess(
+      (value) => (value == null ? "" : value),
+      z
+        .string()
+        .trim()
+        .min(1, { message: "title_required" })
+        .min(2, { message: "title_too_short" })
+        .max(255, { message: "title_too_long" }),
+    ),
+    description: draftDescriptionSchema,
+    deadline: z.preprocess(
+      (value) => (value == null ? "" : value),
+      z.string().min(1, { message: "deadline_required" }).transform(parseDeadline),
+    ),
+    targetMode: taskTargetModeSchema,
+    targetRoles: targetRolesField,
+    responseTypes: responseTypesField,
+    topicId: topicIdField,
+    publishIntent: z.preprocess(
+      (value) => (value === "draft" ? "draft" : "publish"),
+      taskPublishIntentSchema,
+    ),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.deadline) {
+      ctx.addIssue({ code: "custom", message: "invalid_deadline", path: ["deadline"] });
+    }
+
+    if (data.publishIntent === "publish" && isRichTextEmpty(data.description)) {
+      ctx.addIssue({ code: "custom", message: "description_required", path: ["description"] });
+    }
+
+    if (data.targetMode === "selected_roles" && data.targetRoles.length === 0) {
+      ctx.addIssue({ code: "custom", message: "roles_required", path: ["targetRoles"] });
+    }
+
+    if (data.responseTypes.length === 0) {
+      ctx.addIssue({ code: "custom", message: "response_types_required", path: ["responseTypes"] });
     }
   });
 
@@ -156,6 +234,7 @@ export type CreateTaskFormValues = {
   targetRoles: Array<z.infer<typeof projectRoleSchema>>;
   responseTypes: TaskResponseType[];
   topicId: string;
+  publishIntent: "draft" | "publish";
   assignAllGroups: boolean;
   groupIds: string[];
 };
@@ -169,6 +248,34 @@ export function getDefaultCreateTaskFormValues(): CreateTaskFormValues {
     targetRoles: [],
     responseTypes: ["URL"],
     topicId: "",
+    publishIntent: "publish",
+    assignAllGroups: false,
+    groupIds: [],
+  };
+}
+
+export function taskToFormValues(
+  task: {
+    title: string;
+    description: string;
+    targetAllRoles: boolean;
+    onePerTeam: boolean;
+    targetRoles: Array<z.infer<typeof projectRoleSchema>> | null;
+    responseTypes: TaskResponseType[];
+    topicId: string | null;
+    status: "DRAFT" | "PUBLISHED";
+  },
+  deadline: Date,
+): CreateTaskFormValues {
+  return {
+    title: task.title,
+    description: task.description,
+    deadline: toDatetimeLocalValue(deadline),
+    targetMode: resolveTaskTargetMode(task),
+    targetRoles: task.targetRoles ?? [],
+    responseTypes: task.responseTypes,
+    topicId: task.topicId ?? "",
+    publishIntent: task.status === "DRAFT" ? "draft" : "publish",
     assignAllGroups: false,
     groupIds: [],
   };
@@ -176,6 +283,7 @@ export function getDefaultCreateTaskFormValues(): CreateTaskFormValues {
 
 export function extractCreateTaskFormValues(formData: FormData): CreateTaskFormValues {
   const targetMode = formData.get("targetMode");
+  const publishIntent = formData.get("publishIntent");
 
   return {
     title: String(formData.get("title") ?? ""),
@@ -188,9 +296,14 @@ export function extractCreateTaskFormValues(formData: FormData): CreateTaskFormV
     targetRoles: formData.getAll("targetRoles") as Array<z.infer<typeof projectRoleSchema>>,
     responseTypes: formData.getAll("responseTypes") as TaskResponseType[],
     topicId: String(formData.get("topicId") ?? ""),
+    publishIntent: publishIntent === "draft" ? "draft" : "publish",
     assignAllGroups: formData.get("assignAllGroups") === "true",
     groupIds: formData.getAll("groupIds") as string[],
   };
+}
+
+export function extractUpdateTaskFormValues(formData: FormData): CreateTaskFormValues {
+  return extractCreateTaskFormValues(formData);
 }
 
 function validationFailure(

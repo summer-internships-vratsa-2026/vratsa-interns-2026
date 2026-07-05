@@ -35,7 +35,7 @@ export default async function StudentTaskDetailPage({ params }: StudentTaskDetai
 
   const taskGroup = await getTaskGroupById(taskGroupId);
 
-  if (!taskGroup || taskGroup.groupId !== membership.team.groupId) {
+  if (!taskGroup || taskGroup.groupId !== membership.team.groupId || taskGroup.task.status !== "PUBLISHED") {
     notFound();
   }
 

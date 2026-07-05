@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
+import { TaskStatusBadge } from "@/components/task/task-status-badge";
 import { requireRole } from "@/lib/auth/session";
 import { getAllTasksWithGroups } from "@/lib/tasks/queries";
 
@@ -43,6 +44,7 @@ export default async function AdminTasksPage({ params }: AdminTasksPageProps) {
                 <th className="px-4 py-3 font-medium">{t("title")}</th>
                 <th className="px-4 py-3 font-medium">{t("group")}</th>
                 <th className="px-4 py-3 font-medium">{t("deadline")}</th>
+                <th className="px-4 py-3 font-medium">{t("taskStatus")}</th>
                 <th className="px-4 py-3 font-medium">{t("createdBy")}</th>
               </tr>
             </thead>
@@ -77,6 +79,12 @@ export default async function AdminTasksPage({ params }: AdminTasksPageProps) {
                       dateStyle: "medium",
                       timeStyle: "short",
                     }).format(task.deadline)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <TaskStatusBadge
+                      status={task.status}
+                      label={t(`status.${task.status === "DRAFT" ? "draft" : "published"}`)}
+                    />
                   </td>
                   <td className="px-4 py-3">{task.createdByName}</td>
                 </tr>

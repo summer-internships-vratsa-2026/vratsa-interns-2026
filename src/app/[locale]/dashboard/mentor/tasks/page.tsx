@@ -5,6 +5,7 @@ import { requireMentorProfile } from "@/lib/auth/session";
 import { getAllTasksWithGroups, getRootSourceTaskId, isTaskAssignedToGroup } from "@/lib/tasks/queries";
 import { canApplyTaskToGroup, canCreateTask, canCreateTaskForGroup } from "@/lib/permissions";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
+import { TaskStatusBadge } from "@/components/task/task-status-badge";
 
 type MentorTasksPageProps = {
   params: Promise<{ locale: string }>;
@@ -69,6 +70,7 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
                 <th className="px-4 py-3 font-medium">{t("deadline")}</th>
                 <th className="px-4 py-3 font-medium">{t("targetRoles")}</th>
                 <th className="px-4 py-3 font-medium">{t("responseTypes")}</th>
+                <th className="px-4 py-3 font-medium">{t("taskStatus")}</th>
                 <th className="px-4 py-3 font-medium">{t("actions")}</th>
               </tr>
             </thead>
@@ -108,6 +110,12 @@ export default async function MentorTasksPage({ params }: MentorTasksPageProps) 
                     </td>
                     <td className="px-4 py-3">
                       {formatTaskResponseTypes(task.responseTypes, t)}
+                    </td>
+                    <td className="px-4 py-3">
+                      <TaskStatusBadge
+                        status={task.status}
+                        label={t(`status.${task.status === "DRAFT" ? "draft" : "published"}`)}
+                      />
                     </td>
                     <td className="px-4 py-3">
                       {isMainGroup ? (
