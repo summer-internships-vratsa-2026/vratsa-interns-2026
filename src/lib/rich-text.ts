@@ -1,4 +1,4 @@
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 
 const ALLOWED_TAGS = [
   "p",
@@ -17,7 +17,12 @@ const ALLOWED_TAGS = [
   "blockquote",
 ];
 
-const ALLOWED_ATTR = ["src", "alt", "class"];
+const ALLOWED_ATTRIBUTES = Object.fromEntries(
+  ALLOWED_TAGS.filter((tag) => tag !== "br").map((tag) => [
+    tag,
+    tag === "img" ? ["src", "alt", "class"] : ["class"],
+  ]),
+);
 
 export function isProbablyHtml(value: string): boolean {
   return /<[a-z][\s\S]*>/i.test(value);
@@ -35,8 +40,8 @@ export function isRichTextEmpty(html: string): boolean {
 }
 
 export function sanitizeTaskDescription(html: string): string {
-  return DOMPurify.sanitize(html, {
-    ALLOWED_TAGS,
-    ALLOWED_ATTR,
+  return sanitizeHtml(html, {
+    allowedTags: ALLOWED_TAGS,
+    allowedAttributes: ALLOWED_ATTRIBUTES,
   });
 }
