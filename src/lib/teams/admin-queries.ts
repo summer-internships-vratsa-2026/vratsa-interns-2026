@@ -11,6 +11,7 @@ import {
   teams,
   users,
 } from "@/db/schema";
+import type { TeamSocialUrls } from "@/db/schema/teams";
 import type { School } from "@/db/schema/enums";
 
 export type AdminTeamFilters = {
@@ -61,12 +62,13 @@ export async function getAdminTeamsList(filters: AdminTeamFilters = {}) {
       schoolClass: teams.schoolClass,
       school: teams.school,
       groupName: groups.name,
-      clientOrganization: clients.organizationName,
+      githubRepoUrl: teams.githubRepoUrl,
+      projectUrl: teams.projectUrl,
+      socialUrls: teams.socialUrls,
       memberCount: sql<number>`count(${teamMembers.id})`.mapWith(Number),
     })
     .from(teams)
     .innerJoin(groups, eq(teams.groupId, groups.id))
-    .leftJoin(clients, eq(teams.clientId, clients.id))
     .leftJoin(teamMembers, eq(teamMembers.teamId, teams.id))
     .where(conditions.length > 0 ? and(...conditions) : undefined)
     .groupBy(
@@ -75,12 +77,17 @@ export async function getAdminTeamsList(filters: AdminTeamFilters = {}) {
       teams.classroom,
       teams.schoolClass,
       teams.school,
+      teams.githubRepoUrl,
+      teams.projectUrl,
+      teams.socialUrls,
       groups.name,
-      clients.organizationName,
     )
     .orderBy(teams.name);
 
-  return rows;
+  return rows.map((row) => ({
+    ...row,
+    socialUrls: row.socialUrls as TeamSocialUrls | null,
+  }));
 }
 
 export async function getAdminTeamDetail(teamId: string) {

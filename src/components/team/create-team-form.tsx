@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { createTeamAction } from "@/actions/teams";
@@ -58,7 +59,7 @@ export function CreateTeamForm({ locale, groups }: CreateTeamFormProps) {
         </select>
       </div>
 
-      {state.error ? <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p> : null}
+      {state.error ? <FormErrorMessage>{t(`errors.${state.error}`)}</FormErrorMessage> : null}
 
       <Button type="submit" disabled={isPending}>
         {isPending ? t("loading") : t("createTeam")}

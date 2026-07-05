@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import {
@@ -106,14 +107,14 @@ export function AdminTeamMembersPanel({
         </ul>
       )}
 
-      {roleState.error ? <p className="text-sm text-red-600">{t(`errors.${roleState.error}`)}</p> : null}
+      {roleState.error ? <FormErrorMessage>{t(`errors.${roleState.error}`)}</FormErrorMessage> : null}
       {roleState.success ? (
         <p className="text-sm text-green-700 dark:text-green-400">
           {t(`success.${roleState.success}`)}
         </p>
       ) : null}
       {removeState.error ? (
-        <p className="text-sm text-red-600">{t(`errors.${removeState.error}`)}</p>
+        <FormErrorMessage>{t(`errors.${removeState.error}`)}</FormErrorMessage>
       ) : null}
       {removeState.success ? (
         <p className="text-sm text-green-700 dark:text-green-400">
@@ -148,7 +149,7 @@ export function AdminTeamMembersPanel({
             </div>
           </div>
 
-          {addState.error ? <p className="text-sm text-red-600">{t(`errors.${addState.error}`)}</p> : null}
+          {addState.error ? <FormErrorMessage>{t(`errors.${addState.error}`)}</FormErrorMessage> : null}
           {addState.success ? (
             <p className="text-sm text-green-700 dark:text-green-400">
               {t(`success.${addState.success}`)}

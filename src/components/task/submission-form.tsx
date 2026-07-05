@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import {
@@ -114,7 +115,7 @@ export function SubmissionForm({
               </Button>
             ) : null}
             {saveState.fieldError === "urls" ? (
-              <p className="text-sm text-red-600">{t("errors.invalid_url")}</p>
+              <FormErrorMessage>{t("errors.invalid_url")}</FormErrorMessage>
             ) : null}
           </fieldset>
         ) : null}
@@ -137,13 +138,13 @@ export function SubmissionForm({
         ) : null}
 
         {saveState.error ? (
-          <p className="text-sm text-red-600">{t(`errors.${saveState.error}`)}</p>
+          <FormErrorMessage>{t(`errors.${saveState.error}`)}</FormErrorMessage>
         ) : null}
         {saveState.success ? (
           <p className="text-sm text-green-700 dark:text-green-400">{t(`success.${saveState.success}`)}</p>
         ) : null}
         {withdrawState.error ? (
-          <p className="text-sm text-red-600">{t(`errors.${withdrawState.error}`)}</p>
+          <FormErrorMessage>{t(`errors.${withdrawState.error}`)}</FormErrorMessage>
         ) : null}
         {withdrawState.success ? (
           <p className="text-sm text-green-700 dark:text-green-400">{t(`success.${withdrawState.success}`)}</p>

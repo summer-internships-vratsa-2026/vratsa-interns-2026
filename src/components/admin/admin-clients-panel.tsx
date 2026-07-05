@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import {
@@ -97,7 +98,7 @@ function CreateClientForm({ locale }: { locale: string }) {
         <Label htmlFor="client-organization">{t("fields.organization")}</Label>
         <Input id="client-organization" name="organizationName" />
       </div>
-      {state.error ? <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p> : null}
+      {state.error ? <FormErrorMessage>{t(`errors.${state.error}`)}</FormErrorMessage> : null}
       {state.success ? (
         <p className="text-sm text-green-700 dark:text-green-400">{t(`success.${state.success}`)}</p>
       ) : null}
@@ -132,7 +133,7 @@ function AdminClientRow({ locale, client }: { locale: string; client: ClientRow 
             {isPending ? t("loading") : t("save")}
           </Button>
           {state.error ? (
-            <span className="text-xs text-red-600">{t(`errors.${state.error}`)}</span>
+            <FormErrorMessage compact>{t(`errors.${state.error}`)}</FormErrorMessage>
           ) : null}
           {state.success ? (
             <span className="text-xs text-green-700 dark:text-green-400">

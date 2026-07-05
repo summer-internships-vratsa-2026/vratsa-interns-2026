@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { AdminDeleteTeamForm } from "@/components/admin/admin-delete-team-form";
 import { AdminTeamClientForm } from "@/components/admin/admin-team-client-form";
 import { AdminTeamMembersPanel } from "@/components/admin/admin-team-members-panel";
 import { AdminTeamMentorsPanel } from "@/components/admin/admin-team-mentors-panel";
@@ -152,6 +153,12 @@ export default async function AdminTeamDetailPage({ params }: AdminTeamDetailPag
           canMarkDone={false}
         />
       </div>
+
+      <section className="rounded-lg border border-red-200 p-4 dark:border-red-900/50">
+        <h2 className="mb-2 font-medium text-red-700 dark:text-red-400">{t("sections.danger")}</h2>
+        <p className="mb-4 text-sm text-muted-foreground">{t("deleteWarning")}</p>
+        <AdminDeleteTeamForm locale={locale} teamId={teamId} />
+      </section>
     </section>
   );
 }

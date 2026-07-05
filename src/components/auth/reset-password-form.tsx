@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { resetPasswordAction } from "@/actions/auth";
@@ -24,7 +25,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   if (!token) {
     return (
       <AuthCard title={t("resetPasswordTitle")} description={t("resetPasswordDescription")}>
-        <p className="text-sm text-red-600">{t("errors.invalid_token")}</p>
+        <FormErrorMessage>{t("errors.invalid_token")}</FormErrorMessage>
         <p className="mt-4 text-sm">
           <Link href="/forgot-password" className="underline">
             {t("forgotPassword")}
@@ -64,7 +65,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
           />
         </div>
 
-        {state.error ? <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p> : null}
+        {state.error ? <FormErrorMessage>{t(`errors.${state.error}`)}</FormErrorMessage> : null}
 
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? t("loading") : t("resetPassword")}

@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 
 import { JoinTeamForm } from "@/components/team/join-team-form";
 import { AuthCard } from "@/components/auth/auth-card";
@@ -24,7 +25,7 @@ export default async function JoinTeamPage({ params, searchParams }: JoinTeamPag
   if (!token) {
     return (
       <AuthCard title={t("joinTeamTitle")} description={t("joinTeamDescriptionGeneric")}>
-        <p className="text-sm text-red-600">{t("errors.invalid_token")}</p>
+        <FormErrorMessage>{t("errors.invalid_token")}</FormErrorMessage>
       </AuthCard>
     );
   }
@@ -34,7 +35,7 @@ export default async function JoinTeamPage({ params, searchParams }: JoinTeamPag
   if (!inviteRecord) {
     return (
       <AuthCard title={t("joinTeamTitle")} description={t("joinTeamDescriptionGeneric")}>
-        <p className="text-sm text-red-600">{t("errors.invalid_token")}</p>
+        <FormErrorMessage>{t("errors.invalid_token")}</FormErrorMessage>
       </AuthCard>
     );
   }
@@ -42,7 +43,7 @@ export default async function JoinTeamPage({ params, searchParams }: JoinTeamPag
   if (isInviteExpired(inviteRecord.invite.expiresAt)) {
     return (
       <AuthCard title={t("joinTeamTitle")} description={t("joinTeamDescriptionGeneric")}>
-        <p className="text-sm text-red-600">{t("errors.token_expired")}</p>
+        <FormErrorMessage>{t("errors.token_expired")}</FormErrorMessage>
       </AuthCard>
     );
   }
@@ -52,7 +53,7 @@ export default async function JoinTeamPage({ params, searchParams }: JoinTeamPag
   if (members.length >= MAX_TEAM_SIZE) {
     return (
       <AuthCard title={t("joinTeamTitle")} description={t("joinTeamDescriptionGeneric")}>
-        <p className="text-sm text-red-600">{t("errors.team_full")}</p>
+        <FormErrorMessage>{t("errors.team_full")}</FormErrorMessage>
       </AuthCard>
     );
   }

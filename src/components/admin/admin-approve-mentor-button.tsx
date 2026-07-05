@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { approveAdminMentorAction } from "@/actions/admin-users";
@@ -46,7 +47,7 @@ export function AdminApproveMentorButton({
       </form>
 
       {showFeedback && state.error ? (
-        <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p>
+        <FormErrorMessage>{t(`errors.${state.error}`)}</FormErrorMessage>
       ) : null}
       {showFeedback && state.success ? (
         <p className="text-sm text-green-700 dark:text-green-400">{t(`success.${state.success}`)}</p>

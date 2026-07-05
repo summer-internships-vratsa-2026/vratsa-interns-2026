@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 
 import { CreateTaskForm } from "@/components/task/create-task-form";
 import { Link } from "@/i18n/navigation";
@@ -19,7 +20,7 @@ export default async function MentorCreateTaskPage({ params }: MentorCreateTaskP
   if (!canCreateTask("MENTOR", mentor)) {
     return (
       <section className="space-y-6">
-        <p className="text-sm text-red-600">{t("errors.no_main_group")}</p>
+        <FormErrorMessage>{t("errors.no_main_group")}</FormErrorMessage>
         <Link href="/dashboard/mentor/tasks" className="text-sm underline">
           {t("backToTasks")}
         </Link>

@@ -2,6 +2,7 @@
 
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { db } from "@/db";
@@ -13,6 +14,7 @@ import {
   addTeamMemberSchema,
   assignTeamClientSchema,
   assignTeamMentorSchema,
+  deleteTeamSchema,
   removeTeamMemberSchema,
   removeTeamMentorSchema,
   updateTeamMemberRoleSchema,
@@ -280,4 +282,48 @@ export async function removeTeamMemberAction(
 
   revalidateAdminTeamPaths(locale, teamId);
   return { success: "member_removed" };
+}
+
+export async function deleteAdminTeamAction(
+  locale: string,
+  _prevState: AdminTeamActionState,
+  formData: FormData,
+): Promise<AdminTeamActionState> {
+  if (!(await requireAdmin())) {
+    return { error: "forbidden" };
+  }
+
+  const parsed = deleteTeamSchema.safeParse({
+    teamId: formData.get("teamId"),
+  });
+
+  if (!parsed.success) {
+    return { error: "invalid_input" };
+  }
+
+  const team = await getTeamById(parsed.data.teamId);
+
+  if (!team) {
+    return { error: "team_not_found" };
+  }
+
+  await db.delete(teams).where(eq(teams.id, parsed.data.teamId));
+
+  revalidatePath(`/${locale}/dashboard/admin/teams`);
+  revalidatePath(`/${locale}/dashboard/mentor/teams`);
+  revalidatePath(`/${locale}/dashboard/client/teams`);
+
+  if (team.clientId) {
+    const [client] = await db
+      .select({ userId: clients.userId })
+      .from(clients)
+      .where(eq(clients.id, team.clientId))
+      .limit(1);
+
+    if (client) {
+      revalidatePath(`/${locale}/dashboard/admin/users/${client.userId}`);
+    }
+  }
+
+  redirect(`/${locale}/dashboard/admin/teams`);
 }

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { ALL_PROJECT_ROLES } from "@/lib/validations/team";
 import { TASK_RESPONSE_TYPES, type TaskResponseType } from "@/lib/validations/task";
 import type { ProjectRole } from "@/db/schema/enums";
@@ -18,7 +19,7 @@ export function TaskFieldError({ message }: { message?: string }) {
     return null;
   }
 
-  return <p className="text-sm text-red-600">{t(`errors.${message}`)}</p>;
+  return <FormErrorMessage>{t(`errors.${message}`)}</FormErrorMessage>;
 }
 
 function resolveInitialTargetMode(

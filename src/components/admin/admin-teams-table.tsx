@@ -1,7 +1,9 @@
 import { getTranslations } from "next-intl/server";
 
+import { AdminTeamLinksIndicators } from "@/components/admin/admin-team-links-indicators";
 import { Link } from "@/i18n/navigation";
 import type { School } from "@/db/schema/enums";
+import type { TeamSocialUrls } from "@/db/schema/teams";
 
 type AdminTeamListItem = {
   id: string;
@@ -10,7 +12,9 @@ type AdminTeamListItem = {
   schoolClass: string;
   school: string;
   groupName: string;
-  clientOrganization: string | null;
+  githubRepoUrl: string | null;
+  projectUrl: string | null;
+  socialUrls: TeamSocialUrls | null;
   memberCount: number;
 };
 
@@ -40,7 +44,7 @@ export async function AdminTeamsTable({ teams }: AdminTeamsTableProps) {
             <th className="px-4 py-3 font-medium">{t("columns.schoolClass")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.school")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.members")}</th>
-            <th className="px-4 py-3 font-medium">{t("columns.client")}</th>
+            <th className="px-4 py-3 font-medium">{t("columns.links")}</th>
           </tr>
         </thead>
         <tbody>
@@ -56,7 +60,13 @@ export async function AdminTeamsTable({ teams }: AdminTeamsTableProps) {
               <td className="px-4 py-3">{team.schoolClass}</td>
               <td className="px-4 py-3">{t(`schoolOptions.${team.school as School}`)}</td>
               <td className="px-4 py-3">{team.memberCount}</td>
-              <td className="px-4 py-3">{team.clientOrganization ?? "—"}</td>
+              <td className="px-4 py-3">
+                <AdminTeamLinksIndicators
+                  githubRepoUrl={team.githubRepoUrl}
+                  projectUrl={team.projectUrl}
+                  socialUrls={team.socialUrls}
+                />
+              </td>
             </tr>
           ))}
         </tbody>

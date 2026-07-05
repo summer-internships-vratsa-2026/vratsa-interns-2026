@@ -212,7 +212,14 @@
       "email_mismatch": "Тази покана е изпратена до друг имейл адрес.",
       "team_not_found": "Отборът не е намерен.",
       "forbidden": "Нямате права за това действие.",
-      "invalid_url": "Моля, въведете валиден URL (включително https://)."
+      "invalid_url": "Моля, въведете валиден URL (включително https://).",
+      "invalid_github_url": "GitHub линкът трябва да е валиден URL, който съдържа github.com.",
+      "invalid_facebook_url": "Facebook линкът трябва да е валиден URL, който съдържа facebook.com.",
+      "invalid_instagram_url": "Instagram линкът трябва да е валиден URL, който съдържа instagram.com.",
+      "invalid_tiktok_url": "TikTok линкът трябва да е валиден URL, който съдържа tiktok.com.",
+      "invalid_linkedin_url": "LinkedIn линкът трябва да е валиден URL, който съдържа linkedin.com.",
+      "invalid_pinterest_url": "Pinterest линкът трябва да е валиден URL, който съдържа pinterest.com.",
+      "invalid_x_url": "X линкът трябва да е валиден URL, който съдържа x.com или twitter.com."
     },
     "success": {
       "team_updated": "Данните за отбора са запазени.",
@@ -229,6 +236,11 @@
     "loading": "Зареждане...",
     "roleValidationWarning": "Отборът има проблеми с разпределението на ролите:",
     "teamSizeWarning": "Отборът има {count} члена (препоръчителен минимум: {min}).",
+    "deleteTeam": "Изтрий отбора",
+    "deleteWarning": "Това действие необратимо изтрива отбора, членовете му, решенията и обратната връзка.",
+    "confirmDeletePrompt": "Сигурни ли сте, че искате да изтриете този отбор? Това действие не може да бъде отменено.",
+    "confirmDeleteAction": "Да, изтрий отбора",
+    "cancelConfirm": "Отказ",
     "filters": {
       "group": "Група",
       "school": "Училище",
@@ -246,7 +258,17 @@
       "schoolClass": "Клас",
       "school": "Училище",
       "members": "Членове",
-      "client": "Клиент"
+      "links": "Линкове"
+    },
+    "linksIndicators": {
+      "github": "GitHub хранилище",
+      "project": "URL на проекта",
+      "facebook": "Facebook страница",
+      "otherSocial": "Друга социална мрежа",
+      "provided": "Попълнено",
+      "missing": "Липсва",
+      "complete": "Всички важни линкове са попълнени",
+      "incomplete": "Липсват важни линкове"
     },
     "schoolOptions": {
       "PPMG": "ППМГ",
@@ -258,7 +280,8 @@
       "members": "Членове",
       "mentors": "Ментори",
       "client": "Клиент",
-      "tasks": "Задачи"
+      "tasks": "Задачи",
+      "danger": "Опасна зона"
     },
     "members": {
       "empty": "Все още няма членове.",
@@ -303,7 +326,8 @@
       "mentor_removed": "Менторът е премахнат.",
       "member_added": "Членът е добавен.",
       "member_removed": "Членът е премахнат.",
-      "member_role_updated": "Ролята е актуализирана."
+      "member_role_updated": "Ролята е актуализирана.",
+      "team_deleted": "Отборът е изтрит."
     }
   },
   "AdminMentors": {

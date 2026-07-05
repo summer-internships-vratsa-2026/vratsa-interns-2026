@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import {
@@ -155,7 +156,7 @@ export function SubmissionReviewPanel({
           ) : null}
 
           {actionError ? (
-            <p className="text-sm text-red-600">{t(`errors.${actionError}`)}</p>
+            <FormErrorMessage>{t(`errors.${actionError}`)}</FormErrorMessage>
           ) : null}
           {actionSuccess ? (
             <p className="text-sm text-green-700 dark:text-green-400">{t(`success.${actionSuccess}`)}</p>
@@ -184,7 +185,7 @@ export function SubmissionReviewPanel({
         <form action={deleteAction}>
           <input type="hidden" name="submissionId" value={submissionId} />
           {deleteState.error ? (
-            <p className="mb-2 text-sm text-red-600">{t(`errors.${deleteState.error}`)}</p>
+            <FormErrorMessage className="mb-2">{t(`errors.${deleteState.error}`)}</FormErrorMessage>
           ) : null}
           {deleteState.success ? (
             <p className="mb-2 text-sm text-green-700 dark:text-green-400">

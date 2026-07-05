@@ -212,7 +212,14 @@
       "email_mismatch": "This invitation was sent to a different email address.",
       "team_not_found": "Team not found.",
       "forbidden": "You do not have permission for this action.",
-      "invalid_url": "Please enter a valid URL (including https://)."
+      "invalid_url": "Please enter a valid URL (including https://).",
+      "invalid_github_url": "The GitHub link must be a valid URL that contains github.com.",
+      "invalid_facebook_url": "The Facebook link must be a valid URL that contains facebook.com.",
+      "invalid_instagram_url": "The Instagram link must be a valid URL that contains instagram.com.",
+      "invalid_tiktok_url": "The TikTok link must be a valid URL that contains tiktok.com.",
+      "invalid_linkedin_url": "The LinkedIn link must be a valid URL that contains linkedin.com.",
+      "invalid_pinterest_url": "The Pinterest link must be a valid URL that contains pinterest.com.",
+      "invalid_x_url": "The X link must be a valid URL that contains x.com or twitter.com."
     },
     "success": {
       "team_updated": "Team details saved.",
@@ -229,6 +236,11 @@
     "loading": "Loading...",
     "roleValidationWarning": "This team has role composition issues:",
     "teamSizeWarning": "This team has {count} members (minimum recommended: {min}).",
+    "deleteTeam": "Delete team",
+    "deleteWarning": "Permanently deletes the team, its members, submissions, and feedback.",
+    "confirmDeletePrompt": "Are you sure you want to delete this team? This action cannot be undone.",
+    "confirmDeleteAction": "Yes, delete team",
+    "cancelConfirm": "Cancel",
     "filters": {
       "group": "Group",
       "school": "School",
@@ -246,7 +258,17 @@
       "schoolClass": "Class",
       "school": "School",
       "members": "Members",
-      "client": "Client"
+      "links": "Links"
+    },
+    "linksIndicators": {
+      "github": "GitHub repository",
+      "project": "Project URL",
+      "facebook": "Facebook page",
+      "otherSocial": "Other social network",
+      "provided": "Provided",
+      "missing": "Missing",
+      "complete": "All important links provided",
+      "incomplete": "Some important links are missing"
     },
     "schoolOptions": {
       "PPMG": "PPMG",
@@ -258,7 +280,8 @@
       "members": "Members",
       "mentors": "Mentors",
       "client": "Client",
-      "tasks": "Tasks"
+      "tasks": "Tasks",
+      "danger": "Danger zone"
     },
     "members": {
       "empty": "No members yet.",
@@ -303,7 +326,8 @@
       "mentor_removed": "Mentor removed.",
       "member_added": "Member added.",
       "member_removed": "Member removed.",
-      "member_role_updated": "Member role updated."
+      "member_role_updated": "Member role updated.",
+      "team_deleted": "Team deleted."
     }
   },
   "AdminMentors": {

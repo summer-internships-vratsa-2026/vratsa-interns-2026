@@ -17,7 +17,7 @@ import {
   getTeamMembershipForStudent,
 } from "@/lib/teams/queries";
 import { MAX_TEAM_SIZE, validateJoinMemberRole } from "@/lib/validations/team";
-import { extractTeamLinksFormData, updateTeamLinksSchema } from "@/lib/validations/team-links";
+import { extractTeamLinksFormData, getTeamLinksValidationError, updateTeamLinksSchema } from "@/lib/validations/team-links";
 import {
   createTeamSchema,
   inviteEmailSchema,
@@ -238,8 +238,7 @@ export async function updateTeamLinksAction(
   const parsed = updateTeamLinksSchema.safeParse(extractTeamLinksFormData(formData));
 
   if (!parsed.success) {
-    const hasUrlError = parsed.error.issues.some((issue) => issue.message === "invalid_url");
-    return { error: hasUrlError ? "invalid_url" : "invalid_input" };
+    return { error: getTeamLinksValidationError(parsed.error.issues) };
   }
 
   await db

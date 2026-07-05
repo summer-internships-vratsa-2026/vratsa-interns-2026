@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { generateInviteLinkAction, inviteByEmailAction } from "@/actions/teams";
@@ -60,7 +61,7 @@ export function TeamInviteSection({
               <p className="break-all text-sm text-muted-foreground">{linkState.inviteUrl}</p>
             ) : null}
             {linkState.error ? (
-              <p className="text-sm text-red-600">{t(`errors.${linkState.error}`)}</p>
+              <FormErrorMessage>{t(`errors.${linkState.error}`)}</FormErrorMessage>
             ) : null}
           </form>
 
@@ -70,7 +71,7 @@ export function TeamInviteSection({
               <Input id="email" name="email" type="email" required />
             </div>
             {emailState.error ? (
-              <p className="text-sm text-red-600">{t(`errors.${emailState.error}`)}</p>
+              <FormErrorMessage>{t(`errors.${emailState.error}`)}</FormErrorMessage>
             ) : null}
             {emailState.success === "invite_sent" ? (
               <p className="text-sm text-green-700 dark:text-green-400">{t("inviteSent")}</p>

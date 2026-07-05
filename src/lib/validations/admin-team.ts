@@ -37,6 +37,10 @@ export const removeTeamMentorSchema = z.object({
   teamMentorId: z.uuid(),
 });
 
+export const deleteTeamSchema = z.object({
+  teamId: z.uuid(),
+});
+
 export type AdminTeamActionState = {
   error?: string;
   success?: string;

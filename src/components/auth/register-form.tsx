@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { registerAction } from "@/actions/auth";
@@ -76,7 +77,7 @@ export function RegisterForm({ locale }: RegisterFormProps) {
           </select>
         </div>
 
-        {state.error ? <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p> : null}
+        {state.error ? <FormErrorMessage>{t(`errors.${state.error}`)}</FormErrorMessage> : null}
 
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? t("loading") : t("register")}

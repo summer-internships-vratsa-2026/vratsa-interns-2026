@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { forgotPasswordAction } from "@/actions/auth";
@@ -36,7 +37,7 @@ export function ForgotPasswordForm({ locale }: ForgotPasswordFormProps) {
           </div>
 
           {state.error ? (
-            <p className="text-sm text-red-600">{t(`errors.${state.error}`)}</p>
+            <FormErrorMessage>{t(`errors.${state.error}`)}</FormErrorMessage>
           ) : null}
 
           <Button type="submit" className="w-full" disabled={isPending}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useActionState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -108,7 +109,7 @@ export function TeamFeedbackPanel({
             <TaskDescriptionEditor name="content" required placeholder={t("feedbackPlaceholder")} />
           </div>
           {createState.error ? (
-            <p className="text-sm text-red-400">{t(`errors.${createState.error}`)}</p>
+            <FormErrorMessage>{t(`errors.${createState.error}`)}</FormErrorMessage>
           ) : null}
           {createState.success ? (
             <p className="text-sm text-green-400">{t(`success.${createState.success}`)}</p>
@@ -260,7 +261,7 @@ function FeedbackAccordionRow({
               {isMarking ? t("loading") : isDone ? t("markOpen") : t("markDone")}
             </Button>
             {markState.error ? (
-              <span className="text-xs text-red-400">{t(`errors.${markState.error}`)}</span>
+              <FormErrorMessage compact>{t(`errors.${markState.error}`)}</FormErrorMessage>
             ) : null}
           </form>
         ) : null}
@@ -301,7 +302,7 @@ function FeedbackAccordionRow({
                 {isCommenting ? t("loading") : t("addComment")}
               </Button>
               {commentState.error ? (
-                <span className="text-xs text-red-400">{t(`errors.${commentState.error}`)}</span>
+                <FormErrorMessage compact>{t(`errors.${commentState.error}`)}</FormErrorMessage>
               ) : null}
             </div>
           </form>

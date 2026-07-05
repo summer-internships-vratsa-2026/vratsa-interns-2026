@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { updateMentorMainGroupAction } from "@/actions/admin-mentors";
@@ -101,7 +102,7 @@ function AdminMentorRow({
             {isPending ? t("loading") : t("save")}
           </Button>
           {state.error ? (
-            <span className="text-xs text-red-600">{t(`errors.${state.error}`)}</span>
+            <FormErrorMessage compact>{t(`errors.${state.error}`)}</FormErrorMessage>
           ) : null}
           {state.success ? (
             <span className="text-xs text-green-700 dark:text-green-400">

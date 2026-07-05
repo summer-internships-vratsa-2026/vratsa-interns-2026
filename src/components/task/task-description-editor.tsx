@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "@tiptap/extension-image";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -159,7 +160,7 @@ export function TaskDescriptionEditor({
         <p className="text-xs text-muted-foreground">{t("uploadingImage")}</p>
       ) : null}
       {imageError ? (
-        <p className="text-xs text-red-600">{t(`errors.${imageError}`)}</p>
+        <FormErrorMessage compact>{t(`errors.${imageError}`)}</FormErrorMessage>
       ) : null}
     </div>
   );

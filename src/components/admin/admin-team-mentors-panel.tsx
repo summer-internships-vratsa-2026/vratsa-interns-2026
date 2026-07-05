@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
 
 import { assignTeamMentorAction, removeTeamMentorAction } from "@/actions/admin-teams";
@@ -72,7 +73,7 @@ export function AdminTeamMentorsPanel({
       )}
 
       {removeState.error ? (
-        <p className="text-sm text-red-600">{t(`errors.${removeState.error}`)}</p>
+        <FormErrorMessage>{t(`errors.${removeState.error}`)}</FormErrorMessage>
       ) : null}
       {removeState.success ? (
         <p className="text-sm text-green-700 dark:text-green-400">
@@ -95,7 +96,7 @@ export function AdminTeamMentorsPanel({
           </div>
 
           {assignState.error ? (
-            <p className="text-sm text-red-600">{t(`errors.${assignState.error}`)}</p>
+            <FormErrorMessage>{t(`errors.${assignState.error}`)}</FormErrorMessage>
           ) : null}
           {assignState.success ? (
             <p className="text-sm text-green-700 dark:text-green-400">
