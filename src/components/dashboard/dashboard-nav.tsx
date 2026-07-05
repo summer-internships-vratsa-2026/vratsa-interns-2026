@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 
 type DashboardNavProps = {
   role: UserRole;
+  badges?: Record<string, number>;
 };
 
-export function DashboardNav({ role }: DashboardNavProps) {
+export function DashboardNav({ role, badges }: DashboardNavProps) {
   const pathname = usePathname();
   const t = useTranslations("Dashboard.nav");
   const items = DASHBOARD_NAV_BY_ROLE[role];
@@ -20,6 +21,9 @@ export function DashboardNav({ role }: DashboardNavProps) {
     <nav className="flex flex-wrap items-center gap-2">
       {items.map((item) => {
         const active = isNavItemActive(pathname, item);
+        const badgeCount = badges?.[item.key];
+        const label =
+          badgeCount && badgeCount > 0 ? `${t(item.labelKey)} (${badgeCount})` : t(item.labelKey);
 
         return (
           <Link
@@ -32,7 +36,7 @@ export function DashboardNav({ role }: DashboardNavProps) {
                 : "text-white/70 hover:bg-brand-medium/50 hover:text-white",
             )}
           >
-            {t(item.labelKey)}
+            {label}
           </Link>
         );
       })}

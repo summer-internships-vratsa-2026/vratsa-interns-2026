@@ -4,6 +4,7 @@ import { LogoutButton } from "@/components/auth/logout-button";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { requireAuth } from "@/lib/auth/session";
+import { getStudentNewTaskCount } from "@/lib/students/tasks";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
@@ -17,6 +18,14 @@ export default async function DashboardLayout({ children, params }: DashboardLay
   const session = await requireAuth(locale);
   const t = await getTranslations("Dashboard");
 
+  let navBadges: Record<string, number> | undefined;
+  if (session.user.role === "STUDENT") {
+    const newTaskCount = await getStudentNewTaskCount(session.user.id);
+    if (newTaskCount > 0) {
+      navBadges = { "new-tasks": newTaskCount };
+    }
+  }
+
   return (
     <div className="flex min-h-full flex-col bg-brand-deep text-white">
       <header className="border-b border-white/10 bg-brand-dark px-6 py-4">
@@ -26,7 +35,7 @@ export default async function DashboardLayout({ children, params }: DashboardLay
             <p className="font-medium">{session.user.name}</p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <DashboardNav role={session.user.role} />
+            <DashboardNav role={session.user.role} badges={navBadges} />
             <LanguageSwitcher />
             <LogoutButton locale={locale} label={t("logout")} />
           </div>

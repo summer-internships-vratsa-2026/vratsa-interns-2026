@@ -67,7 +67,9 @@
       "mentors": "Mentors",
       "clients": "Clients",
       "groups": "Groups",
-      "team": "My team"
+      "team": "My team",
+      "newTasks": "New tasks",
+      "submittedTasks": "Submitted tasks"
     },
     "student": {
       "title": "Student dashboard",
@@ -764,6 +766,24 @@
       "comment_added": "Comment added.",
       "feedback_marked_done": "Marked as done.",
       "feedback_marked_open": "Marked as open."
+    }
+  },
+  "StudentTasks": {
+    "newTitle": "New tasks",
+    "newDescription": "Tasks your team has not submitted a solution for yet.",
+    "submittedTitle": "Submitted tasks",
+    "submittedDescription": "History of tasks your team has submitted solutions for.",
+    "newEmpty": "There are no new tasks right now.",
+    "submittedEmpty": "No submitted tasks yet.",
+    "openTask": "Open",
+    "columns": {
+      "task": "Task",
+      "topic": "Topic",
+      "deadline": "Deadline",
+      "target": "Targeted to",
+      "submittedAt": "Submitted at",
+      "status": "Status",
+      "actions": "Actions"
     }
   },
   "Tasks": {

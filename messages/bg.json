@@ -67,7 +67,9 @@
       "mentors": "Ментори",
       "clients": "Клиенти",
       "groups": "Групи",
-      "team": "Моят отбор"
+      "team": "Моят отбор",
+      "newTasks": "Нови задачи",
+      "submittedTasks": "Предадени задачи"
     },
     "student": {
       "title": "Табло — ученик",
@@ -764,6 +766,24 @@
       "comment_added": "Коментарът е добавен.",
       "feedback_marked_done": "Маркирано като изпълнено.",
       "feedback_marked_open": "Маркирано като отворено."
+    }
+  },
+  "StudentTasks": {
+    "newTitle": "Нови задачи",
+    "newDescription": "Задачи, за които отборът ви все още не е изпратил решение.",
+    "submittedTitle": "Предадени задачи",
+    "submittedDescription": "История на задачите, за които отборът ви е изпратил решение.",
+    "newEmpty": "Няма нови задачи в момента.",
+    "submittedEmpty": "Все още няма предадени задачи.",
+    "openTask": "Отвори",
+    "columns": {
+      "task": "Задача",
+      "topic": "Тема",
+      "deadline": "Краен срок",
+      "target": "Насочена към",
+      "submittedAt": "Предадено на",
+      "status": "Статус",
+      "actions": "Действия"
     }
   },
   "Tasks": {

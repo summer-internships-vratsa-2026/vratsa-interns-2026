@@ -7,16 +7,13 @@ import { TeamInviteSection } from "@/components/team/team-invite-section";
 import { TeamLinksDisplay } from "@/components/team/team-links-display";
 import { TeamLinksForm } from "@/components/team/team-links-form";
 import { UpdateTeamNameForm } from "@/components/team/update-team-name-form";
-import { StudentTasksList } from "@/components/task/student-tasks-list";
 import {
   getGroupName,
   getStudentByUserId,
   getTeamMembersWithNames,
   getTeamMembershipForStudent,
 } from "@/lib/teams/queries";
-import { getEligibleTasksForStudent } from "@/lib/tasks/queries";
 import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
-import { getSubmissionsForTeam } from "@/lib/submissions/queries";
 import { MAX_TEAM_SIZE } from "@/lib/validations/team";
 import { requireRole } from "@/lib/auth/session";
 
@@ -40,16 +37,13 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
     redirect(`/${locale}/dashboard/student/team/setup`);
   }
 
-  const [members, groupName, teamTasks, feedbackItems, teamSubmissions] = await Promise.all([
+  const [members, groupName, feedbackItems] = await Promise.all([
     getTeamMembersWithNames(membership.team.id),
     getGroupName(membership.team.groupId),
-    getEligibleTasksForStudent(membership.team.groupId, membership.member.projectRole),
     getTeamFeedbackForTeam(membership.team.id),
-    getSubmissionsForTeam(membership.team.id),
   ]);
 
   const t = await getTranslations("Team");
-  const tTasks = await getTranslations("Tasks");
 
   return (
     <section className="space-y-8">
@@ -104,11 +98,6 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
         memberCount={members.length}
         maxMembers={MAX_TEAM_SIZE}
       />
-
-      <div className="rounded-lg border border-border p-4">
-        <h2 className="mb-4 text-lg font-medium">{tTasks("studentTasksTitle")}</h2>
-        <StudentTasksList locale={locale} tasks={teamTasks} submissions={teamSubmissions} />
-      </div>
 
       <div className="rounded-lg border border-border p-4">
         <TeamFeedbackPanel

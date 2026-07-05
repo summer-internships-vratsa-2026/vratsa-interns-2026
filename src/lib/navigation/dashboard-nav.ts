@@ -22,7 +22,15 @@ export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
     { key: "tasks", href: "/dashboard/mentor/tasks", labelKey: "tasks" },
     { key: "submissions", href: "/dashboard/mentor/submissions", labelKey: "submissions" },
   ],
-  STUDENT: [{ key: "team", href: "/dashboard/student/team", labelKey: "team" }],
+  STUDENT: [
+    { key: "team", href: "/dashboard/student/team", labelKey: "team" },
+    { key: "new-tasks", href: "/dashboard/student/tasks/new", labelKey: "newTasks" },
+    {
+      key: "submitted-tasks",
+      href: "/dashboard/student/tasks/submitted",
+      labelKey: "submittedTasks",
+    },
+  ],
   CLIENT: [
     { key: "dashboard", href: "/dashboard/client", labelKey: "dashboard" },
     { key: "teams", href: "/dashboard/client/teams", labelKey: "teams" },
@@ -33,6 +41,18 @@ export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
 export function isNavItemActive(pathname: string, item: DashboardNavItem): boolean {
   if (item.key === "dashboard") {
     return pathname === item.href;
+  }
+
+  if (item.key === "new-tasks") {
+    return (
+      pathname === item.href ||
+      (pathname.startsWith("/dashboard/student/tasks/") &&
+        !pathname.startsWith("/dashboard/student/tasks/submitted"))
+    );
+  }
+
+  if (item.key === "submitted-tasks") {
+    return pathname === item.href || pathname.startsWith(`${item.href}/`);
   }
 
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
