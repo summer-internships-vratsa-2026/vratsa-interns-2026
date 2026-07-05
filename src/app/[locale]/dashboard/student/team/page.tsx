@@ -16,6 +16,7 @@ import {
 } from "@/lib/teams/queries";
 import { getEligibleTasksForStudent } from "@/lib/tasks/queries";
 import { getTeamFeedbackForTeam } from "@/lib/team-feedback/queries";
+import { getSubmissionsForTeam } from "@/lib/submissions/queries";
 import { MAX_TEAM_SIZE } from "@/lib/validations/team";
 import { requireRole } from "@/lib/auth/session";
 
@@ -39,11 +40,12 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
     redirect(`/${locale}/dashboard/student/team/setup`);
   }
 
-  const [members, groupName, teamTasks, feedbackItems] = await Promise.all([
+  const [members, groupName, teamTasks, feedbackItems, teamSubmissions] = await Promise.all([
     getTeamMembersWithNames(membership.team.id),
     getGroupName(membership.team.groupId),
     getEligibleTasksForStudent(membership.team.groupId, membership.member.projectRole),
     getTeamFeedbackForTeam(membership.team.id),
+    getSubmissionsForTeam(membership.team.id),
   ]);
 
   const t = await getTranslations("Team");
@@ -105,7 +107,7 @@ export default async function StudentTeamPage({ params }: StudentTeamPageProps) 
 
       <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
         <h2 className="mb-4 text-lg font-medium">{tTasks("studentTasksTitle")}</h2>
-        <StudentTasksList locale={locale} tasks={teamTasks} />
+        <StudentTasksList locale={locale} tasks={teamTasks} submissions={teamSubmissions} />
       </div>
 
       <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">

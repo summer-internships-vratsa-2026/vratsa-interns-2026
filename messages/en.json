@@ -400,6 +400,45 @@
       "links": "Project links"
     }
   },
+  "Submissions": {
+    "backToTeam": "Back to team",
+    "taskDetails": "Task details",
+    "targetLabel": "Assigned to",
+    "submissionTitle": "Your submission",
+    "lastSaved": "Last saved: {date}",
+    "feedbackTitle": "Mentor feedback",
+    "grade": "Grade",
+    "gradedBy": "Graded by {name}",
+    "noComments": "No comments yet.",
+    "urls": "Links (URLs)",
+    "urlsHint": "Add one or more links to your work (e.g. GitHub, Figma, Google Docs).",
+    "addUrl": "Add another URL",
+    "removeUrl": "Remove",
+    "textReply": "Text reply",
+    "textReplyPlaceholder": "Write your answer here…",
+    "submit": "Save & submit",
+    "saving": "Saving…",
+    "withdraw": "Withdraw submission",
+    "pastDeadlineWarning": "The deadline has passed. You can still edit your submission, but it will be marked as late.",
+    "fileUploadComingSoon": "File upload support is coming soon.",
+    "openToSubmit": "Open to submit",
+    "viewSubmission": "View / edit submission",
+    "status": {
+      "not_submitted": "Not submitted",
+      "submitted": "Submitted",
+      "late": "Late"
+    },
+    "errors": {
+      "forbidden": "You do not have permission for this action.",
+      "task_not_found": "Task not found.",
+      "invalid_input": "Please check your submission.",
+      "invalid_url": "One or more URLs are invalid. Make sure each starts with https://."
+    },
+    "success": {
+      "submission_saved": "Submission saved.",
+      "submission_withdrawn": "Submission withdrawn."
+    }
+  },
   "TeamFeedback": {
     "title": "Individual feedback",
     "description": "Create targeted feedback for this team and track resolution.",

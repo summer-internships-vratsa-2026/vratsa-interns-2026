@@ -104,7 +104,7 @@
 - [x] Give all team members equal team editing permissions
 - [x] Allow team members to update team info
 - [x] Allow team members to view team tasks
-- [ ] Allow team members to submit task replies
+- [x] Allow team members to submit task replies
 
 ## 7. Admin Team Management
 
@@ -159,16 +159,16 @@
 
 ## 10. Student Submissions
 
-- [ ] Create task submission form
-- [ ] Allow text reply
-- [ ] Allow one or more URLs
-- [ ] Validate URLs
-- [ ] Allow editing submission before deadline
-- [ ] Decide whether editing after deadline is allowed
-- [ ] Show submission status: not submitted, submitted, late
-- [ ] Show deadline clearly
-- [ ] Show role targeting clearly
-- [ ] Show existing comments and grades to students
+- [x] Create task submission form
+- [x] Allow text reply
+- [x] Allow one or more URLs
+- [x] Validate URLs
+- [x] Allow editing submission before deadline
+- [x] Decide whether editing after deadline is allowed
+- [x] Show submission status: not submitted, submitted, late
+- [x] Show deadline clearly
+- [x] Show role targeting clearly
+- [x] Show existing comments and grades to students
 
 ## 11. Mentor Reviews and Grades
 

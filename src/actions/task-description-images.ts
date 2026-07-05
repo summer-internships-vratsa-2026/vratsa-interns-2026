@@ -26,7 +26,9 @@ export async function uploadTaskDescriptionImageAction(
 ): Promise<TaskDescriptionImageUploadResult> {
   const session = await auth();
 
-  if (!session?.user || (session.user.role !== "ADMIN" && session.user.role !== "MENTOR")) {
+  const allowedRoles = new Set(["ADMIN", "MENTOR", "STUDENT"]);
+
+  if (!session?.user || !allowedRoles.has(session.user.role)) {
     return { error: "forbidden" };
   }
 

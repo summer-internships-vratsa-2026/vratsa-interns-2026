@@ -84,6 +84,26 @@ export async function getTaskWithGroups(taskId: string) {
   };
 }
 
+export async function getTaskGroupById(taskGroupId: string) {
+  const [row] = await db
+    .select({
+      taskGroupId: taskGroups.id,
+      groupId: taskGroups.groupId,
+      groupName: groups.name,
+      deadline: taskGroups.deadline,
+      task: tasks,
+      topicTitle: topics.title,
+    })
+    .from(taskGroups)
+    .innerJoin(tasks, eq(taskGroups.taskId, tasks.id))
+    .innerJoin(groups, eq(taskGroups.groupId, groups.id))
+    .leftJoin(topics, eq(tasks.topicId, topics.id))
+    .where(eq(taskGroups.id, taskGroupId))
+    .limit(1);
+
+  return row ?? null;
+}
+
 export async function getTaskAssignment(taskId: string, groupId: string) {
   const [assignment] = await db
     .select({
