@@ -34,7 +34,7 @@ export default async function AdminUsersPage({ params, searchParams }: AdminUser
 
       <AdminCreateUserForm locale={locale} />
       <AdminUserFilters currentRole={roleFilter} />
-      <AdminUsersTable users={users} />
+      <AdminUsersTable locale={locale} users={users} />
     </section>
   );
 }

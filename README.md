@@ -34,3 +34,42 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Database setup (migrations and seed)
+
+After creating your Vercel project and adding a production Postgres database (for example [Neon](https://neon.tech)), configure the environment variables from `.env.example` in the Vercel project settings (`DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL`, `NEXT_PUBLIC_APP_URL`, Resend keys, and so on).
+
+Migrations and the seed script are **not** run automatically during the Vercel build. Run them once against the production database from your machine (or another environment with repo access):
+
+1. Point `DATABASE_URL` at your production database. Either export it for the command, or temporarily set it in `.env.local`.
+2. Apply all migrations:
+
+```bash
+npm run db:migrate
+```
+
+3. Seed the initial data (internship groups and the first admin user):
+
+```bash
+SEED_ADMIN_PASSWORD="your-secure-password" npm run db:seed
+```
+
+Optional seed variables (see `.env.example`):
+
+- `SEED_ADMIN_EMAIL` — admin login email (default: `emo@vratsasoftware.com`)
+- `SEED_ADMIN_NAME` — admin display name (default: `Admin`)
+- `SEED_CLIENT_PASSWORD` — if set, also creates a sample client account
+
+Example with all values inline:
+
+```bash
+DATABASE_URL="postgresql://..." npm run db:migrate
+
+DATABASE_URL="postgresql://..." \
+SEED_ADMIN_EMAIL="admin@example.com" \
+SEED_ADMIN_PASSWORD="your-secure-password" \
+SEED_ADMIN_NAME="Admin" \
+npm run db:seed
+```
+
+Re-run `npm run db:migrate` after pulling schema changes that add new migration files. The seed script is safe to run again: it skips data that already exists.

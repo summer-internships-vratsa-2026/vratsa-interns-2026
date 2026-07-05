@@ -10,13 +10,13 @@ import {
   resetAdminUserPasswordAction,
   updateAdminUserDetailsAction,
   updateAdminUserRoleAction,
-  verifyAdminUserEmailAction,
 } from "@/actions/admin-users";
 import { AdminClientTeamsPanel } from "@/components/admin/admin-client-teams-panel";
 import { AdminMentorMainGroupForm } from "@/components/admin/admin-mentor-main-group-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AdminVerifyEmailButton } from "@/components/admin/admin-verify-email-button";
 import { Link } from "@/i18n/navigation";
 import type { Group } from "@/db/schema/groups";
 import type { ProjectRole, UserRole } from "@/db/schema/enums";
@@ -127,10 +127,11 @@ export function AdminUserDetailPanel({
 
       <section className="rounded-lg border border-border p-4">
         <h2 className="mb-2 font-medium">{t("sections.verification")}</h2>
-        <p className="mb-4 text-sm text-muted-foreground">
+        <p className="mb-2 text-sm text-muted-foreground">{t("verificationDescription")}</p>
+        <p className="mb-4 text-sm">
           {user.emailVerifiedAt ? t("verifiedYes") : t("verifiedNo")}
         </p>
-        {!user.emailVerifiedAt ? <VerifyEmailForm locale={locale} userId={user.id} /> : null}
+        {!user.emailVerifiedAt ? <AdminVerifyEmailButton locale={locale} userId={user.id} /> : null}
       </section>
 
       <section className="rounded-lg border border-border p-4">
@@ -290,24 +291,6 @@ function RoleForm({
       <ActionFeedback state={state} t={t} />
       <Button type="submit" disabled={isPending || isSelf}>
         {isPending ? t("loading") : t("saveRole")}
-      </Button>
-    </form>
-  );
-}
-
-function VerifyEmailForm({ locale, userId }: { locale: string; userId: string }) {
-  const t = useTranslations("AdminUsers");
-  const [state, formAction, isPending] = useActionState(
-    verifyAdminUserEmailAction.bind(null, locale),
-    initialState,
-  );
-
-  return (
-    <form action={formAction} className="space-y-3">
-      <input type="hidden" name="userId" value={userId} />
-      <ActionFeedback state={state} t={t} />
-      <Button type="submit" variant="outline" disabled={isPending}>
-        {isPending ? t("loading") : t("markVerified")}
       </Button>
     </form>
   );

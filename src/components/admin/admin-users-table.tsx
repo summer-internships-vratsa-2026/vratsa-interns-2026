@@ -1,13 +1,15 @@
 import { getTranslations } from "next-intl/server";
 
+import { AdminVerifyEmailButton } from "@/components/admin/admin-verify-email-button";
 import { Link } from "@/i18n/navigation";
 import type { UserListRow } from "@/lib/users/queries";
 
 type AdminUsersTableProps = {
+  locale: string;
   users: UserListRow[];
 };
 
-export async function AdminUsersTable({ users }: AdminUsersTableProps) {
+export async function AdminUsersTable({ locale, users }: AdminUsersTableProps) {
   const t = await getTranslations("AdminUsers");
 
   if (users.length === 0) {
@@ -44,7 +46,18 @@ export async function AdminUsersTable({ users }: AdminUsersTableProps) {
                 )}
               </td>
               <td className="px-4 py-3">
-                {user.emailVerifiedAt ? t("verifiedYes") : t("verifiedNo")}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span>{user.emailVerifiedAt ? t("verifiedYes") : t("verifiedNo")}</span>
+                  {!user.emailVerifiedAt ? (
+                    <AdminVerifyEmailButton
+                      locale={locale}
+                      userId={user.id}
+                      size="sm"
+                      labelKey="confirmEmail"
+                      showFeedback={false}
+                    />
+                  ) : null}
+                </div>
               </td>
               <td className="px-4 py-3">
                 {user.disabledAt ? t("statusDisabled") : t("statusActive")}
