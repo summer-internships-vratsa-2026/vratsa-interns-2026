@@ -14,6 +14,10 @@ class InvalidCredentialsError extends CredentialsSignin {
   code = "invalid_credentials";
 }
 
+class AccountDisabledError extends CredentialsSignin {
+  code = "account_disabled";
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
@@ -43,6 +47,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!user.emailVerifiedAt) {
           throw new EmailNotVerifiedError();
+        }
+
+        if (user.disabledAt) {
+          throw new AccountDisabledError();
         }
 
         return {

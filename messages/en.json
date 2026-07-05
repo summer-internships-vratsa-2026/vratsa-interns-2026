@@ -45,6 +45,7 @@
     "errors": {
       "invalid_credentials": "Invalid email or password.",
       "email_not_verified": "Please verify your email before logging in.",
+      "account_disabled": "This account has been disabled. Contact an administrator.",
       "email_exists": "An account with this email already exists.",
       "invalid_input": "Please check the entered details.",
       "invalid_token": "Invalid or expired link.",
@@ -76,7 +77,9 @@
       "submissionsLinkTitle": "Submissions",
       "submissionsLinkDescription": "Review student submissions, add comments, and manage grades.",
       "clientsLinkTitle": "Clients",
-      "clientsLinkDescription": "Create client accounts and manage organization details."
+      "clientsLinkDescription": "Create client accounts and manage organization details.",
+      "usersLinkTitle": "Users",
+      "usersLinkDescription": "Create accounts, manage roles, and control access."
     },
     "client": {
       "title": "Client dashboard",
@@ -317,6 +320,133 @@
     "success": {
       "client_created": "Client account created.",
       "client_updated": "Client details saved."
+    }
+  },
+  "AdminUsers": {
+    "title": "Users",
+    "description": "Create accounts manually, manage roles, verify emails, reset passwords, and disable or delete users.",
+    "backToDashboard": "Back to admin dashboard",
+    "backToUsers": "Back to users",
+    "createTitle": "Create user",
+    "createUser": "Create user",
+    "emptyUsers": "No users match the selected filters.",
+    "manage": "Manage",
+    "save": "Save",
+    "saveDetails": "Save details",
+    "saveRole": "Save role",
+    "markVerified": "Mark email as verified",
+    "resetPassword": "Reset password",
+    "disableUser": "Disable account",
+    "enableUser": "Enable account",
+    "deleteUser": "Delete user",
+    "deleteWarning": "Deleting a user permanently removes their account and related profile data.",
+    "cannotChangeOwnRole": "You cannot change your own role.",
+    "cannotManageSelfStatus": "You cannot disable or delete your own account from here.",
+    "mentorGroupDescription": "Assign the mentor's main responsible group for creating and applying tasks.",
+    "clientTeamsDescription": "Assign teams this client can access. Only teams without a client can be added here.",
+    "noAffiliation": "—",
+    "verifiedYes": "Verified",
+    "verifiedNo": "Not verified",
+    "statusActive": "Active",
+    "statusDisabled": "Disabled",
+    "loading": "Loading...",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "New password",
+      "role": "Role",
+      "organization": "Organization",
+      "organizationHint": "Used when the role is Client."
+    },
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "affiliation": "Affiliation",
+      "verified": "Email verified",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "filters": {
+      "role": "Role",
+      "all": "All roles",
+      "apply": "Apply filter",
+      "clear": "Clear"
+    },
+    "roles": {
+      "ADMIN": "Administrator",
+      "MENTOR": "Mentor",
+      "STUDENT": "Student",
+      "CLIENT": "Client"
+    },
+    "sections": {
+      "details": "Profile details",
+      "role": "Role",
+      "mentorGroup": "Main group",
+      "clientTeams": "Assigned teams",
+      "studentTeam": "Team",
+      "verification": "Email verification",
+      "password": "Password",
+      "accountStatus": "Account status",
+      "danger": "Danger zone"
+    },
+    "errors": {
+      "invalid_input": "Please check the entered details.",
+      "forbidden": "You do not have permission for this action.",
+      "email_exists": "An account with this email already exists.",
+      "user_not_found": "User not found.",
+      "cannot_change_own_role": "You cannot change your own role.",
+      "cannot_disable_self": "You cannot disable your own account.",
+      "cannot_delete_self": "You cannot delete your own account.",
+      "last_admin": "At least one active administrator must remain."
+    },
+    "success": {
+      "user_created": "User account created.",
+      "user_updated": "User details saved.",
+      "role_updated": "Role updated.",
+      "email_verified": "Email marked as verified.",
+      "password_reset": "Password updated.",
+      "user_disabled": "Account disabled.",
+      "user_enabled": "Account enabled."
+    },
+    "clientTeams": {
+      "emptyAssigned": "No teams assigned yet.",
+      "assignTitle": "Assign team",
+      "assign": "Assign team",
+      "remove": "Remove",
+      "selectTeam": "Select a team",
+      "noAvailableTeams": "All teams already have a client assigned.",
+      "loading": "Loading...",
+      "fields": {
+        "team": "Team"
+      },
+      "columns": {
+        "team": "Team",
+        "group": "Group",
+        "classroom": "Classroom",
+        "actions": "Actions"
+      },
+      "errors": {
+        "forbidden": "You do not have permission for this action.",
+        "invalid_input": "Please check the entered details.",
+        "client_not_found": "Client not found.",
+        "team_not_found": "Team not found.",
+        "team_already_assigned": "This team already has a client assigned.",
+        "team_not_assigned": "This team is not assigned to the client."
+      },
+      "success": {
+        "team_assigned": "Team assigned.",
+        "team_removed": "Team removed."
+      }
+    },
+    "studentTeam": {
+      "noTeam": "This student is not on a team yet.",
+      "fields": {
+        "team": "Team",
+        "group": "Group",
+        "role": "Project role"
+      }
     }
   },
   "AdminTopics": {

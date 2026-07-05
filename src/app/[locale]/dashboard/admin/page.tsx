@@ -29,13 +29,6 @@ export default async function AdminDashboardPage({ params }: AdminDashboardPageP
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("teamsLinkDescription")}</p>
         </Link>
         <Link
-          href="/dashboard/admin/mentors"
-          className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
-        >
-          <h2 className="font-medium">{t("mentorsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("mentorsLinkDescription")}</p>
-        </Link>
-        <Link
           href="/dashboard/admin/tasks"
           className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
         >
@@ -50,11 +43,11 @@ export default async function AdminDashboardPage({ params }: AdminDashboardPageP
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("topicsLinkDescription")}</p>
         </Link>
         <Link
-          href="/dashboard/admin/clients"
+          href="/dashboard/admin/users"
           className="rounded-lg border border-zinc-200 p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
         >
-          <h2 className="font-medium">{t("clientsLinkTitle")}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("clientsLinkDescription")}</p>
+          <h2 className="font-medium">{t("usersLinkTitle")}</h2>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("usersLinkDescription")}</p>
         </Link>
         <Link
           href="/dashboard/admin/submissions"

@@ -35,7 +35,7 @@ export async function updateMentorMainGroupAction(
   }
 
   const [mentor] = await db
-    .select({ id: mentors.id })
+    .select({ id: mentors.id, userId: mentors.userId })
     .from(mentors)
     .where(eq(mentors.id, parsed.data.mentorId))
     .limit(1);
@@ -53,6 +53,8 @@ export async function updateMentorMainGroupAction(
     .where(eq(mentors.id, parsed.data.mentorId));
 
   revalidatePath(`/${locale}/dashboard/admin/mentors`);
+  revalidatePath(`/${locale}/dashboard/admin/users`);
+  revalidatePath(`/${locale}/dashboard/admin/users/${mentor.userId}`);
   revalidatePath(`/${locale}/dashboard/mentor`);
 
   return { success: "main_group_updated" };

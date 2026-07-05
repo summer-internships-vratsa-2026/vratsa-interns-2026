@@ -197,15 +197,15 @@
 
 ## 13. Admin Users
 
-- [ ] Create admin users page
-- [ ] List all users
-- [ ] Filter users by role
-- [ ] Create users manually if needed
-- [ ] Edit user role
-- [ ] Edit user name/email
-- [ ] Mark email as verified manually if needed
-- [ ] Disable or delete users if needed
-- [ ] Reset user password manually if needed
+- [x] Create admin users page
+- [x] List all users
+- [x] Filter users by role
+- [x] Create users manually if needed
+- [x] Edit user role
+- [x] Edit user name/email
+- [x] Mark email as verified manually if needed
+- [x] Disable or delete users if needed
+- [x] Reset user password manually if needed
 
 ## 14. Dashboard
 

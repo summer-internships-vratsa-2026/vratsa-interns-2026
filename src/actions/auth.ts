@@ -105,6 +105,10 @@ export async function loginAction(
     return { error: "email_not_verified", email: parsed.data.email };
   }
 
+  if (user.disabledAt) {
+    return { error: "account_disabled", email: parsed.data.email };
+  }
+
   const passwordValid = await verifyPassword(parsed.data.password, user.passwordHash);
 
   if (!passwordValid) {

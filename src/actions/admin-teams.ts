@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { teamMembers, teamMentors, teams } from "@/db/schema";
+import { clients, teamMembers, teamMentors, teams } from "@/db/schema";
 import { getMemberRoles, getTeamById, getTeamMembershipForStudent } from "@/lib/teams/queries";
 import { ALL_PROJECT_ROLES, MAX_TEAM_SIZE } from "@/lib/validations/team";
 import {
@@ -66,6 +66,19 @@ export async function assignTeamClientAction(
     .where(eq(teams.id, teamId));
 
   revalidateAdminTeamPaths(locale, teamId);
+
+  if (parsed.data.clientId) {
+    const [client] = await db
+      .select({ userId: clients.userId })
+      .from(clients)
+      .where(eq(clients.id, parsed.data.clientId))
+      .limit(1);
+
+    if (client) {
+      revalidatePath(`/${locale}/dashboard/admin/users/${client.userId}`);
+    }
+  }
+
   return { success: "client_updated" };
 }
 

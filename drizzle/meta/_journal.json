@@ -43,6 +43,13 @@
       "when": 1783320000000,
       "tag": "0005_add_team_links",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783330000000,
+      "tag": "0006_add_user_disabled_at",
+      "breakpoints": true
     }
   ]
 }

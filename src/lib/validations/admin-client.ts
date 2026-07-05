@@ -20,3 +20,13 @@ export type AdminClientActionState = {
   error?: string;
   success?: string;
 };
+
+export const assignClientTeamSchema = z.object({
+  clientId: z.uuid(),
+  teamId: z.uuid(),
+});
+
+export const removeClientTeamSchema = z.object({
+  clientId: z.uuid(),
+  teamId: z.uuid(),
+});

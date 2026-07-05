@@ -1,7 +1,7 @@
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq, isNull, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { clients, teams, users } from "@/db/schema";
+import { clients, groups, teams, users } from "@/db/schema";
 
 export async function getClientByUserId(userId: string) {
   const [client] = await db.select().from(clients).where(eq(clients.userId, userId)).limit(1);
@@ -42,6 +42,35 @@ export async function getClientTeamsByUserId(userId: string) {
     })
     .from(teams)
     .where(eq(teams.clientId, client.id))
+    .orderBy(teams.name);
+}
+
+export async function getClientTeamsWithGroups(clientId: string) {
+  return db
+    .select({
+      id: teams.id,
+      name: teams.name,
+      groupName: groups.name,
+      classroom: teams.classroom,
+      schoolClass: teams.schoolClass,
+      school: teams.school,
+    })
+    .from(teams)
+    .innerJoin(groups, eq(teams.groupId, groups.id))
+    .where(eq(teams.clientId, clientId))
+    .orderBy(teams.name);
+}
+
+export async function getTeamsAvailableForClientAssignment() {
+  return db
+    .select({
+      id: teams.id,
+      name: teams.name,
+      groupName: groups.name,
+    })
+    .from(teams)
+    .innerJoin(groups, eq(teams.groupId, groups.id))
+    .where(isNull(teams.clientId))
     .orderBy(teams.name);
 }
 
