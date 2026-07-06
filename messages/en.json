@@ -4,6 +4,12 @@
     "localeBg": "BG",
     "localeEn": "EN"
   },
+  "ResourcesPopup": {
+    "title": "Useful resources",
+    "description": "Tools, services, and guides for your internship project — AI, Git, deployment, databases, and more.",
+    "openLink": "Open resources",
+    "close": "Close"
+  },
   "HomePage": {
     "title": "Internship Platform",
     "description": "Welcome to the internship platform.",
