@@ -918,6 +918,11 @@
     "publishTask": "Publish",
     "editTask": "Edit task",
     "editTaskTitle": "Edit task",
+    "deleteTask": "Delete task",
+    "deleteTaskDescription": "Permanently removes this task. Only available when no student has submitted a response yet.",
+    "confirmDeletePrompt": "Are you sure you want to delete this task? This action cannot be undone.",
+    "confirmDeleteAction": "Yes, delete task",
+    "cancelConfirm": "Cancel",
     "backToTask": "Back to task",
     "editingGroup": "Editing assignment for {group}",
     "taskStatus": "Status",
@@ -942,7 +947,8 @@
     },
     "success": {
       "task_saved": "Task saved.",
-      "task_published": "Task published."
+      "task_published": "Task published.",
+      "task_deleted": "Task deleted."
     },
     "studentTasksTitle": "Team tasks",
     "studentEmptyTasks": "No tasks assigned to your team yet.",
@@ -970,6 +976,7 @@
       "groups_invalid": "One or more selected groups are invalid.",
       "response_types_required": "Select at least one response type.",
       "task_not_found": "Task not found.",
+      "has_submissions": "This task cannot be deleted because it already has student submissions.",
       "already_in_main_group": "This task is already in your main group.",
       "already_applied": "This task has already been applied to your main group."
     },

@@ -1,5 +1,5 @@
 import type { UserRole } from "@/db/schema/enums";
-import { getTaskAssignment, getTaskGroupById } from "@/lib/tasks/queries";
+import { getTaskAssignment, getTaskGroupById, taskHasSubmissions } from "@/lib/tasks/queries";
 import { getStudentByUserId, getTeamMembershipForStudent } from "@/lib/teams/queries";
 import { isRoleEligibleForTask } from "@/lib/validations/task";
 import type { MentorGroupAccess } from "./types";
@@ -89,4 +89,19 @@ export async function canEditTask(
 
   const assignment = await getTaskAssignment(taskId, groupId);
   return assignment !== null;
+}
+
+/** Admins and mentors may delete a task only when they can edit it and it has no submissions. */
+export async function canDeleteTask(
+  userId: string,
+  role: UserRole,
+  taskId: string,
+  groupId: string,
+  mentor?: MentorGroupAccess | null,
+): Promise<boolean> {
+  if (!(await canEditTask(userId, role, taskId, groupId, mentor))) {
+    return false;
+  }
+
+  return !(await taskHasSubmissions(taskId));
 }

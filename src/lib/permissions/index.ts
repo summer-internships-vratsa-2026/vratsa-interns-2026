@@ -16,6 +16,7 @@ export {
   canApplyTaskToGroup,
   canCreateTask,
   canCreateTaskForGroup,
+  canDeleteTask,
   canEditTask,
   canSubmitTask,
   hasMainGroupAssigned,

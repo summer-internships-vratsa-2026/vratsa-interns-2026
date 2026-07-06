@@ -1,7 +1,7 @@
-import { and, desc, eq, or } from "drizzle-orm";
+import { and, desc, eq, isNotNull, or } from "drizzle-orm";
 
 import { db } from "@/db";
-import { groups, taskGroups, tasks, topics, users } from "@/db/schema";
+import { groups, submissions, taskGroups, tasks, topics, users } from "@/db/schema";
 import type { ProjectRole, TaskStatus } from "@/db/schema/enums";
 import { isRoleEligibleForTask } from "@/lib/validations/task";
 
@@ -194,4 +194,15 @@ export async function getTasksForGroup(groupId: string, options: GetTasksForGrou
 
 export function isTaskPublished(status: TaskStatus): boolean {
   return status === "PUBLISHED";
+}
+
+export async function taskHasSubmissions(taskId: string): Promise<boolean> {
+  const [row] = await db
+    .select({ id: submissions.id })
+    .from(submissions)
+    .innerJoin(taskGroups, eq(submissions.taskGroupId, taskGroups.id))
+    .where(and(eq(taskGroups.taskId, taskId), isNotNull(submissions.submittedAt)))
+    .limit(1);
+
+  return row !== undefined;
 }

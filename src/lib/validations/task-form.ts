@@ -232,6 +232,16 @@ export const updateTaskSchema = z
     }
   });
 
+export const deleteTaskSchema = z.object({
+  taskId: z.uuid(),
+  groupId: z.uuid(),
+});
+
+export type DeleteTaskActionState = {
+  error?: string;
+  success?: string;
+};
+
 export const applyTaskSchema = z.object({
   sourceTaskId: z.uuid(),
   sourceGroupId: z.uuid(),

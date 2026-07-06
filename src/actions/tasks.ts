@@ -12,6 +12,7 @@ import {
   canApplyTaskToGroup,
   canCreateTask,
   canCreateTaskForGroup,
+  canDeleteTask,
   canEditTask,
 } from "@/lib/permissions";
 import { getAllGroups } from "@/lib/teams/admin-queries";
@@ -19,16 +20,19 @@ import {
   getRootSourceTaskId,
   getTaskAssignment,
   isTaskAssignedToGroup,
+  taskHasSubmissions,
 } from "@/lib/tasks/queries";
 import {
   applyTaskSchema,
   createMentorTaskSchema,
   createTaskSchema,
+  deleteTaskSchema,
   mapCreateTaskFieldErrors,
   parseTaskTargetInput,
   resolveTaskStatusFromIntent,
   updateTaskSchema,
   validationFailure,
+  type DeleteTaskActionState,
   type TaskActionState,
 } from "@/lib/validations/task-form";
 
@@ -435,4 +439,82 @@ export async function applyTaskToGroupAction(
 
   revalidateTaskPaths(locale);
   redirect(`/${locale}/dashboard/mentor/tasks?draft=1`);
+}
+
+async function deleteTask(
+  locale: string,
+  taskId: string,
+  groupId: string,
+  role: "ADMIN" | "MENTOR",
+  mentor?: Awaited<ReturnType<typeof getMentorByUserId>>,
+): Promise<DeleteTaskActionState> {
+  const session = await auth();
+
+  if (!session?.user) {
+    return { error: "forbidden" };
+  }
+
+  const parsed = deleteTaskSchema.safeParse({ taskId, groupId });
+
+  if (!parsed.success) {
+    return { error: "invalid_input" };
+  }
+
+  const assignment = await getTaskAssignment(parsed.data.taskId, parsed.data.groupId);
+
+  if (!assignment) {
+    return { error: "task_not_found" };
+  }
+
+  if (!(await canDeleteTask(session.user.id, session.user.role, taskId, groupId, mentor))) {
+    if (await taskHasSubmissions(taskId)) {
+      return { error: "has_submissions" };
+    }
+
+    return { error: "forbidden" };
+  }
+
+  await db.delete(tasks).where(eq(tasks.id, parsed.data.taskId));
+
+  revalidateTaskPaths(locale, parsed.data.taskId);
+  redirect(
+    `/${locale}/dashboard/${role === "ADMIN" ? "admin" : "mentor"}/tasks?deleted=1`,
+  );
+}
+
+export async function deleteMentorTaskAction(
+  locale: string,
+  _prevState: DeleteTaskActionState,
+  formData: FormData,
+): Promise<DeleteTaskActionState> {
+  const context = await requireMentorWithMainGroup();
+
+  if (!context) {
+    return { error: "forbidden" };
+  }
+
+  return deleteTask(
+    locale,
+    String(formData.get("taskId") ?? ""),
+    String(formData.get("groupId") ?? ""),
+    "MENTOR",
+    context.mentor,
+  );
+}
+
+export async function deleteAdminTaskAction(
+  locale: string,
+  _prevState: DeleteTaskActionState,
+  formData: FormData,
+): Promise<DeleteTaskActionState> {
+  if (!(await requireAdmin())) {
+    return { error: "forbidden" };
+  }
+
+  return deleteTask(
+    locale,
+    String(formData.get("taskId") ?? ""),
+    String(formData.get("groupId") ?? ""),
+    "ADMIN",
+  );
 }

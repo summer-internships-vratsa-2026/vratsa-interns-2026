@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ApplyTaskForm } from "@/components/task/apply-task-form";
+import { DeleteTaskForm } from "@/components/task/delete-task-form";
 import { TaskDescriptionContent } from "@/components/task/task-description-content";
 import { TaskStatusBadge } from "@/components/task/task-status-badge";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
@@ -13,7 +14,7 @@ import {
   getTaskAssignment,
   isTaskAssignedToGroup,
 } from "@/lib/tasks/queries";
-import { canApplyTaskToGroup, canEditTask } from "@/lib/permissions";
+import { canApplyTaskToGroup, canDeleteTask, canEditTask } from "@/lib/permissions";
 
 type MentorTaskDetailPageProps = {
   params: Promise<{ locale: string; taskId: string }>;
@@ -54,6 +55,7 @@ export default async function MentorTaskDetailPage({
     !alreadyApplied;
 
   const canEdit = await canEditTask(session.user.id, session.user.role, taskId, groupId, mentor);
+  const canDelete = await canDeleteTask(session.user.id, session.user.role, taskId, groupId, mentor);
 
   const statusLabels = {
     DRAFT: t("status.draft"),
@@ -142,6 +144,10 @@ export default async function MentorTaskDetailPage({
 
       {alreadyApplied ? (
         <p className="text-sm text-muted-foreground">{t("alreadyAppliedNote")}</p>
+      ) : null}
+
+      {canDelete ? (
+        <DeleteTaskForm locale={locale} variant="mentor" taskId={taskId} groupId={groupId} />
       ) : null}
     </section>
   );

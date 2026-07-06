@@ -2,11 +2,12 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { TaskDescriptionContent } from "@/components/task/task-description-content";
+import { DeleteTaskForm } from "@/components/task/delete-task-form";
 import { TaskStatusBadge } from "@/components/task/task-status-badge";
 import { formatTaskResponseTypes, formatTaskTarget } from "@/components/task/student-tasks-list";
 import { Link } from "@/i18n/navigation";
 import { requireRole } from "@/lib/auth/session";
-import { canEditTask } from "@/lib/permissions";
+import { canDeleteTask, canEditTask } from "@/lib/permissions";
 import { getTaskAssignment, getTaskWithGroups } from "@/lib/tasks/queries";
 
 type AdminTaskDetailPageProps = {
@@ -38,6 +39,14 @@ export default async function AdminTaskDetailPage({
 
   const canEdit = selectedAssignment
     ? await canEditTask(
+        session.user.id,
+        session.user.role,
+        taskId,
+        selectedAssignment.groupId,
+      )
+    : false;
+  const canDelete = selectedAssignment
+    ? await canDeleteTask(
         session.user.id,
         session.user.role,
         taskId,
@@ -135,6 +144,15 @@ export default async function AdminTaskDetailPage({
         <p className="text-sm text-muted-foreground">
           {t("viewingGroup", { group: selectedAssignment.groupName })}
         </p>
+      ) : null}
+
+      {canDelete && selectedAssignment ? (
+        <DeleteTaskForm
+          locale={locale}
+          variant="admin"
+          taskId={taskId}
+          groupId={selectedAssignment.groupId}
+        />
       ) : null}
     </section>
   );
