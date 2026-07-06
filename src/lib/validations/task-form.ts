@@ -101,30 +101,67 @@ export function resolveTaskTargetMode(task: {
   return "all_roles";
 }
 
+const createTaskCoreFields = {
+  title: z.preprocess(
+    (value) => (value == null ? "" : value),
+    z
+      .string()
+      .trim()
+      .min(1, { message: "title_required" })
+      .min(2, { message: "title_too_short" })
+      .max(255, { message: "title_too_long" }),
+  ),
+  description: draftDescriptionSchema,
+  deadline: z.preprocess(
+    (value) => (value == null ? "" : value),
+    z.string().min(1, { message: "deadline_required" }).transform(parseDeadline),
+  ),
+  targetMode: taskTargetModeSchema,
+  targetRoles: targetRolesField,
+  responseTypes: responseTypesField,
+  topicId: topicIdField,
+  publishIntent: z.preprocess(
+    (value) => (value === "draft" ? "draft" : "publish"),
+    taskPublishIntentSchema,
+  ),
+} as const;
+
+function refineCreateTaskCore(
+  data: {
+    deadline: Date | undefined;
+    publishIntent: "draft" | "publish";
+    description: string;
+    targetMode: TaskTargetMode;
+    targetRoles: Array<z.infer<typeof projectRoleSchema>>;
+    responseTypes: TaskResponseType[];
+  },
+  ctx: z.RefinementCtx,
+) {
+  if (!data.deadline) {
+    ctx.addIssue({ code: "custom", message: "invalid_deadline", path: ["deadline"] });
+  }
+
+  if (data.publishIntent === "publish" && isRichTextEmpty(data.description)) {
+    ctx.addIssue({ code: "custom", message: "description_required", path: ["description"] });
+  }
+
+  if (data.targetMode === "selected_roles" && data.targetRoles.length === 0) {
+    ctx.addIssue({ code: "custom", message: "roles_required", path: ["targetRoles"] });
+  }
+
+  if (data.responseTypes.length === 0) {
+    ctx.addIssue({ code: "custom", message: "response_types_required", path: ["responseTypes"] });
+  }
+}
+
+/** Mentors are always assigned to their main group server-side; no group picker on the form. */
+export const createMentorTaskSchema = z
+  .object(createTaskCoreFields)
+  .superRefine((data, ctx) => refineCreateTaskCore(data, ctx));
+
 export const createTaskSchema = z
   .object({
-    title: z.preprocess(
-      (value) => (value == null ? "" : value),
-      z
-        .string()
-        .trim()
-        .min(1, { message: "title_required" })
-        .min(2, { message: "title_too_short" })
-        .max(255, { message: "title_too_long" }),
-    ),
-    description: draftDescriptionSchema,
-    deadline: z.preprocess(
-      (value) => (value == null ? "" : value),
-      z.string().min(1, { message: "deadline_required" }).transform(parseDeadline),
-    ),
-    targetMode: taskTargetModeSchema,
-    targetRoles: targetRolesField,
-    responseTypes: responseTypesField,
-    topicId: topicIdField,
-    publishIntent: z.preprocess(
-      (value) => (value === "draft" ? "draft" : "publish"),
-      taskPublishIntentSchema,
-    ),
+    ...createTaskCoreFields,
     assignAllGroups: z.preprocess(
       (value) => value === true || value === "true",
       z.boolean(),
@@ -143,21 +180,7 @@ export const createTaskSchema = z
     ),
   })
   .superRefine((data, ctx) => {
-    if (!data.deadline) {
-      ctx.addIssue({ code: "custom", message: "invalid_deadline", path: ["deadline"] });
-    }
-
-    if (data.publishIntent === "publish" && isRichTextEmpty(data.description)) {
-      ctx.addIssue({ code: "custom", message: "description_required", path: ["description"] });
-    }
-
-    if (data.targetMode === "selected_roles" && data.targetRoles.length === 0) {
-      ctx.addIssue({ code: "custom", message: "roles_required", path: ["targetRoles"] });
-    }
-
-    if (data.responseTypes.length === 0) {
-      ctx.addIssue({ code: "custom", message: "response_types_required", path: ["responseTypes"] });
-    }
+    refineCreateTaskCore(data, ctx);
 
     if (!data.assignAllGroups && data.groupIds.length === 0) {
       ctx.addIssue({ code: "custom", message: "groups_required", path: ["groupIds"] });

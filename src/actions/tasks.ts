@@ -22,6 +22,7 @@ import {
 } from "@/lib/tasks/queries";
 import {
   applyTaskSchema,
+  createMentorTaskSchema,
   createTaskSchema,
   mapCreateTaskFieldErrors,
   parseTaskTargetInput,
@@ -63,8 +64,8 @@ function revalidateTaskPaths(locale: string, taskId?: string) {
   }
 }
 
-function parseCreateTaskInput(formData: FormData) {
-  return createTaskSchema.safeParse({
+function parseCreateTaskFormFields(formData: FormData) {
+  return {
     title: formData.get("title"),
     description: formData.get("description"),
     deadline: formData.get("deadline"),
@@ -73,9 +74,19 @@ function parseCreateTaskInput(formData: FormData) {
     responseTypes: formData.getAll("responseTypes"),
     topicId: formData.get("topicId"),
     publishIntent: formData.get("publishIntent"),
+  };
+}
+
+function parseCreateTaskInput(formData: FormData) {
+  return createTaskSchema.safeParse({
+    ...parseCreateTaskFormFields(formData),
     assignAllGroups: formData.get("assignAllGroups"),
     groupIds: formData.getAll("groupIds"),
   });
+}
+
+function parseMentorCreateTaskInput(formData: FormData) {
+  return createMentorTaskSchema.safeParse(parseCreateTaskFormFields(formData));
 }
 
 function parseUpdateTaskInput(formData: FormData) {
@@ -104,7 +115,7 @@ export async function createMentorTaskAction(
     return { error: "forbidden" };
   }
 
-  const parsed = parseCreateTaskInput(formData);
+  const parsed = parseMentorCreateTaskInput(formData);
 
   if (!parsed.success) {
     return validationFailure(mapCreateTaskFieldErrors(parsed.error), formData);
