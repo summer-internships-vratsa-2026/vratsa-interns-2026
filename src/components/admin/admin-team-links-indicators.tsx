@@ -1,5 +1,7 @@
+"use client";
+
 import { Globe, Share2 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
 import {
   getTeamImportantLinkUrls,
@@ -91,12 +93,12 @@ function LinkIndicator({
   );
 }
 
-export async function AdminTeamLinksIndicators({
+export function AdminTeamLinksIndicators({
   githubRepoUrl,
   projectUrl,
   socialUrls,
 }: AdminTeamLinksIndicatorsProps) {
-  const t = await getTranslations("AdminTeams.linksIndicators");
+  const t = useTranslations("AdminTeams.linksIndicators");
   const status = getTeamImportantLinksStatus({ githubRepoUrl, projectUrl, socialUrls });
   const urls = getTeamImportantLinkUrls({ githubRepoUrl, projectUrl, socialUrls });
 

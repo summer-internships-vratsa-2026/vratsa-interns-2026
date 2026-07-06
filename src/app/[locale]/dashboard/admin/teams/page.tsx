@@ -5,6 +5,7 @@ import { AdminTeamsTable } from "@/components/admin/admin-teams-table";
 import { Link } from "@/i18n/navigation";
 import {
   getAdminTeamsList,
+  getAdminTeamMembersByTeamIds,
   getAllClientsWithNames,
   getAllGroups,
   getAllMentorsWithNames,
@@ -24,8 +25,14 @@ export default async function AdminTeamsPage({ params, searchParams }: AdminTeam
   await requireRole(locale, "ADMIN");
 
   const filters = parseAdminTeamFilters(resolvedSearchParams);
-  const [teams, groups, mentors, clients] = await Promise.all([
-    getAdminTeamsList(filters),
+  const teams = await getAdminTeamsList(filters);
+  const membersByTeam = await getAdminTeamMembersByTeamIds(teams.map((team) => team.id));
+  const teamsWithMembers = teams.map((team) => ({
+    ...team,
+    members: membersByTeam[team.id] ?? [],
+  }));
+
+  const [groups, mentors, clients] = await Promise.all([
     getAllGroups(),
     getAllMentorsWithNames(),
     getAllClientsWithNames(),
@@ -47,7 +54,7 @@ export default async function AdminTeamsPage({ params, searchParams }: AdminTeam
         current={filters}
       />
 
-      <AdminTeamsTable teams={teams} />
+      <AdminTeamsTable teams={teamsWithMembers} />
     </section>
   );
 }

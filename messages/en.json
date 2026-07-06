@@ -291,6 +291,8 @@
     },
     "members": {
       "empty": "No members yet.",
+      "expand": "Show team members",
+      "collapse": "Hide team members",
       "add": "Add member",
       "addButton": "Add to team",
       "selectStudent": "Student",

@@ -1,4 +1,4 @@
-import { and, eq, exists, isNull, sql } from "drizzle-orm";
+import { and, eq, exists, inArray, isNull, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import {
@@ -11,6 +11,7 @@ import {
   teams,
   users,
 } from "@/db/schema";
+import type { ProjectRole } from "@/db/schema/enums";
 import type { TeamSocialUrls } from "@/db/schema/teams";
 import type { School } from "@/db/schema/enums";
 
@@ -88,6 +89,44 @@ export async function getAdminTeamsList(filters: AdminTeamFilters = {}) {
     ...row,
     socialUrls: row.socialUrls as TeamSocialUrls | null,
   }));
+}
+
+export type AdminTeamMemberSummary = {
+  name: string;
+  projectRole: ProjectRole;
+};
+
+export async function getAdminTeamMembersByTeamIds(teamIds: string[]) {
+  if (teamIds.length === 0) {
+    return {} as Record<string, AdminTeamMemberSummary[]>;
+  }
+
+  const rows = await db
+    .select({
+      teamId: teamMembers.teamId,
+      name: users.name,
+      projectRole: teamMembers.projectRole,
+    })
+    .from(teamMembers)
+    .innerJoin(students, eq(teamMembers.studentId, students.id))
+    .innerJoin(users, eq(students.userId, users.id))
+    .where(inArray(teamMembers.teamId, teamIds))
+    .orderBy(users.name);
+
+  const grouped: Record<string, AdminTeamMemberSummary[]> = {};
+
+  for (const row of rows) {
+    if (!grouped[row.teamId]) {
+      grouped[row.teamId] = [];
+    }
+
+    grouped[row.teamId].push({
+      name: row.name,
+      projectRole: row.projectRole,
+    });
+  }
+
+  return grouped;
 }
 
 export async function getAdminTeamDetail(teamId: string) {
