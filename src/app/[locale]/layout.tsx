@@ -4,6 +4,7 @@ import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/next";
 
 import { routing } from "@/i18n/routing";
 
@@ -51,6 +52,7 @@ export default async function LocaleLayout({
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
