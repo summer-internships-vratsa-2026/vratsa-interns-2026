@@ -1,10 +1,7 @@
 "use server";
 
-import { randomUUID } from "crypto";
 import { and, eq } from "drizzle-orm";
-import { mkdir, writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
-import path from "path";
 
 import { auth } from "@/auth";
 import { db } from "@/db";
@@ -12,6 +9,8 @@ import { submissions, taskGroups } from "@/db/schema";
 import { students, teamMembers } from "@/db/schema";
 import { getSubmissionForTeamTask } from "@/lib/submissions/queries";
 import { canSubmitTask } from "@/lib/permissions";
+import { isSubmissionFileUrl } from "@/lib/storage/submission-file-urls";
+import { uploadSubmissionFile } from "@/lib/storage/submission-files";
 import { getTeamMembershipForStudent } from "@/lib/teams/queries";
 import {
   type SubmissionActionState,
@@ -20,18 +19,6 @@ import {
 
 const MAX_SUBMISSION_FILE_SIZE = 20 * 1024 * 1024;
 const MAX_SUBMISSION_FILES_PER_SAVE = 10;
-
-function getSafeFileExtension(filename: string): string {
-  const rawExt = path.extname(filename).toLowerCase();
-  if (!rawExt || rawExt.length > 10) {
-    return ".bin";
-  }
-  return rawExt.replace(/[^a-z0-9.]/g, "") || ".bin";
-}
-
-function isSubmissionUploadUrl(value: string): boolean {
-  return /^\/uploads\/submission-files\/[a-zA-Z0-9-_.]+$/.test(value);
-}
 
 async function requireStudentMembership() {
   const session = await auth();
@@ -108,7 +95,7 @@ export async function upsertSubmissionAction(
   const existingFileUrls: string[] = [];
   for (let i = 0; i < existingFileUrlCount; i++) {
     const value = formData.get(`existingFileUrl_${i}`);
-    if (typeof value === "string" && isSubmissionUploadUrl(value)) {
+    if (typeof value === "string" && isSubmissionFileUrl(value)) {
       existingFileUrls.push(value);
     }
   }
@@ -129,15 +116,12 @@ export async function upsertSubmissionAction(
 
   const newFileUrls: string[] = [];
   if (uploadedFiles.length > 0) {
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "submission-files");
-    await mkdir(uploadDir, { recursive: true });
-
-    for (const file of uploadedFiles) {
-      const extension = getSafeFileExtension(file.name);
-      const filename = `${randomUUID()}${extension}`;
-      const buffer = Buffer.from(await file.arrayBuffer());
-      await writeFile(path.join(uploadDir, filename), buffer);
-      newFileUrls.push(`/uploads/submission-files/${filename}`);
+    try {
+      for (const file of uploadedFiles) {
+        newFileUrls.push(await uploadSubmissionFile(file));
+      }
+    } catch {
+      return { error: "upload_failed" };
     }
   }
 

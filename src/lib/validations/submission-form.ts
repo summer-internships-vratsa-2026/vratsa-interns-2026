@@ -1,10 +1,11 @@
 import { z } from "zod";
 
 import { isRichTextEmpty, sanitizeTaskDescription } from "@/lib/rich-text";
+import { isSubmissionFileUrl } from "@/lib/storage/submission-file-urls";
 
 const uploadedFileUrlSchema = z
   .string()
-  .regex(/^\/uploads\/submission-files\/[a-zA-Z0-9-_.]+$/, { message: "invalid_url" });
+  .refine(isSubmissionFileUrl, { message: "invalid_url" });
 
 const optionalUrlField = z.preprocess(
   (v) => (v == null || String(v).trim() === "" ? null : String(v).trim()),

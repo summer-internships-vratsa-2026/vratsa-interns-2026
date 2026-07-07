@@ -8,6 +8,7 @@ import {
 } from "@/components/task/student-tasks-list";
 import { TaskDescriptionContent } from "@/components/task/task-description-content";
 import { Link } from "@/i18n/navigation";
+import { getSubmissionFileLabel, isSubmissionFileUrl } from "@/lib/storage/submission-file-urls";
 import type { TeamTaskWithSubmission } from "@/lib/teams/task-submissions";
 
 type TeamTasksPanelProps = {
@@ -59,12 +60,9 @@ export async function TeamTasksPanel({
       <div className="divide-y divide-white/10">
         {tasks.map((task) => {
           const isPastDeadline = new Date() > task.deadline;
-          const uploadedFiles = task.submission?.urls.filter((url) =>
-            url.startsWith("/uploads/submission-files/"),
-          ) ?? [];
-          const externalUrls = task.submission?.urls.filter(
-            (url) => !url.startsWith("/uploads/submission-files/"),
-          ) ?? [];
+          const uploadedFiles = task.submission?.urls.filter(isSubmissionFileUrl) ?? [];
+          const externalUrls =
+            task.submission?.urls.filter((url) => !isSubmissionFileUrl(url)) ?? [];
 
           return (
             <details key={task.taskGroupId} className="group">
@@ -167,7 +165,7 @@ export async function TeamTasksPanel({
                               rel="noreferrer"
                               className="break-all text-sm text-brand-accent underline"
                             >
-                              {fileUrl.split("/").pop() ?? fileUrl}
+                              {getSubmissionFileLabel(fileUrl)}
                             </a>
                           </li>
                         ))}

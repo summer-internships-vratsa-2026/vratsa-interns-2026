@@ -48,3 +48,7 @@ next-env.d.ts
 # uploaded task description images
 /public/uploads/task-images/*
 !/public/uploads/task-images/.gitkeep
+
+# uploaded submission files (local dev only; production uses Vercel Blob)
+/public/uploads/submission-files/*
+!/public/uploads/submission-files/.gitkeep

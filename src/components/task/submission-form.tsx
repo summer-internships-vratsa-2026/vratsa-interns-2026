@@ -13,6 +13,7 @@ import { TaskDescriptionEditor } from "@/components/task/task-description-editor
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { Submission } from "@/db/schema/submissions";
+import { getSubmissionFileLabel, isSubmissionFileUrl } from "@/lib/storage/submission-file-urls";
 import type { TaskResponseType } from "@/lib/validations/task";
 import type { SubmissionActionState } from "@/lib/validations/submission-form";
 
@@ -50,10 +51,9 @@ export function SubmissionForm({
   const hasUrl = responseTypes.includes("URL");
   const hasText = responseTypes.includes("TEXT");
   const hasFileUpload = responseTypes.includes("FILE_UPLOAD");
-  const isUploadedFileUrl = (value: string) => value.startsWith("/uploads/submission-files/");
   const initialSubmissionUrls = submission?.urls ?? [];
-  const externalSubmissionUrls = initialSubmissionUrls.filter((url) => !isUploadedFileUrl(url));
-  const uploadedSubmissionUrls = initialSubmissionUrls.filter(isUploadedFileUrl);
+  const externalSubmissionUrls = initialSubmissionUrls.filter((url) => !isSubmissionFileUrl(url));
+  const uploadedSubmissionUrls = initialSubmissionUrls.filter(isSubmissionFileUrl);
   const [urls, setUrls] = useState<string[]>(
     hasUrl
       ? (() => {
@@ -89,8 +89,8 @@ export function SubmissionForm({
 
   useEffect(() => {
     const nextSubmissionUrls = submission?.urls ?? [];
-    const nextExternalUrls = nextSubmissionUrls.filter((url) => !isUploadedFileUrl(url));
-    const nextUploadedUrls = nextSubmissionUrls.filter(isUploadedFileUrl);
+    const nextExternalUrls = nextSubmissionUrls.filter((url) => !isSubmissionFileUrl(url));
+    const nextUploadedUrls = nextSubmissionUrls.filter(isSubmissionFileUrl);
 
     setUrls(
       hasUrl
@@ -168,7 +168,7 @@ export function SubmissionForm({
             {uploadedFileUrls.length > 0 ? (
               <ul className="space-y-2">
                 {uploadedFileUrls.map((fileUrl, index) => {
-                  const label = fileUrl.split("/").pop() ?? fileUrl;
+                  const label = getSubmissionFileLabel(fileUrl);
                   return (
                     <li key={fileUrl} className="flex items-center justify-between gap-2">
                       <a href={fileUrl} target="_blank" rel="noreferrer" className="break-all text-sm underline">

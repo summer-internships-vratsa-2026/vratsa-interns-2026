@@ -800,7 +800,8 @@
       "invalid_input": "Please check your submission.",
       "invalid_url": "One or more URLs are invalid. Make sure each starts with https://.",
       "file_too_large": "One or more files exceed the 20 MB limit.",
-      "too_many_files": "You can upload up to 10 files at a time."
+      "too_many_files": "You can upload up to 10 files at a time.",
+      "upload_failed": "File upload failed. Please try again."
     },
     "success": {
       "submission_saved": "Submission saved.",

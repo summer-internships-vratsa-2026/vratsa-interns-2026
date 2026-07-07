@@ -12,6 +12,7 @@ import {
   canManageUsers,
 } from "@/lib/permissions";
 import { getSubmissionDetailById, getSubmissionStatus } from "@/lib/submissions/queries";
+import { getSubmissionFileLabel, isSubmissionFileUrl } from "@/lib/storage/submission-file-urls";
 import type { UserRole } from "@/db/schema/enums";
 
 type SubmissionDetailViewProps = {
@@ -43,8 +44,8 @@ export async function SubmissionDetailView({
     getTranslations("Submissions"),
     canCommentOnSubmission(currentUserId, currentUserRole, detail.teamId),
   ]);
-  const uploadedFiles = detail.submission.urls.filter((url) => url.startsWith("/uploads/submission-files/"));
-  const externalUrls = detail.submission.urls.filter((url) => !url.startsWith("/uploads/submission-files/"));
+  const uploadedFiles = detail.submission.urls.filter(isSubmissionFileUrl);
+  const externalUrls = detail.submission.urls.filter((url) => !isSubmissionFileUrl(url));
 
   const canGrade = canGradeSubmission(currentUserRole);
   const canEditGrade = canEditSubmissionGrade(
@@ -144,7 +145,7 @@ export async function SubmissionDetailView({
               {uploadedFiles.map((fileUrl) => (
                 <li key={fileUrl}>
                   <a href={fileUrl} target="_blank" rel="noreferrer" className="break-all text-sm underline">
-                    {fileUrl.split("/").pop() ?? fileUrl}
+                    {getSubmissionFileLabel(fileUrl)}
                   </a>
                 </li>
               ))}
