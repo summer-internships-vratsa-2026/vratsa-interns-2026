@@ -2,9 +2,13 @@ import { z } from "zod";
 
 import { isRichTextEmpty, sanitizeTaskDescription } from "@/lib/rich-text";
 
+const uploadedFileUrlSchema = z
+  .string()
+  .regex(/^\/uploads\/submission-files\/[a-zA-Z0-9-_.]+$/, { message: "invalid_url" });
+
 const optionalUrlField = z.preprocess(
   (v) => (v == null || String(v).trim() === "" ? null : String(v).trim()),
-  z.union([z.null(), z.url({ message: "invalid_url" })]),
+  z.union([z.null(), z.url({ message: "invalid_url" }), uploadedFileUrlSchema]),
 );
 
 const optionalRichTextField = z.preprocess(

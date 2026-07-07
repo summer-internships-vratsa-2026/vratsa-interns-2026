@@ -1,7 +1,10 @@
 "use server";
 
+import { randomUUID } from "crypto";
 import { and, eq } from "drizzle-orm";
+import { mkdir, writeFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
+import path from "path";
 
 import { auth } from "@/auth";
 import { db } from "@/db";
@@ -14,6 +17,21 @@ import {
   type SubmissionActionState,
   upsertSubmissionSchema,
 } from "@/lib/validations/submission-form";
+
+const MAX_SUBMISSION_FILE_SIZE = 20 * 1024 * 1024;
+const MAX_SUBMISSION_FILES_PER_SAVE = 10;
+
+function getSafeFileExtension(filename: string): string {
+  const rawExt = path.extname(filename).toLowerCase();
+  if (!rawExt || rawExt.length > 10) {
+    return ".bin";
+  }
+  return rawExt.replace(/[^a-z0-9.]/g, "") || ".bin";
+}
+
+function isSubmissionUploadUrl(value: string): boolean {
+  return /^\/uploads\/submission-files\/[a-zA-Z0-9-_.]+$/.test(value);
+}
 
 async function requireStudentMembership() {
   const session = await auth();
@@ -86,6 +104,44 @@ export async function upsertSubmissionAction(
   }
 
   const existing = await getSubmissionForTeamTask(teamId, taskGroupId);
+  const existingFileUrlCount = Number(formData.get("existingFileUrlCount") ?? 0);
+  const existingFileUrls: string[] = [];
+  for (let i = 0; i < existingFileUrlCount; i++) {
+    const value = formData.get(`existingFileUrl_${i}`);
+    if (typeof value === "string" && isSubmissionUploadUrl(value)) {
+      existingFileUrls.push(value);
+    }
+  }
+
+  const uploadedFiles = formData
+    .getAll("files")
+    .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+
+  if (uploadedFiles.length > MAX_SUBMISSION_FILES_PER_SAVE) {
+    return { error: "too_many_files" };
+  }
+
+  for (const file of uploadedFiles) {
+    if (file.size > MAX_SUBMISSION_FILE_SIZE) {
+      return { error: "file_too_large" };
+    }
+  }
+
+  const newFileUrls: string[] = [];
+  if (uploadedFiles.length > 0) {
+    const uploadDir = path.join(process.cwd(), "public", "uploads", "submission-files");
+    await mkdir(uploadDir, { recursive: true });
+
+    for (const file of uploadedFiles) {
+      const extension = getSafeFileExtension(file.name);
+      const filename = `${randomUUID()}${extension}`;
+      const buffer = Buffer.from(await file.arrayBuffer());
+      await writeFile(path.join(uploadDir, filename), buffer);
+      newFileUrls.push(`/uploads/submission-files/${filename}`);
+    }
+  }
+
+  const allUrls = [...parsed.data.urls, ...existingFileUrls, ...newFileUrls];
   const now = new Date();
 
   if (existing) {
@@ -93,7 +149,7 @@ export async function upsertSubmissionAction(
       .update(submissions)
       .set({
         textReply: parsed.data.textReply,
-        urls: parsed.data.urls,
+        urls: allUrls,
         submittedAt: now,
         updatedAt: now,
       })
@@ -103,7 +159,7 @@ export async function upsertSubmissionAction(
       teamId,
       taskGroupId,
       textReply: parsed.data.textReply,
-      urls: parsed.data.urls,
+      urls: allUrls,
       submittedAt: now,
     });
   }

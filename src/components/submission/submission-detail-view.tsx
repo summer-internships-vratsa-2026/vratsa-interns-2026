@@ -37,11 +37,14 @@ export async function SubmissionDetailView({
     return null;
   }
 
-  const [t, tTasks, canComment] = await Promise.all([
+  const [t, tTasks, tSub, canComment] = await Promise.all([
     getTranslations("SubmissionReviews"),
     getTranslations("Tasks"),
+    getTranslations("Submissions"),
     canCommentOnSubmission(currentUserId, currentUserRole, detail.teamId),
   ]);
+  const uploadedFiles = detail.submission.urls.filter((url) => url.startsWith("/uploads/submission-files/"));
+  const externalUrls = detail.submission.urls.filter((url) => !url.startsWith("/uploads/submission-files/"));
 
   const canGrade = canGradeSubmission(currentUserRole);
   const canEditGrade = canEditSubmissionGrade(
@@ -119,14 +122,29 @@ export async function SubmissionDetailView({
           </div>
         ) : null}
 
-        {detail.submission.urls.length > 0 ? (
+        {externalUrls.length > 0 ? (
           <div className="space-y-1">
             <p className="text-sm font-medium text-muted-foreground">{t("urls")}</p>
             <ul className="space-y-1">
-              {detail.submission.urls.map((url) => (
+              {externalUrls.map((url) => (
                 <li key={url}>
                   <a href={url} target="_blank" rel="noreferrer" className="break-all text-sm underline">
                     {url}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {uploadedFiles.length > 0 ? (
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-muted-foreground">{tSub("files")}</p>
+            <ul className="space-y-1">
+              {uploadedFiles.map((fileUrl) => (
+                <li key={fileUrl}>
+                  <a href={fileUrl} target="_blank" rel="noreferrer" className="break-all text-sm underline">
+                    {fileUrl.split("/").pop() ?? fileUrl}
                   </a>
                 </li>
               ))}

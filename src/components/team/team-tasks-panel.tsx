@@ -59,6 +59,12 @@ export async function TeamTasksPanel({
       <div className="divide-y divide-white/10">
         {tasks.map((task) => {
           const isPastDeadline = new Date() > task.deadline;
+          const uploadedFiles = task.submission?.urls.filter((url) =>
+            url.startsWith("/uploads/submission-files/"),
+          ) ?? [];
+          const externalUrls = task.submission?.urls.filter(
+            (url) => !url.startsWith("/uploads/submission-files/"),
+          ) ?? [];
 
           return (
             <details key={task.taskGroupId} className="group">
@@ -129,11 +135,11 @@ export async function TeamTasksPanel({
                     </div>
                   ) : null}
 
-                  {task.submission && task.submission.urls.length > 0 ? (
+                  {externalUrls.length > 0 ? (
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-muted-foreground">{t("urls")}</p>
                       <ul className="space-y-1">
-                        {task.submission.urls.map((url) => (
+                        {externalUrls.map((url) => (
                           <li key={url}>
                             <a
                               href={url}
@@ -142,6 +148,26 @@ export async function TeamTasksPanel({
                               className="break-all text-sm text-brand-accent underline"
                             >
                               {url}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {uploadedFiles.length > 0 ? (
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-muted-foreground">{tSub("files")}</p>
+                      <ul className="space-y-1">
+                        {uploadedFiles.map((fileUrl) => (
+                          <li key={fileUrl}>
+                            <a
+                              href={fileUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="break-all text-sm text-brand-accent underline"
+                            >
+                              {fileUrl.split("/").pop() ?? fileUrl}
                             </a>
                           </li>
                         ))}

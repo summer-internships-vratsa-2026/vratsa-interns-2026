@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { FormErrorMessage } from "@/components/ui/form-error-message";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 import {
   upsertSubmissionAction,
@@ -35,6 +36,7 @@ export function SubmissionForm({
   canSubmit = true,
 }: SubmissionFormProps) {
   const t = useTranslations("Submissions");
+  const router = useRouter();
   const [saveState, saveAction, isSaving] = useActionState(
     upsertSubmissionAction.bind(null, locale, taskGroupId),
     initialState,
@@ -43,15 +45,25 @@ export function SubmissionForm({
     withdrawSubmissionAction.bind(null, locale, taskGroupId),
     initialState,
   );
-  const [urls, setUrls] = useState<string[]>(
-    submission?.urls && submission.urls.length > 0 ? submission.urls : [""],
-  );
-
   const isPastDeadline = new Date() > deadline;
   const canEdit = canSubmit && !isPastDeadline;
   const hasUrl = responseTypes.includes("URL");
   const hasText = responseTypes.includes("TEXT");
   const hasFileUpload = responseTypes.includes("FILE_UPLOAD");
+  const isUploadedFileUrl = (value: string) => value.startsWith("/uploads/submission-files/");
+  const initialSubmissionUrls = submission?.urls ?? [];
+  const externalSubmissionUrls = initialSubmissionUrls.filter((url) => !isUploadedFileUrl(url));
+  const uploadedSubmissionUrls = initialSubmissionUrls.filter(isUploadedFileUrl);
+  const [urls, setUrls] = useState<string[]>(
+    hasUrl
+      ? (() => {
+          return externalSubmissionUrls.length > 0 ? externalSubmissionUrls : [""];
+        })()
+      : [""],
+  );
+  const [uploadedFileUrls, setUploadedFileUrls] = useState<string[]>(
+    hasFileUpload ? uploadedSubmissionUrls : [],
+  );
 
   function addUrl() {
     setUrls((prev) => [...prev, ""]);
@@ -64,6 +76,29 @@ export function SubmissionForm({
   function updateUrl(index: number, value: string) {
     setUrls((prev) => prev.map((u, i) => (i === index ? value : u)));
   }
+
+  function removeUploadedFile(index: number) {
+    setUploadedFileUrls((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  useEffect(() => {
+    if (saveState.success === "submission_saved") {
+      router.refresh();
+    }
+  }, [router, saveState.success]);
+
+  useEffect(() => {
+    const nextSubmissionUrls = submission?.urls ?? [];
+    const nextExternalUrls = nextSubmissionUrls.filter((url) => !isUploadedFileUrl(url));
+    const nextUploadedUrls = nextSubmissionUrls.filter(isUploadedFileUrl);
+
+    setUrls(
+      hasUrl
+        ? (nextExternalUrls.length > 0 ? nextExternalUrls : [""])
+        : [""],
+    );
+    setUploadedFileUrls(hasFileUpload ? nextUploadedUrls : []);
+  }, [hasFileUpload, hasUrl, submission?.id, submission?.updatedAt]);
 
   return (
     <div className="space-y-6">
@@ -78,8 +113,12 @@ export function SubmissionForm({
       ) : null}
 
       {canSubmit ? (
-      <form action={saveAction} className="space-y-5">
+      <form action={saveAction} className="space-y-5" encType="multipart/form-data">
         <input type="hidden" name="urlCount" value={urls.length} />
+        <input type="hidden" name="existingFileUrlCount" value={uploadedFileUrls.length} />
+        {uploadedFileUrls.map((fileUrl, index) => (
+          <input key={fileUrl} type="hidden" name={`existingFileUrl_${index}`} value={fileUrl} />
+        ))}
 
         {hasUrl ? (
           <fieldset className="space-y-3">
@@ -121,9 +160,35 @@ export function SubmissionForm({
         ) : null}
 
         {hasFileUpload ? (
-          <div className="rounded-lg border border-border bg-brand-dark/30 px-4 py-3 text-sm text-muted-foreground  ">
-            {t("fileUploadComingSoon")}
-          </div>
+          <fieldset className="space-y-3">
+            <legend className="text-sm font-medium">{t("files")}</legend>
+            <p className="text-sm text-muted-foreground">{t("filesHint")}</p>
+            <Input name="files" type="file" multiple disabled={!canEdit} />
+
+            {uploadedFileUrls.length > 0 ? (
+              <ul className="space-y-2">
+                {uploadedFileUrls.map((fileUrl, index) => {
+                  const label = fileUrl.split("/").pop() ?? fileUrl;
+                  return (
+                    <li key={fileUrl} className="flex items-center justify-between gap-2">
+                      <a href={fileUrl} target="_blank" rel="noreferrer" className="break-all text-sm underline">
+                        {label}
+                      </a>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => removeUploadedFile(index)}
+                        disabled={!canEdit}
+                      >
+                        {t("removeFile")}
+                      </Button>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
+          </fieldset>
         ) : null}
 
         {hasText ? (

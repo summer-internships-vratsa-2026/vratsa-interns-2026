@@ -775,6 +775,9 @@
     "noComments": "No comments yet.",
     "urls": "Links (URLs)",
     "urlsHint": "Add one or more links to your work (e.g. GitHub, Figma, Google Docs).",
+    "files": "Files",
+    "filesHint": "Upload files for this task. Max 20 MB per file.",
+    "removeFile": "Remove",
     "addUrl": "Add another URL",
     "removeUrl": "Remove",
     "textReply": "Text reply",
@@ -784,7 +787,6 @@
     "withdraw": "Withdraw submission",
     "pastDeadlineWarning": "The deadline has passed. You can still edit your submission, but it will be marked as late.",
     "notEligible": "This task is not assigned to your role or team.",
-    "fileUploadComingSoon": "File upload support is coming soon.",
     "openToSubmit": "Open to submit",
     "viewSubmission": "View / edit submission",
     "status": {
@@ -796,7 +798,9 @@
       "forbidden": "You do not have permission for this action.",
       "task_not_found": "Task not found.",
       "invalid_input": "Please check your submission.",
-      "invalid_url": "One or more URLs are invalid. Make sure each starts with https://."
+      "invalid_url": "One or more URLs are invalid. Make sure each starts with https://.",
+      "file_too_large": "One or more files exceed the 20 MB limit.",
+      "too_many_files": "You can upload up to 10 files at a time."
     },
     "success": {
       "submission_saved": "Submission saved.",
