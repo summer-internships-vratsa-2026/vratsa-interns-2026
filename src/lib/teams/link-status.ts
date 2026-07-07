@@ -14,16 +14,40 @@ const OTHER_SOCIAL_PLATFORMS = TEAM_SOCIAL_PLATFORMS.filter(
   (platform): platform is Exclude<TeamSocialPlatform, "FACEBOOK"> => platform !== "FACEBOOK",
 );
 
-function getFirstOtherSocialUrl(socialUrls: TeamSocialUrls): string | null {
-  for (const platform of OTHER_SOCIAL_PLATFORMS) {
+export type NonFacebookSocialPlatform = (typeof OTHER_SOCIAL_PLATFORMS)[number];
+
+export type AdditionalSocialLink = {
+  platform: NonFacebookSocialPlatform;
+  url: string;
+};
+
+function getNonFacebookSocialLinks(
+  socialUrls: TeamSocialUrls,
+): AdditionalSocialLink[] {
+  return OTHER_SOCIAL_PLATFORMS.flatMap((platform) => {
     const url = socialUrls[platform];
+    return url ? [{ platform, url }] : [];
+  });
+}
 
-    if (url) {
-      return url;
-    }
-  }
+function getFirstOtherSocialLink(
+  socialUrls: TeamSocialUrls,
+): AdditionalSocialLink | null {
+  return getNonFacebookSocialLinks(socialUrls)[0] ?? null;
+}
 
-  return null;
+export function getAdditionalSocialLinks(
+  socialUrls: TeamSocialUrls | null | undefined,
+): AdditionalSocialLink[] {
+  const normalized = normalizeTeamSocialUrls(socialUrls);
+  return getNonFacebookSocialLinks(normalized).slice(1);
+}
+
+export function getFirstOtherSocialPlatform(
+  socialUrls: TeamSocialUrls | null | undefined,
+): NonFacebookSocialPlatform | null {
+  const normalized = normalizeTeamSocialUrls(socialUrls);
+  return getFirstOtherSocialLink(normalized)?.platform ?? null;
 }
 
 export function getTeamImportantLinkUrls(input: {
@@ -32,12 +56,13 @@ export function getTeamImportantLinkUrls(input: {
   socialUrls: TeamSocialUrls | null | undefined;
 }): TeamImportantLinkUrls {
   const socialUrls = normalizeTeamSocialUrls(input.socialUrls);
+  const firstOtherSocial = getFirstOtherSocialLink(socialUrls);
 
   return {
     github: input.githubRepoUrl?.trim() || null,
     project: input.projectUrl?.trim() || null,
     facebook: socialUrls.FACEBOOK ?? null,
-    otherSocial: getFirstOtherSocialUrl(socialUrls),
+    otherSocial: firstOtherSocial?.url ?? null,
   };
 }
 
