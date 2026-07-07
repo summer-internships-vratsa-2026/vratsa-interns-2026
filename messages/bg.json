@@ -623,7 +623,8 @@
       "classroom": "Кабинет",
       "schoolClass": "Клас",
       "school": "Училище",
-      "members": "Членове"
+      "members": "Членове",
+      "links": "Линкове"
     },
     "schoolOptions": {
       "PPMG": "ППМГ",

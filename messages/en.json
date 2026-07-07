@@ -623,7 +623,8 @@
       "classroom": "Classroom",
       "schoolClass": "Class",
       "school": "School",
-      "members": "Members"
+      "members": "Members",
+      "links": "Links"
     },
     "schoolOptions": {
       "PPMG": "PPMG",

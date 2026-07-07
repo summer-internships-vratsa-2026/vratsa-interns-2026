@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { AdminTeamFilters } from "@/components/admin/admin-team-filters";
+import { AdminTeamLinksIndicators } from "@/components/admin/admin-team-links-indicators";
 import { Link } from "@/i18n/navigation";
 import type { School } from "@/db/schema/enums";
 import { requireMentorProfile } from "@/lib/auth/session";
@@ -30,7 +31,7 @@ export default async function MentorTeamsPage({ params, searchParams }: MentorTe
     <section className="space-y-6">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold">{t("teamsPageTitle")}</h1>
-      </div>
+      </div>
       <AdminTeamFilters
         groups={groups}
         current={filters}
@@ -53,6 +54,7 @@ export default async function MentorTeamsPage({ params, searchParams }: MentorTe
                 <th className="px-4 py-3 font-medium">{t("teamsColumns.schoolClass")}</th>
                 <th className="px-4 py-3 font-medium">{t("teamsColumns.school")}</th>
                 <th className="px-4 py-3 font-medium">{t("teamsColumns.members")}</th>
+                <th className="px-4 py-3 font-medium">{t("teamsColumns.links")}</th>
               </tr>
             </thead>
             <tbody>
@@ -74,6 +76,13 @@ export default async function MentorTeamsPage({ params, searchParams }: MentorTe
                   <td className="px-4 py-3">{team.schoolClass}</td>
                   <td className="px-4 py-3">{t(`schoolOptions.${team.school as School}`)}</td>
                   <td className="px-4 py-3">{team.memberCount}</td>
+                  <td className="px-4 py-3">
+                    <AdminTeamLinksIndicators
+                      githubRepoUrl={team.githubRepoUrl}
+                      projectUrl={team.projectUrl}
+                      socialUrls={team.socialUrls}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
