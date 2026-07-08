@@ -27,9 +27,13 @@ type AdminTeamListItem = {
 
 type AdminTeamsAccordionTableProps = {
   teams: AdminTeamListItem[];
+  linkTeams?: boolean;
 };
 
-export function AdminTeamsAccordionTable({ teams }: AdminTeamsAccordionTableProps) {
+export function AdminTeamsAccordionTable({
+  teams,
+  linkTeams = true,
+}: AdminTeamsAccordionTableProps) {
   const t = useTranslations("AdminTeams");
   const tTeam = useTranslations("Team");
   const [expandedTeamIds, setExpandedTeamIds] = useState<Set<string>>(new Set());
@@ -90,12 +94,16 @@ export function AdminTeamsAccordionTable({ teams }: AdminTeamsAccordionTableProp
                           aria-hidden
                         />
                       </button>
-                      <Link
-                        href={`/dashboard/admin/teams/${team.id}`}
-                        className="font-medium underline"
-                      >
-                        {team.name}
-                      </Link>
+                      {linkTeams ? (
+                        <Link
+                          href={`/dashboard/admin/teams/${team.id}`}
+                          className="font-medium underline"
+                        >
+                          {team.name}
+                        </Link>
+                      ) : (
+                        <span className="font-medium">{team.name}</span>
+                      )}
                     </div>
                   </td>
                   <td className="px-4 py-3">{team.groupName}</td>

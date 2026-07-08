@@ -20,9 +20,10 @@ type AdminTeamListItem = {
 
 type AdminTeamsTableProps = {
   teams: AdminTeamListItem[];
+  linkTeams?: boolean;
 };
 
-export async function AdminTeamsTable({ teams }: AdminTeamsTableProps) {
+export async function AdminTeamsTable({ teams, linkTeams = true }: AdminTeamsTableProps) {
   const t = await getTranslations("AdminTeams");
 
   if (teams.length === 0) {
@@ -33,5 +34,5 @@ export async function AdminTeamsTable({ teams }: AdminTeamsTableProps) {
     );
   }
 
-  return <AdminTeamsAccordionTable teams={teams} />;
+  return <AdminTeamsAccordionTable teams={teams} linkTeams={linkTeams} />;
 }
