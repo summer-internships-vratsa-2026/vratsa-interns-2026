@@ -21,9 +21,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_TITLE = "Стажантска платформа ППМГ и ПТГ Враца 2026г";
+const SITE_DESCRIPTION =
+  "Добре дошли в платформата за стажантски програми на Враца софтуер и Лесто продукт";
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://core-lms.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Internship Platform",
-  description: "Internship platform for students, mentors, and clients",
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_TITLE,
+    locale: "bg_BG",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export function generateStaticParams() {
