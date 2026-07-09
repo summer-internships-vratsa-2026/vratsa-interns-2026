@@ -1,6 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { requireAuth } from "@/lib/auth/session";
+import { getDashboardPath } from "@/lib/auth/routes";
+import { redirect } from "next/navigation";
 
 type EvaluationPageProps = {
   params: Promise<{ locale: string }>;
@@ -9,7 +11,11 @@ type EvaluationPageProps = {
 export default async function EvaluationPage({ params }: EvaluationPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  await requireAuth(locale);
+  const session = await requireAuth(locale);
+
+  if (session.user.role !== "ADMIN" && session.user.role !== "MENTOR") {
+    redirect(getDashboardPath(session.user.role, locale));
+  }
 
   const t = await getTranslations("Evaluation");
 

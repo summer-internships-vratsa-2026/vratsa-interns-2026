@@ -39,13 +39,11 @@ export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
       href: "/dashboard/student/tasks/submitted",
       labelKey: "submittedTasks",
     },
-    EVALUATION_NAV_ITEM,
   ],
   CLIENT: [
     { key: "dashboard", href: "/dashboard/client", labelKey: "dashboard" },
     { key: "teams", href: "/dashboard/client/teams", labelKey: "teams" },
     { key: "submissions", href: "/dashboard/client/submissions", labelKey: "submissions" },
-    EVALUATION_NAV_ITEM,
   ],
 };
 
