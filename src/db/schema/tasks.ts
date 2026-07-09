@@ -29,7 +29,7 @@ export const tasks = pgTable(
     onePerTeam: boolean("one_per_team").notNull().default(false),
     targetRoles: jsonb("target_roles").$type<Array<(typeof projectRoleEnum.enumValues)[number]>>(),
     responseTypes: jsonb("response_types")
-      .$type<Array<"URL" | "TEXT" | "FILE_UPLOAD">>()
+      .$type<Array<"URL" | "TEXT">>()
       .notNull()
       .default(["URL"]),
     topicId: uuid("topic_id").references(() => topics.id, { onDelete: "set null" }),

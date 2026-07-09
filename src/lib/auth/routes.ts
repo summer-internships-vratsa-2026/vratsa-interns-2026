@@ -19,8 +19,14 @@ export function getDashboardPath(role: UserRole, locale: string): string {
   return `/${locale}/dashboard/${ROLE_DASHBOARD_SEGMENTS[role]}`;
 }
 
+/** Segments under /dashboard that are accessible to every authenticated user. */
+const SHARED_DASHBOARD_SEGMENTS = ["evaluation"] as const;
+
 export function canAccessDashboard(role: UserRole, segment: string): boolean {
-  return ROLE_DASHBOARD_SEGMENTS[role] === segment;
+  return (
+    ROLE_DASHBOARD_SEGMENTS[role] === segment ||
+    (SHARED_DASHBOARD_SEGMENTS as readonly string[]).includes(segment)
+  );
 }
 
 export function stripLocaleFromPathname(pathname: string, locales: readonly string[]): string {

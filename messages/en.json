@@ -76,7 +76,8 @@
       "groups": "Groups",
       "team": "My team",
       "newTasks": "New tasks",
-      "submittedTasks": "Submitted tasks"
+      "submittedTasks": "Submitted tasks",
+      "evaluation": "Evaluation"
     },
     "student": {
       "title": "Student dashboard",
@@ -1009,6 +1010,42 @@
         "file_too_large": "Image must be 5 MB or smaller.",
         "invalid_file_type": "Only JPEG, PNG, GIF, and WebP images are allowed.",
         "upload_failed": "Image upload failed. Please try again."
+      }
+    }
+  },
+  "Evaluation": {
+    "title": "Evaluation criteria",
+    "description": "Shared evaluation framework for all teams in the internship programme.",
+    "idea": {
+      "title": "Idea",
+      "originality": "Originality",
+      "clarity": "Clarity",
+      "applicable": "Applicable — has real users"
+    },
+    "presentation": {
+      "title": "Presentation",
+      "elevatorPitch": "Explanation: short and clear (elevator pitch)",
+      "skills": "Presentation skills",
+      "teamPresentation": "Team presentation — each member's contribution should be clear"
+    },
+    "individual": {
+      "title": "Individual role evaluation",
+      "marketing": {
+        "role": "Marketing",
+        "content": "Quality website content and attention to detail",
+        "engagement": "Measuring engagement: at least 20 real social media comments and real users — for informational sites at least 100 visitors with over 1 min engagement; for functional projects at least 8 active users"
+      },
+      "programming": {
+        "role": "Programming",
+        "features": "Features & functionality",
+        "ux": "User-friendly and intuitive interface",
+        "quality": {
+          "title": "System quality",
+          "attention": "Attention to detail",
+          "performance": "Performance",
+          "errorHandling": "Quality error and exception handling",
+          "stability": "Stability level"
+        }
       }
     }
   }

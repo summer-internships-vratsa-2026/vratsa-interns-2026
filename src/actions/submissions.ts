@@ -9,16 +9,11 @@ import { submissions, taskGroups } from "@/db/schema";
 import { students, teamMembers } from "@/db/schema";
 import { getSubmissionForTeamTask } from "@/lib/submissions/queries";
 import { canSubmitTask } from "@/lib/permissions";
-import { isSubmissionFileUrl } from "@/lib/storage/submission-file-urls";
-import { uploadSubmissionFile } from "@/lib/storage/submission-files";
 import { getTeamMembershipForStudent } from "@/lib/teams/queries";
 import {
   type SubmissionActionState,
   upsertSubmissionSchema,
 } from "@/lib/validations/submission-form";
-
-const MAX_SUBMISSION_FILE_SIZE = 20 * 1024 * 1024;
-const MAX_SUBMISSION_FILES_PER_SAVE = 10;
 
 async function requireStudentMembership() {
   const session = await auth();
@@ -91,41 +86,7 @@ export async function upsertSubmissionAction(
   }
 
   const existing = await getSubmissionForTeamTask(teamId, taskGroupId);
-  const existingFileUrlCount = Number(formData.get("existingFileUrlCount") ?? 0);
-  const existingFileUrls: string[] = [];
-  for (let i = 0; i < existingFileUrlCount; i++) {
-    const value = formData.get(`existingFileUrl_${i}`);
-    if (typeof value === "string" && isSubmissionFileUrl(value)) {
-      existingFileUrls.push(value);
-    }
-  }
-
-  const uploadedFiles = formData
-    .getAll("files")
-    .filter((entry): entry is File => entry instanceof File && entry.size > 0);
-
-  if (uploadedFiles.length > MAX_SUBMISSION_FILES_PER_SAVE) {
-    return { error: "too_many_files" };
-  }
-
-  for (const file of uploadedFiles) {
-    if (file.size > MAX_SUBMISSION_FILE_SIZE) {
-      return { error: "file_too_large" };
-    }
-  }
-
-  const newFileUrls: string[] = [];
-  if (uploadedFiles.length > 0) {
-    try {
-      for (const file of uploadedFiles) {
-        newFileUrls.push(await uploadSubmissionFile(file));
-      }
-    } catch {
-      return { error: "upload_failed" };
-    }
-  }
-
-  const allUrls = [...parsed.data.urls, ...existingFileUrls, ...newFileUrls];
+  const allUrls = parsed.data.urls;
   const now = new Date();
 
   if (existing) {

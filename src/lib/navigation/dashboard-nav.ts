@@ -6,6 +6,12 @@ export type DashboardNavItem = {
   labelKey: string;
 };
 
+const EVALUATION_NAV_ITEM: DashboardNavItem = {
+  key: "evaluation",
+  href: "/dashboard/evaluation",
+  labelKey: "evaluation",
+};
+
 export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
   ADMIN: [
     { key: "dashboard", href: "/dashboard/admin", labelKey: "dashboard" },
@@ -14,6 +20,7 @@ export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
     { key: "topics", href: "/dashboard/admin/topics", labelKey: "topics" },
     { key: "users", href: "/dashboard/admin/users", labelKey: "users" },
     { key: "submissions", href: "/dashboard/admin/submissions", labelKey: "submissions" },
+    EVALUATION_NAV_ITEM,
   ],
   MENTOR: [
     { key: "dashboard", href: "/dashboard/mentor", labelKey: "dashboard" },
@@ -21,6 +28,7 @@ export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
     { key: "teams", href: "/dashboard/mentor/teams", labelKey: "teams" },
     { key: "tasks", href: "/dashboard/mentor/tasks", labelKey: "tasks" },
     { key: "submissions", href: "/dashboard/mentor/submissions", labelKey: "submissions" },
+    EVALUATION_NAV_ITEM,
   ],
   STUDENT: [
     { key: "dashboard", href: "/dashboard/student", labelKey: "dashboard" },
@@ -31,11 +39,13 @@ export const DASHBOARD_NAV_BY_ROLE: Record<UserRole, DashboardNavItem[]> = {
       href: "/dashboard/student/tasks/submitted",
       labelKey: "submittedTasks",
     },
+    EVALUATION_NAV_ITEM,
   ],
   CLIENT: [
     { key: "dashboard", href: "/dashboard/client", labelKey: "dashboard" },
     { key: "teams", href: "/dashboard/client/teams", labelKey: "teams" },
     { key: "submissions", href: "/dashboard/client/submissions", labelKey: "submissions" },
+    EVALUATION_NAV_ITEM,
   ],
 };
 

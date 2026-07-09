@@ -8,7 +8,7 @@ export const projectRoleSchema = z.enum([
   "PRODUCT_OWNER",
 ]);
 
-export const TASK_RESPONSE_TYPES = ["URL", "TEXT", "FILE_UPLOAD"] as const;
+export const TASK_RESPONSE_TYPES = ["URL", "TEXT"] as const;
 
 export type TaskResponseType = (typeof TASK_RESPONSE_TYPES)[number];
 
