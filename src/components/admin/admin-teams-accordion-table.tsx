@@ -55,16 +55,16 @@ export function AdminTeamsAccordionTable({
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-border">
+    <div className="overflow-hidden rounded-lg border border-border">
       <table className="min-w-full text-left text-sm">
-        <thead className="border-b border-border bg-brand-dark/30 /50">
+        <thead className="border-b border-border bg-brand-dark/30">
           <tr>
             <th className="px-4 py-3 font-medium">{t("columns.name")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.group")}</th>
-            <th className="px-4 py-3 font-medium">{t("columns.classroom")}</th>
-            <th className="px-4 py-3 font-medium">{t("columns.schoolClass")}</th>
-            <th className="px-4 py-3 font-medium">{t("columns.school")}</th>
-            <th className="px-4 py-3 font-medium">{t("columns.members")}</th>
+            <th className="hidden sm:table-cell px-4 py-3 font-medium">{t("columns.classroom")}</th>
+            <th className="hidden sm:table-cell px-4 py-3 font-medium">{t("columns.schoolClass")}</th>
+            <th className="hidden sm:table-cell px-4 py-3 font-medium">{t("columns.school")}</th>
+            <th className="hidden sm:table-cell px-4 py-3 font-medium">{t("columns.members")}</th>
             <th className="px-4 py-3 font-medium">{t("columns.links")}</th>
           </tr>
         </thead>
@@ -84,7 +84,7 @@ export function AdminTeamsAccordionTable({
                         aria-label={
                           isExpanded ? t("members.collapse") : t("members.expand")
                         }
-                        className="rounded-md p-1 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/50"
+                        className="shrink-0 rounded-md p-1 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/50"
                       >
                         <ChevronDown
                           className={cn(
@@ -107,10 +107,10 @@ export function AdminTeamsAccordionTable({
                     </div>
                   </td>
                   <td className="px-4 py-3">{team.groupName}</td>
-                  <td className="px-4 py-3">{team.classroom}</td>
-                  <td className="px-4 py-3">{team.schoolClass}</td>
-                  <td className="px-4 py-3">{t(`schoolOptions.${team.school as School}`)}</td>
-                  <td className="px-4 py-3">{team.memberCount}</td>
+                  <td className="hidden sm:table-cell px-4 py-3">{team.classroom}</td>
+                  <td className="hidden sm:table-cell px-4 py-3">{team.schoolClass}</td>
+                  <td className="hidden sm:table-cell px-4 py-3">{t(`schoolOptions.${team.school as School}`)}</td>
+                  <td className="hidden sm:table-cell px-4 py-3">{team.memberCount}</td>
                   <td className="px-4 py-3">
                     <AdminTeamLinksIndicators
                       githubRepoUrl={team.githubRepoUrl}
@@ -122,6 +122,16 @@ export function AdminTeamsAccordionTable({
                 {isExpanded ? (
                   <tr className="border-b border-white/10 bg-brand-dark/20">
                     <td colSpan={columnCount} className="px-4 py-3 pl-12">
+                      <dl className="mb-3 grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:hidden">
+                        <dt className="text-white/60">{t("columns.classroom")}</dt>
+                        <dd>{team.classroom}</dd>
+                        <dt className="text-white/60">{t("columns.schoolClass")}</dt>
+                        <dd>{team.schoolClass}</dd>
+                        <dt className="text-white/60">{t("columns.school")}</dt>
+                        <dd>{t(`schoolOptions.${team.school as School}`)}</dd>
+                        <dt className="text-white/60">{t("columns.members")}</dt>
+                        <dd>{team.memberCount}</dd>
+                      </dl>
                       {team.members.length === 0 ? (
                         <p className="text-sm text-muted-foreground">{t("members.empty")}</p>
                       ) : (
